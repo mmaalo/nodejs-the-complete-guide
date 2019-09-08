@@ -1,0 +1,3 @@
+**/node_modules/
+.vscode/
+nodejs-the-complete-guide.code-workspace
