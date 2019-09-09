@@ -29,3 +29,18 @@ Print --> Print Output (Result)
 Loop  --> Wait for new Input
 
 - The REPL is what we use if we just type "node" in the terminal. It is a great playground for learning node as the code is excecuted as it is written, but nothing is saved when we exit the REPL. Therefore we will be using excecutable files in this course.
+
+# Javascript Refresher
+
+## 02-10:
+### JavaScript in a Nutshell
+
+JavaScript Summary:
+- Weakly Typed Language
+    - No explicit type assignment, does not force you to define variable types. Leads to more flexibility, but is also more subject to errors.
+- Object-Oriented Language
+    - Data can be organized in logical objects.
+    - Logical objects are a reference type instead of primitive like undefined, null, boolean, nubmer, string and symbol.
+- Versitale Language
+    - Runs in the browser or directly on a pc or server.
+    - Can preform a wide array of tasks.
