@@ -1,6 +1,9 @@
-var name = "Martin";
-var age = 30;
-var hasHobbies = true;
+const name = "Martin";
+let age = 30;
+const hasHobbies = true;
+
+// name = "Mars"; // This creates an error because the variable is a const and thus cannot be changed.
+age = 50;
 
 function summarizeUser(userName, userAge, userHasHobby) {
    return (
