@@ -17,7 +17,29 @@ const person = {
     }
 };
 
+// Regular long form method for accessing object values
+const printName1 = (personData) => {
+    console.log(personData.name);
+}
+printName1(person); 
+
+// Object Desturcturing lets us access values of a of the name we specify in any object, making reusing functions easy
+const printName2 = ({ name ,age, greet}) => {
+    console.log(name, age, greet); 
+}
+printName2(person); // When we call the function printName1 we specify witch object we want to access the name, age and greet values for.
+
+const {name, age} = person; // We can also destructure by placeing the curlybrackets on the left side of the equal sign and creating new constants for the values from the person object
+console.log(name, age);
+
+// With Array destructering we can make up any names that we want because array have no names for their values
 const hobbies = ['Sports', 'Cooking'];
+const [hobby1, hobby2] = hobbies;
+
+
+console.log(hobby1, hobby2);
+
+
 // for (let hobby of hobbies) {
 //     console.log(hobby);
 // }
@@ -37,17 +59,17 @@ const hobbies = ['Sports', 'Cooking'];
 
 // spread operator:
 
-const copiedArray1 = hobbies.slice();
+// const copiedArray1 = hobbies.slice();
 
 // the spread operator (...) takes out all the content of the array or object it is used on and puts it into whatever it placed inside ([...x] or {...x}).
-const copiedArray2 = [...hobbies]; 
-const copiedArray3 = {...hobbies};
-const copiedObject1 = {...person};
+// const copiedArray2 = [...hobbies]; 
+// const copiedArray3 = {...hobbies};
+// const copiedObject1 = {...person};
 // const copiedObject2 = [...copiedArray3]; A object can not be copied into a array with the spread operator
 
-console.log(copiedArray1);
-console.log(copiedArray2, copiedArray3);
-console.log(copiedObject1);
+// console.log(copiedArray1);
+// console.log(copiedArray2, copiedArray3);
+// console.log(copiedObject1);
 
 // rest operator:
 
@@ -58,8 +80,8 @@ console.log(copiedObject1);
 
 
 // Here the ... in front of args is the rest operator. It turns however many arguments we enter into a array. Very handy indeed.
-const toArray = (...args) => {
-    return args;
-};
+// const toArray = (...args) => {
+//     return args;
+// };
 
-console.log(toArray(1,2,3,4))
+// console.log(toArray(1,2,3,4))
