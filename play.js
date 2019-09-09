@@ -29,5 +29,8 @@ const hobbies = ['Sports', 'Cooking'];
 // person.old();
 // person.tall();
 
-console.log(hobbies.map(hobby => `Hobby: ${hobby}`)); // .map creates a new array and does not edit the old one.
-console.log(hobbies);
+// console.log(hobbies.map(hobby => `Hobby: ${hobby}`)); // .map creates a new array and does not edit the old one.
+// console.log(hobbies);
+
+hobbies.push('Programming');
+console.log(hobbies); // Reference types like Arrays and Objects can be edited even tough they are defined as const by using the built in js methods. When we do that the refrerence pointer to the array or object is not changed only the array or object itself. This is not possible with primitive types like strings, numbers ect.
