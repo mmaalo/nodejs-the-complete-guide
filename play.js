@@ -32,5 +32,34 @@ const hobbies = ['Sports', 'Cooking'];
 // console.log(hobbies.map(hobby => `Hobby: ${hobby}`)); // .map creates a new array and does not edit the old one.
 // console.log(hobbies);
 
-hobbies.push('Programming');
-console.log(hobbies); // Reference types like Arrays and Objects can be edited even tough they are defined as const by using the built in js methods. When we do that the refrerence pointer to the array or object is not changed only the array or object itself. This is not possible with primitive types like strings, numbers ect.
+// hobbies.push('Programming');
+// console.log(hobbies); // Reference types like Arrays and Objects can be edited even tough they are defined as const by using the built in js methods. When we do that the refrerence pointer to the array or object is not changed only the array or object itself. This is not possible with primitive types like strings, numbers ect.
+
+// spread operator:
+
+const copiedArray1 = hobbies.slice();
+
+// the spread operator (...) takes out all the content of the array or object it is used on and puts it into whatever it placed inside ([...x] or {...x}).
+const copiedArray2 = [...hobbies]; 
+const copiedArray3 = {...hobbies};
+const copiedObject1 = {...person};
+// const copiedObject2 = [...copiedArray3]; A object can not be copied into a array with the spread operator
+
+console.log(copiedArray1);
+console.log(copiedArray2, copiedArray3);
+console.log(copiedObject1);
+
+// rest operator:
+
+// The toArray function below works but is not wery flexible as we are bound to the maximum number of arguments we define in the function.
+// const toArray = (arg1, arg2, arg3) => { 
+//     return [arg1, arg2, arg3];
+// };
+
+
+// Here the ... in front of args is the rest operator. It turns however many arguments we enter into a array. Very handy indeed.
+const toArray = (...args) => {
+    return args;
+};
+
+console.log(toArray(1,2,3,4))
