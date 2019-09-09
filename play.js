@@ -17,8 +17,17 @@ const person = {
     }
 };
 
-console.log(person);
-person.greet();
-person.hello();
-person.old();
-person.tall();
+const hobbies = ['Sports', 'Cooking'];
+// for (let hobby of hobbies) {
+//     console.log(hobby);
+// }
+
+
+// console.log(person);
+// person.greet();
+// person.hello();
+// person.old();
+// person.tall();
+
+console.log(hobbies.map(hobby => `Hobby: ${hobby}`)); // .map creates a new array and does not edit the old one.
+console.log(hobbies);
