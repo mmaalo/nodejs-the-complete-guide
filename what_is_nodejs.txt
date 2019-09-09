@@ -1,3 +1,0 @@
-What is NodeJS?
-
-NodeJS is a javascript runtime. It uses the chrome v8 engine to compile JS code into machine code. NodeJS adds extra features that the chrome engine lacks. For example the option to access the local file system. Also some features from the browser are missing, like the ability to access the HTML DOM. In a statement, NodeJS is Javascript on the server.
