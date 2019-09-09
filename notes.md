@@ -18,3 +18,14 @@ With NodeJS unlike PHP, Java ect. witch is only the code that runs on a server N
 - Code along & do the Excercises --------------------|
 
 - Use the Course Resources -------------> Attached Code & Links
+
+## 01-07:
+### Working with the REPL vs Using Files
+
+REPL:
+Read  --> Read User Input
+Eval  --> Evaluate User Input
+Print --> Print Output (Result)
+Loop  --> Wait for new Input
+
+- The REPL is what we use if we just type "node" in the terminal. It is a great playground for learning node as the code is excecuted as it is written, but nothing is saved when we exit the REPL. Therefore we will be using excecutable files in this course.
