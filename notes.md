@@ -120,3 +120,33 @@ writeFileSync:
     - The "Sync" part stands for syncronus and blocks following code from being executed before it is done.
     - Therefore using writeFile instead of writeFileSync will stop the server from hanging until the task is complete. This is especially important with large files.
     - writeFile() takes a callback function and is therefore executed asyncronusly.
+
+## 03-36
+### Looking Behind the Scenes
+
+Single Thread, Event Loop & Blocking code
+- The code we write in Node.js uses a single javascript thread.
+- The event loop only handle the event callbacks that contain fast finishing code
+- Heavier operations are sent to the worker pool. The worker pool are detached form my code and handled by the operating system. The worker pool are able to create diffrent threads.
+- Once the worker in the worker pool is finished with a task it will trigger the callback in the event loop.
+
+The Event Loop:
+- Checks for Timers
+    - Execute setTimeout, setInterval callbacks
+- Checks Pending Callbacks
+    - Execute I/O related callbacks that were deferred.
+    - After a certian amount of the Node.js will continue its code excecution and pospone the remaning callbacks to the next loop.
+- Poll
+    - Jump to Timer execution if nesessary
+    - Retrive new I/O events, execute their callbacks
+    - If it is not possible to execute the new callbacks they will be deferred into pending callbacks
+- Check
+    - Execute setImmediate callbacks
+- Close Callbacks
+    - Execute all 'close' event callbacks
+- Process.exit()
+    - Only if refs == 0, refs is the amount of eventlisteners. server.listen() is never finished by default. Therefore a normal Node.js server will not shut down unless process.exit() is called in our code.
+
+Security: Request seperation:
+- Incomeing requests do by default not have access to each other, they are seperated by scope.
+
