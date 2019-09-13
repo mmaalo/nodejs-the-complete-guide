@@ -112,3 +112,11 @@ Streams & Buffers
 * Node execute a lot of the functions useing the function in function pattern asyncronusly. Examples are http.createServer() and req.on().
     * With these functions Node does not run the functions immediatly but instead creates a eventlistener and calls it after Node is finished parsing the request.
         * This means that all the code outside the eventlisteners are run from top to bottom before the eventlisteners are called in succession.
+
+## 03-35
+### Blocking and Non-Blocking Code
+
+writeFileSync:
+    - The "Sync" part stands for syncronus and blocks following code from being executed before it is done.
+    - Therefore using writeFile instead of writeFileSync will stop the server from hanging until the task is complete. This is especially important with large files.
+    - writeFile() takes a callback function and is therefore executed asyncronusly.

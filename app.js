@@ -27,11 +27,12 @@ const server = http.createServer((req, res) => {
                 const parsedBody = Buffer.concat(body).toString();
                 console.log(parsedBody);
                 const message = parsedBody.split('=')[1];
-                fs.writeFileSync('message.txt', message);
-                res.writeHead(302, {
-                    'Location': '/'
+                fs.writeFile('message.txt', message, err => {
+                    res.writeHead(302, {
+                        'Location': '/'
+                    });
+                    return res.end();
                 });
-                return res.end();
             });
         }
         res.setHeader('Content-Type', 'text/html');
