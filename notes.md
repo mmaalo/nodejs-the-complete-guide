@@ -45,7 +45,7 @@ JavaScript Summary:
     - Runs in the browser or directly on a pc or server.
     - Can preform a wide array of tasks.
 
-## 02-24:
+## 03-24:
 ### How the Web Works
 
 Basic diagram of how the web works:
@@ -73,7 +73,7 @@ HTTP, HTTPS:
 - Hyper Text Transfer Protocol Secure
     - HTTP + Data Encryption (during Transmission)
 
-## 02-25:
+## 03-25:
 ### Creating a Node Server
 
 Some important core modules:
@@ -83,7 +83,7 @@ Some important core modules:
 - path
 - os
 
-## 02-26:
+## 03-26:
 ### The Node Lifecycle & Event Loop
 
 Node.js Program Lifecycle:
@@ -94,3 +94,12 @@ Node.js Program Lifecycle:
     - Event Loop (Keeps running as long as there are event listener registered)
         - Is in theory single threaded, but node takes advantage of the OS and there are modules to enable multithreading.
         - process.exit will end the event loop, thus stopping our server.
+
+## 03-33:
+### Parsing Request Bodies
+
+Streams & Buffers
+- Example: Incoming Request
+- Stream --- reqpart1 --- reqpart2 --- reqpart3 --- reqpart4 ---> Fully Parsed
+    - Start working on the Data early
+    - We don't work on the data stream itself, but on the buffer.
