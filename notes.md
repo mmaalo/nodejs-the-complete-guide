@@ -82,3 +82,15 @@ Some important core modules:
 - fs
 - path
 - os
+
+## 02-26:
+### The Node Lifecycle & Event Loop
+
+Node.js Program Lifecycle:
+- node app.js
+- Start Script
+- Parse Code, Register Variables & Functions
+- Node Application
+    - Event Loop (Keeps running as long as there are event listener registered)
+        - Is in theory single threaded, but node takes advantage of the OS and there are modules to enable multithreading.
+        - process.exit will end the event loop, thus stopping our server.

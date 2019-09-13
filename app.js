@@ -19,6 +19,7 @@ const http = require('http');
 // Default with arrow function
 const server = http.createServer((req, res) => {
     console.log(req);
+    process.exit();
 });
 
 // Starting the server //
