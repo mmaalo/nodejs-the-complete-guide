@@ -103,3 +103,12 @@ Streams & Buffers
 - Stream --- reqpart1 --- reqpart2 --- reqpart3 --- reqpart4 ---> Fully Parsed
     - Start working on the Data early
     - We don't work on the data stream itself, but on the buffer.
+
+## 03-34
+### Understanding Event Driven Code Execution
+
+* Sending the response does not mean that the event listeners are dead. They will still run, even after the response are sent.
+* If we do something that influences the response in the eventlistener, then the res.end() needs to be inside the event listener so that the response is not sent before the event listener is executed.
+* Node execute a lot of the functions useing the function in function pattern asyncronusly. Examples are http.createServer() and req.on().
+    * With these functions Node does not run the functions immediatly but instead creates a eventlistener and calls it after Node is finished parsing the request.
+        * This means that all the code outside the eventlisteners are run from top to bottom before the eventlisteners are called in succession.

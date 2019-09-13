@@ -20,19 +20,19 @@ const server = http.createServer((req, res) => {
         if (url === '/message' && method === 'POST') {
             const body = [];
             req.on('data', (chunk) => {
-            console.log(chunk);
-            body.push(chunk);
-        });
-        req.on('end', () => {
-            const parsedBody = Buffer.concat(body).toString();
-            console.log(parsedBody);
-            const message = parsedBody.split('=')[1];
-            fs.writeFileSync('message.txt', message);
-        });
-        res.writeHead(302, {
-            'Location': '/'
-        });
-        return res.end();
+                console.log(chunk);
+                body.push(chunk);
+            });
+            return req.on('end', () => { // return makes sure that the req.on() block is executed and that the code below is not. 
+                const parsedBody = Buffer.concat(body).toString();
+                console.log(parsedBody);
+                const message = parsedBody.split('=')[1];
+                fs.writeFileSync('message.txt', message);
+                res.writeHead(302, {
+                    'Location': '/'
+                });
+                return res.end();
+            });
         }
         res.setHeader('Content-Type', 'text/html');
         res.write('<html>');
