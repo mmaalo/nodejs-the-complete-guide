@@ -72,3 +72,13 @@ HTTP, HTTPS:
 
 - Hyper Text Transfer Protocol Secure
     - HTTP + Data Encryption (during Transmission)
+
+## 02-25:
+### Creating a Node Server
+
+Some important core modules:
+- http      --> Launch a server, send requests
+- https     --> Launch a SSL server
+- fs
+- path
+- os
