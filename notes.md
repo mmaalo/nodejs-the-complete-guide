@@ -44,3 +44,31 @@ JavaScript Summary:
 - Versitale Language
     - Runs in the browser or directly on a pc or server.
     - Can preform a wide array of tasks.
+
+## 02-24:
+### How the Web Works
+
+Basic diagram of how the web works:
+------------------------->User/Client (Browser)<-----------------
+|                           |                                   |
+|                           V                                   |
+|                         User Enters http://my-page.com        |
+|                           |                                   |
+V                           V                                   |
+Request<------------------Domain Lookup                     Response
+|                                                               |
+|                                                               |
+|                                                               |
+|                                                               |
+-- -----------------------Server (at 10.212.212.12)--------------
+                            ^
+                            |
+                            V
+Node.js PHP ASP .NET<-->Your Code<------------------------->Database
+
+HTTP, HTTPS:
+- Hyper Text Transfer Protocol
+    - Protocol for transferring Data witch is understood by Browser and Server
+
+- Hyper Text Transfer Protocol Secure
+    - HTTP + Data Encryption (during Transmission)
