@@ -1,60 +1,77 @@
-const fs = require('fs');
-
 const requestHandler = (req, res) => {
-    const url = req.url;
-    const method = req.method;
+    url = req.url;
+    method = req.method;
+    res.users = [];
 
-if (url === '/') {
-    res.write('<html>');
-    res.write('<head><title>Enter Message</title><head>');
-    res.write(`
-        <body>
-            <form action="/message" method="POST">
-                <input type="text" name="message">  <button type="submit">Send</button>
-            </form>
-        </body>
-    `);
-    res.write('</html>');
-    return res.end();
-}
-if (url === '/message' && method === 'POST') {
-    const body = [];
-    req.on('data', (chunk) => {
-        console.log(chunk);
-        body.push(chunk);
-    });
-    return req.on('end', () => { // return makes sure that the req.on() block is executed and that the code below is not. 
-        const parsedBody = Buffer.concat(body).toString();
-        console.log(parsedBody);
-        const message = parsedBody.split('=')[1];
-        fs.writeFile('message.txt', message, err => {
-            res.writeHead(302, {
-                'Location': '/'
-            });
-            return res.end();
+    if (url === '/') {
+        res.write(`
+        <html>
+            <head>
+                <title>Assignment: Root</title> 
+            </head>
+            <body>
+                <h1>Create User</h1>
+                <form action="/create-user" method="POST">
+                    <input type="text" name="username">
+                    <button type="submit">Click Me</button>
+                </form>
+            </body>
+        </html> 
+        `);
+        return res.end();
+    }
+    
+    if (url === '/create-user' && method === 'POST') {
+        const body = [];
+        req.on('data', chunk => {
+            body.push(chunk);
         });
-    });
-}
-res.setHeader('Content-Type', 'text/html');
-res.write('<html>');
-res.write('<head><title>My First Page</title><head>');
-res.write('<body><h1>Hello from my Node.js Server!</h1></body>');
-res.write('</html>');
-res.end();
+        return req.on('end', () => {
+            const parsedBody = Buffer.concat(body).toString();
+            const user = parsedBody.split('=')[1];
+            res.write(`
+            <html>
+                <head>
+                    <title>Assignment: User Created</title> 
+                </head>
+                <body>
+                    <h1>User Name Is: "${user}"</h1>
+                </body>
+            </html> 
+            `);
+        });
+    }
 
+    if (url === '/users') {
+        res.write(`
+        <html>
+            <head>
+                <title>Assignment: Users</title> 
+            </head>
+            <body>
+                <h1>Users Route</h1>
+            </body>
+        </html> 
+        `);
+        return res.end();
+    }
+
+    res.writeHead(200, {
+        'type': 'html/text'
+    });
+    res.write(`
+    <html>
+        <head>
+            <title>Assignment</title> 
+        </head>
+        <body>
+            <h1>Yo</h1>
+        </body>
+    </html> 
+    `)
+    res.end();
 };
 
-// // Several ways to export one element or several elements from one file:
-
-// module.exports = requestHandler;
-
-// module.exports.handler = requesthandler;
-// module.exports.someText = 'SOME HARD CODED TEXT';
-
-// exports.handler = requesthandler;
-// exports.someText = 'SOME HARD CODED TEXT';
-
 module.exports = {
-    handler: requestHandler,
-    someText: 'Some hard coded text'
-}
+    handler: requestHandler
+};

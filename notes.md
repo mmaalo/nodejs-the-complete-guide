@@ -150,9 +150,3 @@ The Event Loop:
 Security: Request seperation:
 - Incomeing requests do by default not have access to each other, they are seperated by scope.
 
-## 03-37
-### Using the Module System
-
-- module.exports is exposed globally to node. Setting a function in a constant to module.exports therefore exposes that function to all of node.
-- When importing local modules ./ is used for the path too the module when we require it.
-- Routes and other imported modules in node.js are not accessible from the place where they are called. Except for calling functions inside the imported file that changes something in it.
