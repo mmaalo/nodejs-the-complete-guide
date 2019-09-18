@@ -184,3 +184,11 @@ Types of errors:
     - Code that breaks when it runs, while not being a syntax error.
 - Logical Errors:
     - The app does not work the way it is supposed to and we do not get a error message.
+
+## 04-51
+### Restarting the Debugger Automatically After Editing our App
+- In VSCodium or VSCode select Debug --> Add Configuration. Make sure that you add the following in the configurations object:
+    "program": "${workspaceFolder}/app.js",
+    "restart": true,
+    "runtimeExecutable": "nodemon,
+    "console": "integratedTerminal"
