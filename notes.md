@@ -170,3 +170,7 @@ To install packages locally:
     - "--save" installs package as a production dependency
     - "--save-exact" togeater with "--save" or "--save-dev" will lock the specific version in the package.json file.
     - "npm install package -g" installs the package globally on the computer so that it can be used anywhere
+
+## 04-44
+### Using Nodemon for Autorestarts
+Running nodemon trough a npm script will work if it is installed locally, but it needs to be installed globally for it to be run in the terminal.
