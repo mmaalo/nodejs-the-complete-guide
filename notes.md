@@ -150,3 +150,10 @@ The Event Loop:
 Security: Request seperation:
 - Incomeing requests do by default not have access to each other, they are seperated by scope.
 
+## 04-41
+### Understanding NPM Scripts
+- npm init will create the package.json file.
+- We can add our own scripts in the package.json file.
+    - The "start" script can be run simply by running "npm start" in the terminal
+    - All other scripts is run by writing "npm run scriptname"
+
