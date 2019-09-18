@@ -174,3 +174,13 @@ To install packages locally:
 ## 04-44
 ### Using Nodemon for Autorestarts
 Running nodemon trough a npm script will work if it is installed locally, but it needs to be installed globally for it to be run in the terminal.
+
+## 04-46
+### Understanding Diffrent Types of Errors
+Types of errors:
+- Syntax Errors
+    - Typos, forgetting a curlybracket ect.
+- Runtime Errors:
+    - Code that breaks when it runs, while not being a syntax error.
+- Logical Errors:
+    - The app does not work the way it is supposed to and we do not get a error message.
