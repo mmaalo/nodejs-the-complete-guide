@@ -1,8 +1,12 @@
+const fs = require('fs');
+
+users = [];
+
 const requestHandler = (req, res) => {
     url = req.url;
     method = req.method;
-    res.users = [];
 
+    // "/" route
     if (url === '/') {
         res.write(`
         <html>
@@ -20,8 +24,9 @@ const requestHandler = (req, res) => {
         `);
         return res.end();
     }
-    
-    if (url === '/create-user' && method === 'POST') {
+   
+    // "/create-user" route
+    else if (url === '/create-user' && method === 'POST') {
         const body = [];
         req.on('data', chunk => {
             body.push(chunk);
@@ -29,10 +34,14 @@ const requestHandler = (req, res) => {
         return req.on('end', () => {
             const parsedBody = Buffer.concat(body).toString();
             const user = parsedBody.split('=')[1];
+            res.writeHead(302, {
+                'Location': '/users'
+            });
+            users.push(user);
             res.write(`
             <html>
                 <head>
-                    <title>Assignment: User Created</title> 
+                    <title>User Created</title> 
                 </head>
                 <body>
                     <h1>User Name Is: "${user}"</h1>
@@ -42,23 +51,48 @@ const requestHandler = (req, res) => {
         });
     }
 
-    if (url === '/users') {
+    // "/users" route
+    else if (url === '/users') {
+        let userlist = "";
+        users.forEach((i) => {
+            userlist += `<li>${i}</li>
+`;
+        })
+        if (fs.existsSync('./users.txt')) {
+            const olduserlist = fs.readFileSync('./users.txt');
+            let newuser;
+            if (typeof users[users.length -1] === undefined) {
+                newuser = '';
+            }
+            else {
+                newuser = `<li>${users[users.length -1]}</li>
+`;
+            }
+            userlist = olduserlist + newuser;
+            fs.writeFileSync('./users.txt', userlist);
+        } else {
+            fs.writeFileSync('./users.txt', userlist)
+        }
         res.write(`
         <html>
             <head>
                 <title>Assignment: Users</title> 
             </head>
             <body>
-                <h1>Users Route</h1>
+                <h1>All Users</h1>
+                <ul>
+                    ${userlist}
+                </ul>
             </body>
         </html> 
         `);
         return res.end();
     }
 
+    else {
     res.writeHead(200, {
         'type': 'html/text'
-    });
+    }); 
     res.write(`
     <html>
         <head>
@@ -70,6 +104,8 @@ const requestHandler = (req, res) => {
     </html> 
     `)
     res.end();
+    }
+
 };
 
 module.exports = {
