@@ -192,3 +192,7 @@ Types of errors:
     "restart": true,
     "runtimeExecutable": "nodemon,
     "console": "integratedTerminal"
+
+## 04-52
+### Changeing Variables in the Debug Console
+Variables can be changed in the debug console when the debugger is running simply by clicking and changeing them in the variables window when the program hits a breakpoint.
