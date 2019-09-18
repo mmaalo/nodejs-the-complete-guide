@@ -157,3 +157,16 @@ Security: Request seperation:
     - The "start" script can be run simply by running "npm start" in the terminal
     - All other scripts is run by writing "npm run scriptname"
 
+## 04-42
+### Installing 3rd Party Packages
+3rd party packages are accessable via the npm tool
+
+To install packages locally:
+- npm install "name of package"
+    - by default npm installs the latest package
+    - to install a specific package "npm install package@4.17.2"
+    - "npm install package^@4.0.0" installs the latest 4.x.x version of the package
+    - "--save-dev" installs package as a development dependency
+    - "--save" installs package as a production dependency
+    - "--save-exact" togeater with "--save" or "--save-dev" will lock the specific version in the package.json file.
+    - "npm install package -g" installs the package globally on the computer so that it can be used anywhere
