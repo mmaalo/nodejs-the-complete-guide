@@ -45,9 +45,12 @@ JavaScript Summary:
     - Runs in the browser or directly on a pc or server.
     - Can preform a wide array of tasks.
 
+# Understanding the Basics
+
 ## 03-24:
 ### How the Web Works
 
+```
 Basic diagram of how the web works:
 ------------------------->User/Client (Browser)<-----------------
 |                           |                                   |
@@ -65,6 +68,7 @@ Request<------------------Domain Lookup                     Response
                             |
                             V
 Node.js PHP ASP .NET<-->Your Code<------------------------->Database
+```
 
 HTTP, HTTPS:
 - Hyper Text Transfer Protocol
@@ -150,6 +154,8 @@ The Event Loop:
 Security: Request seperation:
 - Incomeing requests do by default not have access to each other, they are seperated by scope.
 
+# Workflow and Debugging
+
 ## 04-41
 ### Understanding NPM Scripts
 - npm init will create the package.json file.
@@ -197,6 +203,8 @@ Types of errors:
 ### Changeing Variables in the Debug Console
 Variables can be changed in the debug console when the debugger is running simply by clicking and changeing them in the variables window when the program hits a breakpoint.
 
+# Working With Express.js
+
 ## 05-57
 ### What is express.js?
 Express.js is a framework that simplifyes the server logic in node.js. Everything that we can do in express.js can also be done in real life.
@@ -210,3 +218,24 @@ Alternatives to Express.js
 Express.js strenghts:
 - Lightweight when first installed
 - Huge number of 3rd party packages avalable becuase of its popularity
+
+## 05-59
+### Adding Middleware
+Express.js is all about Middleware:
+```
+- Request
+    |
+    V
+- Middleware: (req, res, next) => { ... }
+    |
+    V
+- Middleware: (req, res, next) => { ... }
+    |
+    V
+- Response
+    |
+    V
+```
+
+`app.use()` Allowes us to define a middleware functions
+`app.use(req, res, next) => {...}` The next function allowes the request to go on to the next middleware function. We have to call the next() function inside the middleware to allow the request to go on.
