@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
     console.log('In another middleware');
-    // ... send response
+    res.send(`<h1>Hello From Express!</h1>`);
 });
 
 

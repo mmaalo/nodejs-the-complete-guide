@@ -239,3 +239,7 @@ Express.js is all about Middleware:
 
 `app.use()` Allowes us to define a middleware functions
 `app.use(req, res, next) => {...}` The next function allowes the request to go on to the next middleware function. We have to call the next() function inside the middleware to allow the request to go on.
+
+## 05-60
+### How Middleware Works
+`res.send()` is a express.js function that allows us to send a response of type any. It is much more practical than sending `res.write()` blocks like we did with pure node.js, especially when sending files.
