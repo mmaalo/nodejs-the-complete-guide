@@ -1,9 +1,18 @@
-const http = require('http');
+// Module Imports
 
-const routes = require('./routes');
+    // Node.js Modules
+    const http = require('http');
 
-console.log(routes.someText);
+    // NPM modules
+    const express = require('express');
+    const helmet = require('helmet');
 
-const server = http.createServer(routes.handler);
+    // Local modules
+
+// Main app
+const app = express();
+app.use(helmet());
+
+const server = http.createServer(app);
 
 server.listen(3000);
