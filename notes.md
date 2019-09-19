@@ -196,3 +196,17 @@ Types of errors:
 ## 04-52
 ### Changeing Variables in the Debug Console
 Variables can be changed in the debug console when the debugger is running simply by clicking and changeing them in the variables window when the program hits a breakpoint.
+
+## 05-57
+### What is express.js?
+Express.js is a framework that simplifyes the server logic in node.js. Everything that we can do in express.js can also be done in real life.
+
+Alternatives to Express.js
+- Vanilla Node.js
+- Adonis.js
+- Koa
+- Sails.js
+
+Express.js strenghts:
+- Lightweight when first installed
+- Huge number of 3rd party packages avalable becuase of its popularity
