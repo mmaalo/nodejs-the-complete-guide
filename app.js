@@ -13,13 +13,16 @@
 const app = express();
 
 // Middleware
-app.use(helmet());
-app.use((req, res, next) => {
-    console.log('In the middleware');
+app.use('/', (req, res, next) => {
+    console.log('this middleware always runs');
     next();
 });
+app.use('/add-product', (req, res, next) => {
+    console.log('In another middleware');
+    res.send(`<h1>Add a Product</h1>`);
+});
 
-app.use((req, res, next) => {
+app.use('/', (req, res, next) => {
     console.log('In another middleware');
     res.send(`<h1>Hello From Express!</h1>`);
 });

@@ -243,3 +243,9 @@ Express.js is all about Middleware:
 ## 05-60
 ### How Middleware Works
 `res.send()` is a express.js function that allows us to send a response of type any. It is much more practical than sending `res.write()` blocks like we did with pure node.js, especially when sending files.
+
+## 05-62
+### Handling Diffrent Routes
+`app.use('/', (req, res, next) => {...});` does not reffer to just the '/' route, but instead any route that starts with '/', witch is every route. 
+
+The order of the middleware and if we are calling next or not decides witch route we are sendt to. Middleware is executed from top to bottom. Also if we are sending a response this is a good indicator that we don't want to call `next();`. If we have a middleware that we want to always run, just put it on top before all the others.
