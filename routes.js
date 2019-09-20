@@ -15,7 +15,7 @@ const requestHandler = (req, res) => {
             </head>
             <body>
                 <h1>Create User</h1>
-                <form action="/create-user" method="POST">
+                <form action="/create-user" method="POST" enctype="text/plain"> <!-- enctype="text/plain fixes encoding issue where space is saved as a '+' sign -->
                     <input type="text" name="username">
                     <button type="submit">Click Me</button>
                 </form>
