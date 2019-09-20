@@ -249,3 +249,11 @@ Express.js is all about Middleware:
 `app.use('/', (req, res, next) => {...});` does not reffer to just the '/' route, but instead any route that starts with '/', witch is every route. 
 
 The order of the middleware and if we are calling next or not decides witch route we are sendt to. Middleware is executed from top to bottom. Also if we are sending a response this is a good indicator that we don't want to call `next();`. If we have a middleware that we want to always run, just put it on top before all the others.
+
+## 05-63
+### Parsing Incoming Requests
+When we send the user from one route to another the order of the middlewares does not really matter as long as it comes before the catch all middleware at the bottom.
+
+We can use `req.body` to access data sendt by the user. To do that however we need to install, import and use the body-parser module from npm or we will get `undefined` when accessing req.body.
+
+`body-parser` should be added to the specific routes it is used like what I do here, and not globally per the documentation. Setting extended to true can be required to avoid a empty array in the output.
