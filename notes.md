@@ -257,3 +257,9 @@ When we send the user from one route to another the order of the middlewares doe
 We can use `req.body` to access data sendt by the user. To do that however we need to install, import and use the body-parser module from npm or we will get `undefined` when accessing req.body.
 
 `body-parser` should be added to the specific routes it is used like what I do here, and not globally per the documentation. Setting extended to true can be required to avoid a empty array in the output.
+
+## 05-65
+### Using Express Router
+The routes can be seperated into multiple files by useing the built in router functionallity in express. Alternativly if I want to reinvent the wheel the callback functions can simply be imported by using module.exports in the new files.
+
+When assigning routes `app.use('/', (req, res, next) => {...})` will catch all routes while `app.use('/', (req, res, next => {...}))` will only target the '/' route.
