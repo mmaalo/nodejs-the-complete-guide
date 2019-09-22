@@ -5,6 +5,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({extended: true});
 
+// /admin/add-product --> GET
 router.get('/add-product', (req, res, next) => {
     console.log(`I'm the add-product middleware`);
     res.send(`
@@ -17,7 +18,7 @@ router.get('/add-product', (req, res, next) => {
             <title>Add Product Page</title>
         </head>
         <body>
-            <form action="/product" method="post">
+            <form action="/admin/add-product" method="post">
                 <input type="text" name="title">
                 <button type="submit">Add Product</button>
             </form>
@@ -26,7 +27,8 @@ router.get('/add-product', (req, res, next) => {
     `);
 });
 
-router.post('/product', urlencodedParser, (req, res, next) => {
+// /admin/add-product --> POST 
+router.post('/add-product', urlencodedParser, (req, res, next) => {
     console.log(req.body);
     res.redirect('/');
 });
