@@ -263,3 +263,15 @@ We can use `req.body` to access data sendt by the user. To do that however we ne
 The routes can be seperated into multiple files by useing the built in router functionallity in express. Alternativly if I want to reinvent the wheel the callback functions can simply be imported by using module.exports in the new files.
 
 When assigning routes `app.use('/', (req, res, next) => {...})` will catch all routes while `app.use('/', (req, res, next => {...}))` will only target the '/' route.
+
+## 05-69
+### Serving HTML files
+HTML files can be served by using `sendFile()` instead of `send()`. `sendFile()` takes the path to the HTML file.
+
+The path to the HTML file must be absolute. To aid us in this we can use the path module built in to node.js
+- Import path: `const path = require('path');`
+- Create path inside `sendFile()` with `path.join()`: `sendFile(path.join(__dirname, '..', 'views', 'doc.html'));`
+    - Using `__dirname` will create the base path into the folder.
+    - Using `..` will take us up one folder relativly.
+    - Don't use `/` when constructing the path.
+    - Often used paths can be constructed in a seperate module and imported for conveniency.
