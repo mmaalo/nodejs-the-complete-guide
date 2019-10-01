@@ -7,10 +7,12 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({extended: true});
 
+const rootDir = require('../util/path'); 
+
 // /admin/add-product --> GET
 router.get('/add-product', (req, res, next) => {
     console.log(`I'm the add-product middleware`);
-    res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'));
+    res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
 });
 
 // /admin/add-product --> POST 
