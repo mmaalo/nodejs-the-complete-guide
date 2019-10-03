@@ -7,7 +7,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({extended: true});
 
-const rootDir = require('../util/path'); 
+const rootDir = ('../util/path'); 
 
 // /admin/add-product --> GET
 router.get('/add-product', (req, res, next) => {
