@@ -1,4 +1,5 @@
-.product-form {
+
+.index-form {
     width: 20rem;
     max-width: 90%;
     margin: auto;
@@ -22,8 +23,8 @@
 
 button {
     font: inherit;
-    border: 1px solid #3e00a1;
-    color: #3e00a1;
+    border: 1px solid #dbc441;
+    color: #dbc441;
     background: white;
     border-radius: 3px;
     cursor: pointer;
@@ -31,6 +32,6 @@ button {
 
 button:hover,
 button:active {
-    background-color: #3e00a1;
+    background-color: #dbc441;
     color: white;
 }

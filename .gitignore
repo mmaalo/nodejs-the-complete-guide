@@ -1,6 +1,4 @@
-**/node_modules/
 .vscode/
+**/node_modules/
+userdata.txt
 nodejs-the-complete-guide.code-workspace
-hello.txt
-message.txt
-users.txt

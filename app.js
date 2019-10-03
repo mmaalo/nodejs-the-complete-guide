@@ -1,32 +1,29 @@
-// Module Imports
+// Module imports
 
-    // Node.js Modules
-    const http = require('http');
+    // Core Modules
     const path = require('path');
 
-    // NPM modulesthe
+    // NPM modules
     const express = require('express');
     const helmet = require('helmet');
 
-    // Local modules
+    // Private modules
     const rootDir = require('./util/path');
-    const adminRoutes = require('./routes/admin');
-    const shopRoutes = require('./routes/shop');
+    const indexRoute = require('./routes/indexRoute');
+    const usersRoute = require('./routes/usersRoute');
 
-// Main App Middleware
+// App middleware
 const app = express();
 app.use(helmet());
 app.use(express.static(path.join(rootDir, 'public')));
 
-// Routes Middleware
-
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
+// App Routes
+app.use(indexRoute);
+app.use(usersRoute);
 
 app.use((req, res, next) => {
     res.status(404).sendFile(path.join(rootDir, 'views', '404.html'));
 });
 
-// Start Server
-const server = http.createServer(app);
-server.listen(3000);
+// Start app
+app.listen(3000);

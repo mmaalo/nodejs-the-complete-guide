@@ -1,12 +1,11 @@
 {
-  "name": "nodejs-the-complete-guide",
+  "name": "node-js-the-complete-guide-05-assignment",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "start": "nodemon app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "start-server": "node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -18,12 +17,9 @@
     "url": "https://github.com/mmaalo/nodejs-the-complete-guide/issues"
   },
   "homepage": "https://github.com/mmaalo/nodejs-the-complete-guide#readme",
-  "devDependencies": {
-    "nodemon": "^1.19.2"
-  },
   "dependencies": {
-    "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "helmet": "^3.21.0"
+    "helmet": "^3.21.1",
+    "nodemon": "^1.19.3"
   }
 }
