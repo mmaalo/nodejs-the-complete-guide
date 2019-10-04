@@ -51,6 +51,12 @@ main {
   color: #ffeb3b;
 }
 
+.main-header__item a.link-disabled:hover,
+.main-header__item a.link-disabled:active,
+.main-header__item a.link-disabled {
+  color: lightgrey;
+}
+
 .grid {
   display: flex;
   flex-wrap: wrap;
