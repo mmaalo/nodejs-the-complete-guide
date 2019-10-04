@@ -7,6 +7,7 @@
     // NPM modulesthe
     const express = require('express');
     const helmet = require('helmet');
+    const expressHandlebars = require('express-handlebars')
 
     // Local modules
     const rootDir = require('./util/path');
@@ -18,7 +19,11 @@
     app.use(helmet());
 
     // Set Templating engine and template folder
-    app.set('view engine','pug');
+    app.engine('handlebars', expressHandlebars({
+        extname: 'handlebars',
+        defaultLayout: "", // Nessecary to avoid error caused by handlebars looking for non-existant layout file
+    })); // We need to import and set handlebars as a engine.
+    app.set('view engine','handlebars');
     app.set('veiws', 'views');
 
     // Set static folder
