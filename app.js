@@ -19,12 +19,7 @@
     app.use(helmet());
 
     // Set Templating engine and template folder
-    app.engine('handlebars', expressHandlebars({
-        extname: 'handlebars',
-        defaultLayout: "main-layout", 
-        layoutsDir: 'views/layouts/'
-    })); // We need to import and set handlebars as a engine.
-    app.set('view engine','handlebars');
+    app.set('view engine','ejs');
     app.set('veiws', 'views');
 
     // Set static folder
