@@ -1,0 +1,13 @@
+{{#if users}}
+    <h3>Users:</h3>
+    {{#if exists}}
+        <h3 class="text-red">User Already Exists. Please use another user name.</h3>
+    {{/if}}
+    <ul>
+        {{#each users}}
+            <li>{{userName}}</li>
+        {{/each}}
+    </ul>
+{{else}}
+    <h3>No users logged yet.</h3>
+{{/if}}
