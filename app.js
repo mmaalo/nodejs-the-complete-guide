@@ -21,7 +21,8 @@
     // Set Templating engine and template folder
     app.engine('handlebars', expressHandlebars({
         extname: 'handlebars',
-        defaultLayout: "", // Nessecary to avoid error caused by handlebars looking for non-existant layout file
+        defaultLayout: "main-layout", 
+        layoutsDir: 'views/layouts/'
     })); // We need to import and set handlebars as a engine.
     app.set('view engine','handlebars');
     app.set('veiws', 'views');
