@@ -10,8 +10,13 @@
 
     // Local modules
     const rootDir = require('./util/path');
-    const adminRoutes = require('./routes/admin');
-    const shopRoutes = require('./routes/shop');
+
+        // routes
+            const adminRoutes = require('./routes/admin');
+            const shopRoutes = require('./routes/shop');
+        
+        // controllers
+            const errorController = require('./controllers/error');
 
 // Main App Middleware
     const app = express();
@@ -28,12 +33,7 @@
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
-app.use((req, res, next) => {
-    res.status(404).render('404', {
-        docTitle: 'Page Not Found',
-        path: ''
-    });
-});
+app.use(errorController.get404);
 
 // Start Server
 const server = http.createServer(app);
