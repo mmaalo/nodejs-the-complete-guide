@@ -1,0 +1,10 @@
+extends layouts/main-layout.pug
+
+block content
+    if (users.length > 0)
+        h3 Users:
+            ul
+                each val in users
+                    li= val.userName
+    else
+        h3 There are no users yet
