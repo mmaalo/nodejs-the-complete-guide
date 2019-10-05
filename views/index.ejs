@@ -1,0 +1,15 @@
+<%- include('./includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/index.css">
+<%- include('./includes/headendbodystart.ejs') %>
+<%- include('./includes/nav.ejs') %>    
+    <main>
+        <h1>Welcome to this site!</h1>
+        <form class="index-form" action="/" method="POST">
+            <div class="form-control">
+                <label for="userName">User Name</label>
+                <input type="text" name="userName" id="userName">
+            </div>
+            <button type="submit">Log User</button>
+        </form>
+    </main>
+<%- include('./includes/end.ejs') %>

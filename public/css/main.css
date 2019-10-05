@@ -5,6 +5,10 @@ body {
     color:darksalmon;
 }
 
+.text-red {
+    color: red;
+}
+
 main {
     padding: 1rem;
 }
@@ -43,4 +47,10 @@ main {
 .main-header__item a:active,
 .main-header__item a.active {
     color: lightskyblue;
+}
+
+.main-header__item a.link-disabled:hover,
+.main-header__item a.link-disabled:active,
+.main-header__item a.link-disabled {
+    color: violet;
 }
