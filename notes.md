@@ -275,3 +275,25 @@ The path to the HTML file must be absolute. To aid us in this we can use the pat
     - Using `..` will take us up one folder relativly.
     - Don't use `/` when constructing the path.
     - Often used paths can be constructed in a seperate module and imported for conveniency.
+
+# The Model View Controller
+
+## 07-95 What is the MVC?
+
+Seperation of concerns
+
+```
+                                                                   Routes
+                                                                     ^
+                                                                     |
+       Models(M)                    Views(V)                    Controllers(C)
+          |                           |                              |
+          V                           V                              V
+Represent your data in          What the user sees          Connecting your Models
+      your code                       |                         and your views
+          |                           |                              |
+Work with your data (e.g       Decoupled from your         Contains the "in-between"
+      save, fetch)              application code                   logic  
+
+
+```
