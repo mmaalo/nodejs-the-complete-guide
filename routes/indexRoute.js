@@ -11,6 +11,7 @@
     // local imports
 
 const users = [];
+const exists = [];
 
 // routes
 
@@ -22,11 +23,29 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', urlendcoded, (req, res, next) => {
-    users.push(req.body);
+    if (users.length > 0) {
+        for (let user of users) {
+            if (user.userName === req.body.userName) {
+                exists.push('true');
+                exists.shift();
+            } else {
+                exists.push('false');
+                exists.shift();
+            }
+        }
+    } else {
+        exists.push('false')
+    }
+
+    if (exists.slice(-1)[0] == 'false') {
+        users.push(req.body);
+    }
+
     res.redirect('/users');
-})
+});
 
 module.exports = {
     router: router,
-    users: users
+    users: users,
+    exists: exists
 }

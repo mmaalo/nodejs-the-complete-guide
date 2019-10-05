@@ -5,6 +5,10 @@ body {
     color:darksalmon;
 }
 
+.text-red {
+    color: red;
+}
+
 main {
     padding: 1rem;
 }
