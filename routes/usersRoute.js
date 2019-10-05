@@ -17,7 +17,8 @@
 router.get('/users', (req, res, next) => {
     res.render('users', {
         docTitle: 'Users',
-        users: users
+        users: users,
+        exists: userData.exists
     });
 });
 

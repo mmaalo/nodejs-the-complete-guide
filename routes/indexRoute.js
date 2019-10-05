@@ -12,7 +12,7 @@
 
 // variables
 const userNames = [];
-let  userExist = false;
+const exists = [];
 
 // routes
 
@@ -23,26 +23,36 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', urlendcoded, (req, res, next) => {
-    if (userNames.length === 0) {
-        userNames.push(req.body);
-        userExist = true;
-    }
+
+    let userExists = false;
+
     if (userNames.length > 0) {
-        userExist = false;
-        for (let i = 0; i < userNames.length; i++) {
-            const requestBodyName = req.body.userName;
-            if (userNames[i].userName === requestBodyName) {
-                userExist = true;
-            } 
+        for (let element of userNames) {
+            if (req.body.userName == element.userName) {
+                userExists = true;
+            }
         }
-        if (userExist == false) {
-            userNames.push(req.body);
+    }
+
+    if (exists.length > 0) {
+        for (let element of exists) {
+            exists.pop();
         }
+    }
+
+    if (userExists == false) {
+        exists.push('false');
+        userNames.push(req.body);
+        res.redirect('/users');
+    } else {
+        exists.push('true')
         res.redirect('/users');
     }
-})
+
+});
 
 module.exports = {
     route: router,
-    users: userNames
+    users: userNames,
+    exists: exists
 }
