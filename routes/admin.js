@@ -1,30 +1,23 @@
-const path = require('path');
+// imports
 
-const express = require('express');
+    // core imports
 
-const router = express.Router();
+    // npm imports
+        const express = require('express');
+        const router = express.Router();
+        const bodyParser = require('body-parser');
+        const urlencodedParser = bodyParser.urlencoded({extended: true});
 
-const bodyParser = require('body-parser');
-const urlencodedParser = bodyParser.urlencoded({extended: true});
+    // local impoorts
+        const productsController = require('../controllers/products');
 
-const rootDir = require('../util/path'); 
+// routes
 
-// store products in array
-const products = [];
+    // /admin/add-product --> GET
+    router.get('/add-product', productsController.getAddProduct);
 
-// /admin/add-product --> GET
-router.get('/add-product', (req, res, next) => {
-    res.render('add-product', {
-        docTitle: "Add Product",
-        path: '/admin/add-product'
-    });
-});
+    // /admin/add-product --> POST 
+    router.post('/add-product', urlencodedParser, productsController.postAddProduct);
 
-// /admin/add-product --> POST 
-router.post('/add-product', urlencodedParser, (req, res, next) => {
-    products.push({title: req.body.title})
-    res.redirect('/');
-});
-
-exports.routes = router;
-exports.products = products;
+// exports
+    module.exports = router;
