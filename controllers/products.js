@@ -1,22 +1,30 @@
-// store products in array
-const products = [];
+// imports
 
-exports.getAddProduct = (req, res, next) => {
-    res.render('add-product', {
-        docTitle: "Add Product",
-        path: '/admin/add-product'
-    });
-}
+    // local imports
 
-exports.postAddProduct = (req, res, next) => {
-    products.push({title: req.body.title})
-    res.redirect('/');
-}
+        // models
+            const Product = require('../models/product');
 
-exports.getProducs = (req, res, next) => {
-    res.render('shop', {
-        prods: products,
-        docTitle: 'Shop',
-        path: "/"
-    });
-}
+// export controller functions
+
+    exports.getAddProduct = (req, res, next) => {
+        res.render('add-product', {
+            docTitle: "Add Product",
+            path: '/admin/add-product'
+        });
+    }
+
+    exports.postAddProduct = (req, res, next) => {
+        const product = new Product(req.body.title);
+        product.save();
+        res.redirect('/');
+    }
+
+    exports.getProducs = (req, res, next) => {
+        const products = Product.fetchAll();
+        res.render('shop', {
+            prods: products,
+            docTitle: 'Shop',
+            path: "/"
+        });
+    }
