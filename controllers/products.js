@@ -8,7 +8,7 @@
 // export controller functions
 
     exports.getAddProduct = (req, res, next) => {
-        res.render('add-product', {
+        res.render('admin/add-product', {
             docTitle: "Add Product",
             path: '/admin/add-product'
         });
@@ -25,7 +25,7 @@
 
         // by passing products as a callback inside fetchAll() we avoid prods being undefined at load time. This is because out file is done being read before shop.ejs is rendered. See the controller static fetchAll() method for how this works.
         Product.fetchAll(products => {
-            res.render('shop', {
+            res.render('shop/product-list', {
                 prods: products,
                 docTitle: 'Shop',
                 path: "/"
