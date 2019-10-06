@@ -29,13 +29,13 @@
             });
         }
 
-        static fetchAll() {
+        static fetchAll(callback) {
             const productsPath = path.join(rootDir, 'data', 'products.json');
             fs.readFile(productsPath, (err, data) => {
                 if (err) {
-                    return [];
+                    callback([])
                 }
-                return JSON.parse(data);
+                callback(JSON.parse(data));
             })
         }
     } 
