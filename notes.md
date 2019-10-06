@@ -278,7 +278,8 @@ The path to the HTML file must be absolute. To aid us in this we can use the pat
 
 # The Model View Controller
 
-## 07-95 What is the MVC?
+## 07-95
+### What is the MVC
 
 Seperation of concerns
 
@@ -297,3 +298,20 @@ Work with your data (e.g       Decoupled from your         Contains the "in-betw
 
 
 ```
+
+## 07-102
+### Wrap Up
+
+Model:
+- Responsible for representing your data
+- Responsible for managing your data (saving, fetching, ...)
+- Doesn't matter if your manage data in memory, files, databases
+- Contains data-related logic
+
+View:
+- What the user sees
+- Shouldn't contain too much logic
+
+Controller:
+- Connects Model and View
+- SHould only make sure that the tow can communicate (in both directions)
