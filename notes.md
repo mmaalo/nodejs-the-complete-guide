@@ -280,9 +280,14 @@ The path to the HTML file must be absolute. To aid us in this we can use the pat
 
 # The Model View Controller
 
+<<<<<<< HEAD
 
 ## 07-95
 ### What is the MVC?
+=======
+## 07-95
+### What is the MVC
+>>>>>>> 07-The_Model_View_Controller
 
 Seperation of concerns
 
@@ -302,7 +307,10 @@ Work with your data (e.g       Decoupled from your         Contains the "in-betw
 
 ```
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 07-The_Model_View_Controller
 ## 07-102
 ### Wrap Up
 
