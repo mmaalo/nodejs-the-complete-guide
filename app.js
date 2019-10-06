@@ -9,7 +9,7 @@
     const helmet = require('helmet');
 
     // Local modules
-    const rootDir = require('./util/path');
+    const rootDir = require('./util/rootDir');
 
         // routes
             const adminRoutes = require('./routes/admin');

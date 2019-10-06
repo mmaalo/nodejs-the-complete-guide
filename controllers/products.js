@@ -21,7 +21,8 @@
     }
 
     exports.getProducs = (req, res, next) => {
-        const products = Product.fetchAll();
+        const products = [];
+        console.log(Product.fetchAll());
         res.render('shop', {
             prods: products,
             docTitle: 'Shop',
