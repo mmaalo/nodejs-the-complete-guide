@@ -8,9 +8,11 @@
 
     // local impoorts
         const productsController = require('../controllers/products');
+        const cartController = require('../controllers/cart');
 
 // routes
     router.get('/', productsController.getProducs);
+    router.get('/cart', cartController.getCart);
 
 // exports
     module.exports = router;

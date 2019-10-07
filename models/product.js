@@ -23,11 +23,26 @@
             });
     }
 
-// export models
+// export models}
 
     module.exports = class Product {
-        constructor(t) {
+        constructor(t, iL, iA, p, d) {
             this.title = t;
+
+            if (iL == '') {
+                this.imageLink = 'https://www.chillinoodle.co.uk/skin/frontend/chillinoodle/default/images/catalog/product/placeholder/image.jpg';
+            } else {
+                this.imageLink = iL
+            }
+
+            if (iA == '') {
+                this.imageAlt = 'product image'
+            } else {
+                this.imageAlt = iA;
+            }
+
+            this.price = p;
+            this.description = d;
         }
 
         save() {
