@@ -1,0 +1,8 @@
+[
+    {
+        "product": {
+            "title":"Some Product","imageLink":"https://www.chillinoodle.co.uk/skin/frontend/chillinoodle/default/images/catalog/product/placeholder/image.jpg","imageAlt":"No Image","price":"23","description":"Product Description"
+        },
+        "amount": 3
+    }
+]

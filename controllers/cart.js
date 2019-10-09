@@ -8,10 +8,12 @@
 // export controller functions
 
     exports.getCart = (req, res, next) => {
-        res.render('shop/cart', {
-            docTitle: 'Cart',
-            path: '/cart',
-            cart: [] 
+        Cart.fetchAll(cart => {
+            res.render('shop/cart', {
+                docTitle: 'Cart',
+                path: '/cart',
+                cart: cart
+            });
         });
 
     }

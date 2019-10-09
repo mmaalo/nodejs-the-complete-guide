@@ -9,7 +9,7 @@
 
 // local variables
 
-    const cartPath = path.join(rootDir, 'data', 'users.json');
+    const cartPath = path.join(rootDir, 'data', 'cart.json');
 
 // export models
 
@@ -34,12 +34,12 @@
             });
         }
 
-        static fetchAll() {
+        static fetchAll(callback) {
             fs.readFile(cartPath, (err, data) => {
                 if (err) {
-                    return [];
+                    callback([]);
                 } else {
-                    return JSON.parse(data);
+                    callback(JSON.parse(data));
                 }
             });
         }
