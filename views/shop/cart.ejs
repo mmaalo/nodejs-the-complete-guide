@@ -1,33 +1,66 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/cart.css">
 </head>
 
 <body>
     <%- include('../includes/navigation.ejs') %>
     <main>
-            <div class="grid">
+        <% if (cart.length > 0) { %>
+            <div class="cart">
                 <% for (let element of cart) { %>
-                    <article class="card product-item">
-                        <header class="card__header">
-                            <h1 class="product__title"><%= element.product.title%></h1>
+                    <article class="cart__item">
+                        <header class="cart__header">
+                            <h1 class="cart__item-title"><%= element.product.title%></h1>
                         </header>
-                        <div class="card__image">
-                            <% if (element.product.imageLink) { %>
-                            <img src="<%= element.product.imageLink %>" alt="<%= element.product.imageAlt %>">
-                            <% } else { %>
-                            <img src="https://media.istockphoto.com/photos/open-book-picture-id495477978?k=6&m=495477978&s=612x612&w=0&h=e673w4tPLT2ZtJ62ytZcF_DBPxMBP57duHK0AFr6lQo=" alt="A Product" alt="Product Image">
-                            <% } %>
-                        </div>
-                        <div class="card__content">
-                            <h2 class="product__price">$<%= element.product.price * element.amount %></h2>
-                            <p class="product__discription"></p>
-                        </div>
-                        <div class="card__actions">
-                            <button class="btn">Add to Cart</button>
+                        <div class="cart-content">
+                            <div class="cart-content-block">
+                                <div class="cart__image">
+                                    <% if (element.product.imageLink) { %>
+                                    <img src="<%= element.product.imageLink %>" alt="<%= element.product.imageAlt %>">
+                                    <% } else { %>
+                                    <img src="https://media.istockphoto.com/photos/open-book-picture-id495477978?k=6&m=495477978&s=612x612&w=0&h=e673w4tPLT2ZtJ62ytZcF_DBPxMBP57duHK0AFr6lQo=" alt="A Product" alt="Product Image">
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="cart-content-block cart-content-block__description">
+                                <p class="cart__item-description"><%= element.product.description %></p>
+                            </div>
+                            <div class="cart-content-block cart-content-block__details">
+                                <div class="cart__actions">
+                                    <div class="cart__action-line">
+                                        <h4 class="cart__item-price">Item Price: $<%= element.product.price %></h4>
+                                    </div>
+                                    <div class="cart__action-line">
+                                        <h4 class="cart__item-amount">Amount: <%= element.amount %></h4>
+                                    </div>
+                                    <div class="cart__action-line">
+                                        <div class="cart-change-amount">
+                                            <p>Change Amount:</p>
+                                            <button class="btn">-</button>
+                                            <button class="btn">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="cart__action-line">
+                                        <div class="cart-set-amount">
+                                            <p>Set Amount:</p>
+                                            <input class="cart-update-amount__input" type="number" min="1" max="100" oninput="validity.valid||(value='')">
+                                            <button class="btn btn-uptdate-amount">Update</button>
+                                        </div>
+                                    </div>
+                                    <div class="cart__action-line">
+                                        <div class="cart-inline">
+                                            <h2 class="cart__total-price">Total: $<%= element.product.price * element.amount %></h2>
+                                            <button class="btn btn-remove-cart-item">Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </article>
                 <% } %>
             </div>
+        <% } else { %>
             <h1>No Items In Cart</h1>
+        <% } %>
     </main>
 <%- include('../includes/end.ejs') %>
