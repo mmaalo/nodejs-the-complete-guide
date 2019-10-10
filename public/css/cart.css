@@ -1,9 +1,24 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
+
+
+/* cart container */
 .cart {
     width: 80%;
     margin: auto;
 }
 
-.cart__item {
+/* cart item */
+
+.cart-item {
     display: block;
     max-width: 100%;
     margin: 3rem auto;
@@ -11,101 +26,118 @@
     padding-bottom: 2rem;
 }
 
-.cart__header {
+/* item */
+.cart-item-body {
     display: block;
     text-align: center;
     padding-top: 0.5rem;
 }
 
-.cart-content {
+.cart-item-body {
     display: flex;
+    justify-content: space-around;
 }
 
-.cart-content-block {
-    padding: 0 2rem;
+.cart-flex-container {
+    display: flex;
+    padding: 0 0;
     height: 100%;
 }
 
-.cart__image img {
+.cart-flex-container--flex-3 {
+    flex: 3;
+}
+
+.cart-flex-container--flex-5 {
+    flex: 5;
+}
+    
+.cart-item-header {
+    display: block;
+    text-align: center;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.cart-content {
+    display: block;
+    width: 100%;
+}
+
+/* image */
+
+.cart-content__image {
     width: 15rem;
     height: 15rem;
 }
 
-.cart__item-description {
+
+/* description */
+
+.cart-content__description {
+    display: block;
+    text-align: left;
+    margin-right: 4rem;
     color: #5a5a5a;
+}
+
+/* cart actions */
+
+.cart-content__actions {
+    min-width: 20rem;
+}
+
+.cart-actions {
+    display: block;
+    padding-bottom: 2rem;
     text-align: left;
 }
 
-.cart__actions p {
-    display: inline;
+.cart-actions__item-price {
 }
 
-.cart__item-amount {
+.cart-actions__item-amount {
     padding: 0.3rem 0;
 }
 
-.btn-remove-cart-item {
-    padding: 0.3rem 0.5rem;
+.cart-actions__change-amount {
+    display: inline;
 }
 
-.cart__item-amount .btn {
+.cart-actions__change-amount__p {
+    display: inline;
+}
+
+.cart-actions__set-amount__p {
+    display: inline;
+}
+
+.cart-actions__total {
+    padding-top: 1rem;
+}
+
+.cart-actions__total__h2 {
+    display: inline;
+    margin-right: 1rem;
+}
+
+/* buttons */
+
+.btn {
     padding: 0 0.75rem;
     margin: 0 0.15rem;
 }
 
-.cart-content-block__details {
-    flex: 5;
-    padding-left: 5rem;
-}
-
-.cart-content-block__details h4,
-.cart-content-block__details h2 {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.cart-content-block__details h2 {
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.cart-content-block__description {
-    flex: 6;
-}
-
-.cart-content-block__description p {
-    padding-right: 3rem;
-}
-
-.cart-inline {
-    display: block;
-    /* padding: 2rem 0; */
-    padding-top: 1rem;
-}
-
-.cart__total-price,
-.btn-remove-cart-item {
+.btn__cart {
     display: inline;
 }
 
-.cart__total-price {
-    margin-right: 1rem;
-    padding-top: 2.4rem;
-}
-
-.cart-update-amount p input button {
+.btn__cart--big {
     display: inline;
+    padding: 0.3rem 0.5rem;
 }
 
-.cart-update-amount__input {
-    width: 3rem;
-}
-
-/* .cart-set-amount {
-    padding: 1.5rem 0;
-} */
-
-.cart__action-line {
-    display: block;
-    padding-bottom: 1rem;
+/* input fields */
+.input-number-small {
+    display: inline;
 }

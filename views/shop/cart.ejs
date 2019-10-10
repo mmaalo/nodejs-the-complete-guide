@@ -8,49 +8,55 @@
         <% if (cart.length > 0) { %>
             <div class="cart">
                 <% for (let element of cart) { %>
-                    <article class="cart__item">
-                        <header class="cart__header">
-                            <h1 class="cart__item-title"><%= element.product.title%></h1>
+                    <article class="cart-item">
+                        <header class="cart-item-header">
+                            <h1><%= element.product.title%></h1>
                         </header>
-                        <div class="cart-content">
-                            <div class="cart-content-block">
-                                <div class="cart__image">
-                                    <% if (element.product.imageLink) { %>
-                                    <img src="<%= element.product.imageLink %>" alt="<%= element.product.imageAlt %>">
-                                    <% } else { %>
-                                    <img src="https://media.istockphoto.com/photos/open-book-picture-id495477978?k=6&m=495477978&s=612x612&w=0&h=e673w4tPLT2ZtJ62ytZcF_DBPxMBP57duHK0AFr6lQo=" alt="A Product" alt="Product Image">
-                                    <% } %>
+                        <div class="cart-item-body">
+                            <div class="cart-flex-container">
+                                <div class="cart-content">
+                                    <div class="cart-content__image">
+                                        <% if (element.product.imageLink) { %>
+                                        <img src="<%= element.product.imageLink %>" alt="<%= element.product.imageAlt %>">
+                                        <% } else { %>
+                                        <img src="https://media.istockphoto.com/photos/open-book-picture-id495477978?k=6&m=495477978&s=612x612&w=0&h=e673w4tPLT2ZtJ62ytZcF_DBPxMBP57duHK0AFr6lQo=" alt="A Product" alt="Product Image">
+                                        <% } %>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="cart-content-block cart-content-block__description">
-                                <p class="cart__item-description"><%= element.product.description %></p>
+                            <div class="cart-flex-container cart-flex-container--flex3">
+                                <div class="cart-content">
+                                    <p class="cart-content__description"><%= element.product.description %></p>
+                                </div>
                             </div>
-                            <div class="cart-content-block cart-content-block__details">
-                                <div class="cart__actions">
-                                    <div class="cart__action-line">
-                                        <h4 class="cart__item-price">Item Price: $<%= element.product.price %></h4>
-                                    </div>
-                                    <div class="cart__action-line">
-                                        <h4 class="cart__item-amount">Amount: <%= element.amount %></h4>
-                                    </div>
-                                    <div class="cart__action-line">
-                                        <div class="cart-change-amount">
-                                            <p>Change Amount:</p>
-                                            <button class="btn">-</button>
-                                            <button class="btn">+</button>
+                            <div class="cart-flex-container cart-flex-container--flex5">
+                                <div class="cart-content">
+                                    <div class="cart-content__actions">
+                                        <div class="cart-actions">
+                                            <h4 class="cart-actions__price">Item Price: $<%= element.product.price %></h4>
                                         </div>
-                                    </div>
-                                    <div class="cart__action-line">
-                                        <div class="cart-set-amount">
-                                            <p>Set Amount:</p>
-                                            <input class="cart-update-amount__input" type="number" min="1" max="100" oninput="validity.valid||(value='')">
-                                            <button class="btn btn-uptdate-amount">Update</button>
+                                        <div class="cart-actions">
+                                            <h4 class="cart-actions__amount">Amount: <%= element.amount %></h4>
                                         </div>
-                                    </div>
-                                    <div class="cart__action-line">
-                                        <div class="cart-inline">
-                                            <h2 class="cart__total-price">Total: $<%= element.product.price * element.amount %></h2>
-                                            <button class="btn btn-remove-cart-item">Remove</button>
+                                        <div class="cart-actions">
+                                            <div class="cart-actions__change-amount">
+                                                <p class="cart-actions__change-amount__p">Change Amount:</p>
+                                                <button class="btn btn__cart">-</button>
+                                                <button class="btn btn__cart">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="cart-actions">
+                                            <div class="cart-actions__set-amount">
+                                                <p class="cart-actions__set-amount__p">Set Amount:</p>
+                                                <input class="input-number-small" type="number" min="1" max="100" oninput="validity.valid||(value='')">
+                                                <button class="btn btn__cart">Update</button>
+                                            </div>
+                                        </div>
+                                        <div class="cart-actions">
+                                            <div class="cart-actions__total">
+                                                <h2 class="cart-actions__total__h2">Total: $<%= element.product.price * element.amount %></h2>
+                                                <button class="btn btn__cart--big">Remove</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
