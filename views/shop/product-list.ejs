@@ -24,7 +24,11 @@
                             <p class="product__discription"><%= product.description %></p>
                         </div>
                         <div class="card__actions">
-                            <button class="btn">Add to Cart</button>
+                            <form action="/add-to-cart" method="POST">
+                                <input type="hidden" name="productToAdd", value="<%= JSON.stringify(product) %>">
+                                <input type="hidden" name="amount" value="1">
+                                <button class="btn">Add to Cart</button>
+                            </form>
                         </div>
                     </article>
                 <% } %>

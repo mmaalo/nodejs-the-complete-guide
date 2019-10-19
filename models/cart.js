@@ -43,4 +43,10 @@
                 }
             });
         }
+
+        static overWrite(data) {
+            fs.writeFile(cartPath, JSON.stringify(data), (err) => {
+                console.log(data);
+            })
+        }
     }
