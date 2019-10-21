@@ -41,22 +41,38 @@
                                         <div class="cart-actions">
                                             <div class="cart-actions__change-amount">
                                                 <p class="cart-actions__change-amount__p">Change Amount:</p>
-                                                <button class="btn btn__cart">-</button>
-                                                <button class="btn btn__cart">+</button>
+                                                <form class="cart-amount-form" action="/update-cart-item-amount" method="POST">
+                                                    <input type="hidden" name="amountChange" value="-1">
+                                                    <input type="hidden" name="cartElement" value="<%= JSON.stringify(element) %>">
+                                                    <button type="submit" class="btn btn__cart">-</button>
+                                                </form>
+                                                <form class="cart-amount-form" action="/update-cart-item-amount" method="POST">
+                                                    <input type="hidden" name="amountChange" value="1">
+                                                    <input type="hidden" name="cartElement" value="<%= JSON.stringify(element) %>">
+                                                    <button type="submit" class="btn btn__cart">+</button>
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="cart-actions">
                                             <div class="cart-actions__set-amount">
                                                 <p class="cart-actions__set-amount__p">Set Amount:</p>
-                                                <input class="input-number-small" type="number" min="1" max="100" oninput="validity.valid||(value='')">
-                                                <button class="btn btn__cart">Update</button>
+                                                <form action="/update-cart-item-amount" method="POST">
+                                                    <input class="input-number-small" name='setAmount' type="number" min="1" max="100" oninput="validity.valid||(value='')">
+                                                    <input type="hidden" name="cartElement" value="<%= JSON.stringify(element) %>">
+
+                                                    <button type="submit" class="btn btn__cart">Update</button>
+                                                </form>
+                                                
                                             </div>
                                         </div>
                                         <div class="cart-actions">
                                             <div class="cart-actions__total">
                                                 <h2 class="cart-actions__total__h2">Total: $<%= element.product.price * element.amount %></h2>
-                                                <button class="btn btn__cart--big">Remove</button>
-                                            </div>
+                                                <form action="/remove-cart-item" method="POST">
+                                                    <input type="hidden" name="cartElement" value="<%= JSON.stringify(element) %>">
+                                                    <button type="submit" class="btn btn__cart--big">Remove</button>
+                                                </form>
+                                             </div>
                                         </div>
                                     </div>
                                 </div>

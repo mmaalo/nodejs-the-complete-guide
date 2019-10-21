@@ -54,6 +54,8 @@
             });
         }
 
+
+
         static fetchAll(callback) {
             getProductsFromFile(callback);
         }
