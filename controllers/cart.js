@@ -1,8 +1,5 @@
 // imports
 
-    // core imports
-        fs = require('fs');
-
     // local imports
 
         // models
