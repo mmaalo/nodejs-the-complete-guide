@@ -1,4 +1,5 @@
 // imports
+
     // core imports
         fs = require('fs');
 
@@ -15,9 +16,23 @@
         return typeof value === 'number' && isFinite(value);
     }
 
+    // Checks if a cartItem matches any in the cart. Returns a callback with the index of the first item that matches in the cart. If there is no match 'undefined' will be returned in the callback. 
+    function matchCartAction(cart, cartItem, callback) {
+        let match;
+        for (let i = 0; i < cart.length; i++) {
+            if (JSON.stringify(cart[i].product) == JSON.stringify(cartItem.product)) {
+                match = i;
+                break;
+            }
+        }
+        callback(match);
+    }
+
 // export controller functions
 
+    
     exports.getCart = (req, res, next) => {
+        // // Get all cart items and pass the cart to the view, then render the '/cart' page
         Cart.fetchAll(cart => {
             res.render('shop/cart', {
                 docTitle: 'Cart',
@@ -25,106 +40,87 @@
                 cart: cart
             });
         });
-
     }
 
+    
     exports.postCartItem = (req, res ,next) => {
+
+        // Create a new cart item with the values passed from the view
         const newCartItem = new Cart(
             JSON.parse(req.body.productToAdd),
             req.body.amount
         );
         
-        Cart.fetchAll(oldCart => {
-            let alreadyInCart = false;
-            let cartIndex;
-            let oldAmount;
-            let newAmount;
-
-            for (let i = 0; i < oldCart.length; i++) {
-               if (JSON.stringify(oldCart[i].product) == JSON.stringify(newCartItem.product)) {
-                   alreadyInCart = true;
-                   cartIndex = i;
-                   break;
-               }
-            };
-            if (alreadyInCart == true) {
-                oldAmount = parseInt(oldCart[cartIndex].amount);
-                newAmount = oldAmount + 1;
-                oldCart[cartIndex].amount = newAmount;
-                Cart.overWrite(oldCart);
-
-            } else {
-                newCartItem.save();
-            }
+        // Get all cart items and store them in 'currentCart'
+        Cart.fetchAll(currentCart => {
+            // Check if the new cart item already is in the cart. If it is increase that cart items amount by one.
+            matchCartAction(currentCart, newCartItem, index => {
+                // If index is a number the new cart item is already in the cart.
+                if (isNumber(index)) {
+                    const oldAmount = parseInt(currentCart[index].amount);
+                    const newAmount = oldAmount + 1;
+                    currentCart[index].amount = newAmount;
+                    Cart.overWrite(currentCart);
+                } else {
+                    newCartItem.save();
+                }
+            });
             res.redirect('/cart');
         });
     }
 
     exports.updateCartItemAmount = (req, res, next) => {
+        // Get all cart items and store them in 'currentCart'
         Cart.fetchAll(currentCart => {
-            console.log(req.body.setAmount, req.body.amountChange);
+            // Get the cart element witch we will the amount on
             const cartElement = JSON.parse(req.body.cartElement);
+            // Get the setAmount or changeAmount values from the view. One of them will be undefined, depending on witch was passed by the view.
             const setAmount = parseInt(req.body.setAmount);
-            const changeAmount = parseInt(req.body.amountChange); 
+            const changeAmount = parseInt(req.body.changeAmount);
             let newAmount;
 
-
-
-            if (typeof req.body.setAmount === 'undefined') {
-                console.log('amount change is not undefined');
-                if (parseInt(cartElement.amount) == 1 && changeAmount < 1) {
-                } else if (parseInt(cartElement.amount) + changeAmount <= 0 ) {
-                    console.log('new cart value is less than 1')
-                } else {
-                    console.log('inside else statement')
-                    newAmount = parseInt(cartElement.amount) + changeAmount;
-                    for (let i = 0; i < currentCart.length; i ++) {
-                        if (JSON.stringify(cartElement.product) == JSON.stringify(currentCart[i].product)) {
-                            currentCart[i].amount = newAmount;
-                            Cart.overWrite(currentCart)
-                            break;
-                        }
-                    }
-                }
-
-            } 
-
-            if (typeof req.body.amountChange === 'undefined') {
-                console.log('set change is not undefined');
-                if (setAmount < 1) {
-                    console.log('new amount is less than one');
-                } else if (setAmount == null) {
-                    console.log('changeamount is null');
-                } else {
-                    console.log('inside else statement', setAmount);
+            // Check witch of the setAmount and changeAmount variables that are not undefined and make sure that it is a number. Then calculate the new amount for the cart item
+            if (isNumber(setAmount) && !isNumber(changeAmount)) {
+                if (setAmount > 0) {
                     newAmount = setAmount;
-                    for (let i = 0; i < currentCart.length; i ++) {
-                        if (JSON.stringify(cartElement.product) == JSON.stringify(currentCart[i].product)) {
-                            currentCart[i].amount = newAmount;
-                            Cart.overWrite(currentCart)
-                            break;
-                        }
-                    }
                 }
-            } 
+            }
+
+            if (isNumber(changeAmount) && !isNumber(setAmount)) {
+                if (
+                    isNumber(parseInt(cartElement.amount)) &&
+                    (parseInt(cartElement.amount) + changeAmount >= 1)
+                ) {
+                    newAmount = parseInt(cartElement.amount) + changeAmount;
+                }
+            }
+
+            // Make sure that the new item amount is a finite number before changeing it 
+            if (isNumber(newAmount) && newAmount > 0) {
+                // Find the index of the cart item to be updated in the cart array, change it and overwrite the cart with the change.
+                matchCartAction(currentCart, cartElement, index => {
+                    let newCart = currentCart;
+                    newCart[index].amount = newAmount;
+                    Cart.overWrite(newCart);
+                });
+            }
             res.redirect('/cart');
         });
     }
 
     exports.removeCartItem = (req, res, next) => {
+        // Get all cart items and store them in 'currentCart'
         Cart.fetchAll(currentCart => {
             const cartElement = JSON.parse(req.body.cartElement);
-            let newCart;
-            for (let i = 0; i < currentCart.length; i++) {
-                if (JSON.stringify(cartElement.product) == JSON.stringify(currentCart[i].product)) {
-                    newCart = currentCart;
-                    newCart.splice(i, 1);
-                    break;
+            // Find the index of the cart item to be deleted and overwrite the cart without the deleted cart item.
+            matchCartAction(currentCart, cartElement, index => {
+                let newCart = currentCart;
+                newCart.splice(index, 1);
+                if (isNumber(index)) {
+                    Cart.overWrite(newCart);
                 }
-            }
-            if (typeof newCart !== 'undefined') {
-                Cart.overWrite(newCart);
-            }
+            });
+
             res.redirect('/cart');
         });
     }

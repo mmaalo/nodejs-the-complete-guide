@@ -29,7 +29,9 @@
                 }
                 readCart.push(this);
                 fs.writeFile(cartPath, JSON.stringify(readCart), (err) => {
-                    console.log(err);
+                    if (err) {
+                        console.log(err);
+                    }
                 });
             });
         }
@@ -46,7 +48,9 @@
 
         static overWrite(data) {
             fs.writeFile(cartPath, JSON.stringify(data), (err) => {
-                console.log(err);
+                if (err) {
+                    console.log(err);
+                }
             });
         }
     }

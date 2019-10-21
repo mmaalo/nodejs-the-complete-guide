@@ -42,12 +42,12 @@
                                             <div class="cart-actions__change-amount">
                                                 <p class="cart-actions__change-amount__p">Change Amount:</p>
                                                 <form class="cart-amount-form" action="/update-cart-item-amount" method="POST">
-                                                    <input type="hidden" name="amountChange" value="-1">
+                                                    <input type="hidden" name="changeAmount" value="-1">
                                                     <input type="hidden" name="cartElement" value="<%= JSON.stringify(element) %>">
                                                     <button type="submit" class="btn btn__cart">-</button>
                                                 </form>
                                                 <form class="cart-amount-form" action="/update-cart-item-amount" method="POST">
-                                                    <input type="hidden" name="amountChange" value="1">
+                                                    <input type="hidden" name="changeAmount" value="1">
                                                     <input type="hidden" name="cartElement" value="<%= JSON.stringify(element) %>">
                                                     <button type="submit" class="btn btn__cart">+</button>
                                                 </form>
