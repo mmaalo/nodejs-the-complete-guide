@@ -1,1 +1,1 @@
-[{"product":{"title":"book","imageLink":"","imageAlt":"imagedesc","price":"20","description":"description of book"},"amount":"1"}]
+[{"product":{"title":"book","imageLink":"","imageAlt":"imagedesc","price":"20","description":"description of book"},"amount":3},{"product":{"title":"Book missing data","imageLink":"","imageAlt":"","price":"","description":"description of book missing data"},"amount":"1"}]

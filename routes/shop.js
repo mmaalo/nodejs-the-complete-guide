@@ -14,6 +14,7 @@
 
 // routes
     router.get('/', productsController.getProducs);
+    router.get('/product-detail', urlencodedParser, productsController.getProductDetail);
     router.get('/cart', cartController.getCart);
     router.post('/add-to-cart', urlencodedParser, cartController.postCartItem);
     router.post('/update-cart-item-amount', urlencodedParser, cartController.updateCartItemAmount);

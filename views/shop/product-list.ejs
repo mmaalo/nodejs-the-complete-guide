@@ -9,25 +9,31 @@
             <div class="grid">
                 <% for (let product of prods) { %>
                     <article class="card product-item">
-                        <header class="card__header">
-                            <h1 class="product__title"><%= product.title %></h1>
-                        </header>
-                        <div class="card__image">
-                            <% if (product.imageLink) { %>
-                            <img src="<%= product.imageLink %>" alt="<%= product.imageAlt %>">
-                            <% } else { %>
-                            <img src="https://media.istockphoto.com/photos/open-book-picture-id495477978?k=6&m=495477978&s=612x612&w=0&h=e673w4tPLT2ZtJ62ytZcF_DBPxMBP57duHK0AFr6lQo=" alt="A Product" alt="Product Image">
-                            <% } %>
-                        </div>
-                        <div class="card__content">
-                            <h2 class="product__price">$<%= product.price %></h2>
-                            <p class="product__discription"><%= product.description %></p>
-                        </div>
+                        <form action="/product-detail" method="POST">
+                            <input type="hidden" name="clickedProduct" value="<%= JSON.stringify(product) %>">
+                            <button type="submit" class="btn--cover">
+                                <header class="card__header">
+                                    <h1 class="product__title"><%= product.title %></h1>
+                                </header>
+                                <div class="card__image">
+                                    <% if (product.imageLink) { %>
+                                    <img src="<%= product.imageLink %>" alt="<%= product.imageAlt %>">
+                                    <% } else { %>
+                                    <img src="https://media.istockphoto.com/photos/open-book-picture-id495477978?k=6&m=495477978&s=612x612&w=0&h=e673w4tPLT2ZtJ62ytZcF_DBPxMBP57duHK0AFr6lQo=" alt="A Product" alt="Product Image">
+                                    <% } %>
+                                </div>
+                                <div class="card__content">
+                                    <h2 class="product__price">$<%= product.price %></h2>
+                                    <p class="product__discription"><%= product.description %></p>
+                                </div>
+                            </button>
+                        </form>
+                        
                         <div class="card__actions">
                             <form action="/add-to-cart" method="POST">
-                                <input type="hidden" name="productToAdd", value="<%= JSON.stringify(product) %>">
+                                <input type="hidden" name="productToAdd" value="<%= JSON.stringify(product) %>">
                                 <input type="hidden" name="amount" value="1">
-                                <button class="btn">Add to Cart</button>
+                                <button type="submit" class="btn">Add to Cart</button>
                             </form>
                         </div>
                     </article>
