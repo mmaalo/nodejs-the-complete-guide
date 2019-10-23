@@ -7,10 +7,16 @@
         const router = express.Router();
 
     // local impoorts
-        const productsController = require('../controllers/products');
+        const shopController = require('../controllers/shop');
 
 // routes
-    router.get('/', productsController.getProducs);
+    router.get('/', shopController.getIndex);
+
+    router.get('/products', shopController.getProducs);
+
+    router.get('/cart', shopController.getCart);
+
+    router.get('/checkout', shopController.getCheckout);
 
 // exports
     module.exports = router;

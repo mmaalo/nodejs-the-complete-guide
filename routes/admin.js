@@ -9,15 +9,18 @@
         const urlencodedParser = bodyParser.urlencoded({extended: true});
 
     // local impoorts
-        const productsController = require('../controllers/products');
+        const adminController = require('../controllers/admin');
 
 // routes
 
     // /admin/add-product --> GET
-    router.get('/add-product', productsController.getAddProduct);
+    router.get('/add-product', adminController.getAddProduct);
+
+    // /admin/products --> GET
+    router.get('/products', adminController.getProducts);
 
     // /admin/add-product --> POST 
-    router.post('/add-product', urlencodedParser, productsController.postAddProduct);
+    router.post('/add-product', urlencodedParser, adminController.postAddProduct);
 
 // exports
     module.exports = router;

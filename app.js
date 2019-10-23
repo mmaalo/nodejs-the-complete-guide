@@ -30,10 +30,10 @@
     app.use(express.static(path.join(rootDir, 'public')));
 
 // Routes Middleware
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
+    app.use('/admin', adminRoutes);
+    app.use(shopRoutes);
 
-app.use(errorController.get404);
+    app.use(errorController.get404);
 
 // Start Server
 const server = http.createServer(app);
