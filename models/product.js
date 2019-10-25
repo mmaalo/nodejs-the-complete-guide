@@ -4,6 +4,9 @@
         const fs = require('fs');
         const path = require('path');
 
+    // npm imports
+        const uniqid = require('uniqid');
+
     // local imports
         const rootDir = require('../util/rootDir');
        
@@ -35,6 +38,7 @@
         }
 
         save() {
+            this.id = uniqid('product-');
             getProductsFromFile(products => {
                 products.push(this);
                 fs.writeFile(productsPath, JSON.stringify(products), (err) => {
