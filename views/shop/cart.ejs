@@ -7,7 +7,8 @@
     <main>
         <% if (cart.length > 0) { %>
             <div class="cart">
-                <% for (let element of cart) { %>
+                <div id="myId"></div>
+                <% for (let [i, element] of cart.entries()) { %>
                     <article class="cart-item">
                         <header class="cart-item-header">
                             <h1><%= element.product.title%></h1>
@@ -59,19 +60,21 @@
                                                 <form action="/update-cart-item-amount" method="POST">
                                                     <input class="input-number-small" name='setAmount' type="number" min="1" max="100" oninput="validity.valid||(value='')">
                                                     <input type="hidden" name="cartElement" value="<%= JSON.stringify(element) %>">
-
                                                     <button type="submit" class="btn btn__cart">Update</button>
                                                 </form>
-                                                
+    
                                             </div>
                                         </div>
                                         <div class="cart-actions">
                                             <div class="cart-actions__total">
                                                 <h2 class="cart-actions__total__h2">Total: $<%= element.product.price * element.amount %></h2>
-                                                <form action="/remove-cart-item" method="POST">
+                                                <!-- <form action="/remove-cart-item" method="POST">
                                                     <input type="hidden" name="cartElement" value="<%= JSON.stringify(element) %>">
                                                     <button type="submit" class="btn btn__cart--big">Remove From Cart</button>
-                                                </form>
+                                                </form> -->
+                                                
+                                                <button class="btn btn__cart--big" onclick="houdiniForm('/remove-cart-item', 'post' , [{name: 'cartElement', value: '<%= JSON.stringify(element) %>'}])">Remove From Cart</button>
+
                                              </div>
                                         </div>
                                     </div>
@@ -85,4 +88,5 @@
             <h1>No Items In Cart</h1>
         <% } %>
     </main>
+    <script src="js/forms.js"></script>
 <%- include('../includes/end.ejs') %>
