@@ -1,49 +1,43 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/css/product.css">
-</head>
+    </head>
 
-<body>
-    <%- include('../includes/navigation.ejs') %>
-    <main>
-            <% if (products.length > 0) { %>
-                <div class="grid">
-                    <% for (let element of products) { %>
-                        <article class="card product-item">
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+
+            <main>
+                <% if (products.length > 0) { %>
+                    <div class="grid">
+                        <% for (let product of products) { %>
+                            <article class="card product-item">
                                 <header class="card__header">
-                                    <h1 class="product__title"><%= element.title %></h1>
+                                    <h1 class="product__title">
+                                        <%= product.title %>
+                                    </h1>
                                 </header>
                                 <div class="card__image">
-                                    <% if (typeof element.imageUrl != 'undefined' && element.imageUrl != '') { %>
-                                        <img src="<%= element.imageUrl %>" alt="<%= element.title %>">
-                                    <% } else { %>
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" alt="No Image Avalable">
-                                    <% } %>
+                                    <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
                                 </div>
                                 <div class="card__content">
-                                    <h2 class="product__price">
-                                        <%if (Number.isFinite(parseFloat(element.price))) { %>
-                                            <%=`$${element.price}`; %>
-                                            <% } else { %>
-                                                <%= 'Price On Request'; %>
-                                            <% } %>
+                                    <h2 class="product__price">$
+                                        <%= product.price %>
                                     </h2>
-                                    <p class="product__discription">
-                                        <%= element.description %>
+                                    <p class="product__description">
+                                        <%= product.description %>
                                     </p>
                                 </div>
                                 <div class="card__actions">
-                                    <form style="display:inline;" action="/admin/edit-product" method="GET">
-                                        <button class="btn" type="submit">Edit</button>
-                                    </form>
-                                    <form style="display:inline;" action="/admin/delete-product" method="POST">
+                                    <a href="/admin/edit-product" class="btn">Edit</a>
+                                    <form action="/admin/delete-product" method="POST">
                                         <button class="btn" type="submit">Delete</button>
                                     </form>
+
                                 </div>
                             </article>
-                    <% } %>
-                </div>
-            <% } else { %>
-                <h1>No Products Found</h1>
-            <% } %>
-        </main>
-<%- include('../includes/end.ejs') %>
+                            <% } %>
+                    </div>
+                    <% } else { %>
+                        <h1>No Products Found!</h1>
+                        <% } %>
+            </main>
+            <%- include('../includes/end.ejs') %>
