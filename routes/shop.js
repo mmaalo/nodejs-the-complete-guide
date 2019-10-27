@@ -5,6 +5,8 @@
     // npm imports
         const express = require('express');
         const router = express.Router();
+        const bodyParser = require('body-parser');
+        const urlencodedParser = bodyParser.urlencoded({extended:true});
 
     // local impoorts
         const shopController = require('../controllers/shop');
@@ -17,6 +19,8 @@
     router.get('/products/:productId', shopController.getProduct);
 
     router.get('/cart', shopController.getCart);
+
+    router.post('/cart', urlencodedParser, shopController.postCart);
 
     router.get('/orders', shopController.getOrders);
 
