@@ -4,6 +4,7 @@
 
         // models
             const Product = require('../models/product');
+            const Cart = require('../models/cart');
 
 // export controller functions
 
@@ -48,6 +49,9 @@
 
     exports.postCart = (req, res, next) => {
         const prodId = req.body.productId;
+        Product.findById(prodId, (product) => {
+            Cart.addProduct(prodId, product.price);
+        });
         console.log(prodId);
         res.redirect('/cart');
     }
