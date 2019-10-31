@@ -22,6 +22,8 @@
 
     router.post('/cart', urlencodedParser, shopController.postCart);
 
+    router.post('/cart-delete-item', urlencodedParser, shopController.postCartDeleteProduct);
+
     router.get('/orders', shopController.getOrders);
 
     router.get('/checkout', shopController.getCheckout);
