@@ -24,5 +24,7 @@
     // /admin/add-product --> POST 
     router.post('/add-product', urlencodedParser, adminController.postAddProduct);
 
+    router.post('/edit-product', adminController.postEditProduct);
+
 // exports
     module.exports = router;
