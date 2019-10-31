@@ -29,7 +29,8 @@
 // export models
 
     module.exports = class Product {
-        constructor(title, imageUrl, price, description) {
+        constructor(id, title, imageUrl, price, description) {
+            this.id = id;
             this.title = title;
             this.imageUrl = imageUrl;
             this.price = price;
@@ -38,12 +39,21 @@
         }
 
         save() {
-            this.id = uniqid('product-');
             getProductsFromFile(products => {
-                products.push(this);
-                fs.writeFile(productsPath, JSON.stringify(products), (err) => {
-                    console.log(err);
-                });
+                if (this.id) {
+                    const existingProductIndex = products.findIndex(prod => prod.id === this.id);
+                    const updatedProducts = [...products];
+                    updatedProducts[existingProductIndex] = this;
+                    fs.writeFile(productsPath, JSON.stringify(updatedProducts), (err) => {
+                        console.log(err);
+                    });
+                } else {
+                    this.id = uniqid('product-');
+                    products.push(this);
+                    fs.writeFile(productsPath, JSON.stringify(products), (err) => {
+                        console.log(err);
+                    });
+                }
             });
         }
 
