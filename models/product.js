@@ -57,6 +57,19 @@
             });
         }
 
+        static deleteById(id) {
+            getProductsFromFile(products => {
+                const updatedProducts =  products.findIndex(product => product.id !== id);;
+                fs.writeFile(productsPath, JSON.stringify(updatedProducts), (err) => {
+                    if (!err) {
+
+                    } else {
+                        console.log(err);
+                    }
+                });
+            });
+        }
+
         static fetchAll(callback) {
             getProductsFromFile(callback);
         }

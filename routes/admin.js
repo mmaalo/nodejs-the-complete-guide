@@ -26,5 +26,7 @@
 
     router.post('/edit-product', urlencodedParser, adminController.postEditProduct);
 
+    router.post('/delete-product', urlencodedParser, adminController.postDeleteProduct);
+
 // exports
     module.exports = router;
