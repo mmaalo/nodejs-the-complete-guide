@@ -52,7 +52,6 @@
         const upDescription = req.body.description;
 
         const upProduct = new Product(prodId, upTitle, upImageUrl, upPrice, upDescription);
-        console.log(upProduct);
         upProduct.save();
         res.redirect('/admin/products');
 

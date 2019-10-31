@@ -9,7 +9,7 @@
 
     // local imports
         const rootDir = require('../util/rootDir');
-       
+        const Cart = require('./cart'); 
 // local variables
 
     const productsPath = path.join(rootDir, 'data', 'products.json');
@@ -59,10 +59,13 @@
 
         static deleteById(id) {
             getProductsFromFile(products => {
-                const updatedProducts =  products.findIndex(product => product.id !== id);;
+                console.log(products);
+                const product = products.find(prod => prod.id === id);
+                const updatedProducts =  products.filter(product => product.id !== id);;
                 fs.writeFile(productsPath, JSON.stringify(updatedProducts), (err) => {
                     if (!err) {
-
+                        Cart.deleteProduct(id, product.price);
+                        console.log('cart item should be deleted')
                     } else {
                         console.log(err);
                     }
