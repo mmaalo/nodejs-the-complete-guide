@@ -63,4 +63,15 @@ module.exports = class Cart {
         });
     }
 
+    static getCart(callback) {
+        fs.readFile(cartPath, (err, data) => {
+            const cart = JSON.parse(data);
+            if (!err) {
+                callback(cart);
+            } else {
+                callback(null);
+            }
+        });
+    }
+
 }
