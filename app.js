@@ -18,6 +18,9 @@
         // controllers
             const errorController = require('./controllers/error');
 
+        // database
+            const db = require('./util/database');
+
 // Main App Middleware
     const app = express();
     app.use(helmet());
@@ -32,6 +35,8 @@
 // Routes Middleware
     app.use('/admin', adminRoutes);
     app.use(shopRoutes);
+
+    db.execute('SELECT * FROM PRODUCTS')
 
     app.use(errorController.get404);
 
