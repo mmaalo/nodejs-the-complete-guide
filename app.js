@@ -36,7 +36,7 @@
     app.use('/admin', adminRoutes);
     app.use(shopRoutes);
 
-    db.execute('SELECT * FROM PRODUCTS')
+    db.execute('SELECT * FROM products').then().catch();
 
     app.use(errorController.get404);
 
