@@ -24,7 +24,7 @@
 
     exports.getProducts = (req, res, next) => {
         Product.fetchAll()
-        .then(([rows, fieldData]) => {
+        .then(([rows]) => {
             res.render('shop/product-list', {
                 products: rows,
                 docTitle: 'All Products',
