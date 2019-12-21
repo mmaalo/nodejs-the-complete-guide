@@ -38,6 +38,6 @@
         }
 
         static findById(id) {
-
+            return db.execute('SELECT * FROM products WHERE products.id = ?', [id]);
         }
     } 
