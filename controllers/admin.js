@@ -18,10 +18,16 @@
         const price = req.body.price;
         const description = req.body.description;
 
-        const product = new Product(null, title, imageUrl, price, description);
-        product.save()
+        Product.create({
+            title: title,
+            imageUrl: imageUrl,
+            price: price,
+            description: description
+        })
         .then(() => {
-            res.redirect('/');
+            // console.log(result);
+            console.log('Created Product');
+            // res.redirect('/');
         })
         .catch(err => {
             console.log(err);
