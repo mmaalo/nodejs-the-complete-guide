@@ -19,7 +19,7 @@
             const errorController = require('./controllers/error');
 
         // database
-            const db = require('./util/database');
+            const sequelize = require('./util/database');
 
 // Main App Middleware
     const app = express();
@@ -37,6 +37,13 @@
     app.use(shopRoutes);
     app.use(errorController.get404);
 
-// Start Server
-const server = http.createServer(app);
-server.listen(3000);
+// Sync sequelize tables
+sequelize.sync() // sequelize.sync() syncs all the tables we define with the database
+.then(result => {
+    // console.log(result);
+    // Start server
+    app.listen(3000);
+})
+.catch(err => {
+    console.log(err);
+})
