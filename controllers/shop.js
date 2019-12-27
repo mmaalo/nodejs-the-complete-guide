@@ -9,31 +9,27 @@
 // export controller functions
 
     exports.getIndex = (req, res, next) => {
-        Product.fetchAll()
-        .then(([rows, fieldData]) => {
+        Product.findAll()
+        .then(products => {
             res.render('shop/index', {
-                products: rows,
+                products: products,
                 docTitle: 'Shop',
                 path: "/"
             });
         })
-        .catch(err => {
-            console.log(err)
-        });
+        .catch(err => console.log(err));
     }
 
     exports.getProducts = (req, res, next) => {
-        Product.fetchAll()
-        .then(([rows]) => {
+        Product.findAll()
+        .then( products => {
             res.render('shop/product-list', {
-                products: rows,
+                products: products,
                 docTitle: 'All Products',
                 path: "/products"
             });
         })
-        .catch(err => {
-            console.log(err);
-        });
+        .catch(err => console.log(err));
     }
 
     exports.getProduct = (req, res, next) => {
