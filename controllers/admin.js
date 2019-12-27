@@ -44,15 +44,16 @@
         if (!prodId) {
             return res.redirect('/');
         }
-        Product.findById(prodId, product => {
+        Product.findByPk(prodId)
+        .then(product => {
             res.render('admin/edit-product', {
                 docTitle: "Edit Product",
                 path: '/admin/edit-product',
                 editing: editMode,
                 product: product
             });
-        });
-        
+        })
+        .catch(err => console.log(err));
     }
 
     exports.postEditProduct = (req, res, next) => {
@@ -62,9 +63,22 @@
         const upImageUrl = req.body.imageUrl;
         const upDescription = req.body.description;
 
-        const upProduct = new Product(prodId, upTitle, upImageUrl, upPrice, upDescription);
-        upProduct.save();
-        res.redirect('/admin/products');
+        Product.findByPk(prodId)
+        .then(product => {
+            product.title = upTitle;
+            product.price = upPrice;
+            product.imageUrl = upImageUrl;
+            product.description = upDescription;
+            return product.save()
+        })
+        .then(result => {
+            res.redirect('/admin/products');
+        })
+        .catch(err => console.log(err));
+
+        // const upProduct = new Product(prodId, upTitle, upImageUrl, upPrice, upDescription);
+        // upProduct.save();
+        // res.redirect('/admin/products');
 
 
     }
