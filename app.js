@@ -41,6 +41,7 @@
 sequelize.sync() // sequelize.sync() syncs all the tables we define with the database
 .then(result => {
     // console.log(result);
+
     // Start server
     app.listen(3000);
 })
