@@ -22,7 +22,7 @@
 
     exports.getProducts = (req, res, next) => {
         Product.findAll()
-        .then( products => {
+        .then(products => {
             res.render('shop/product-list', {
                 products: products,
                 docTitle: 'All Products',
@@ -34,15 +34,26 @@
 
     exports.getProduct = (req, res, next) => {
         const productId = req.params.productId;
-        Product.findById(productId)
-        .then(([product]) => {
+        Product.findByPk(productId)
+        .then(product => {
             res.render('shop/product-detail', {
-                product: product[0],
+                product: product,
                 docTitle: product.title,
                 path: `/products` 
             });
         })
         .catch(err => console.log(err));
+
+        // Product.findAll({where: {id: productId} })
+        // .then(products => {
+        //     console.log(products)
+        //     res.render('shop/product-detail', {
+        //         product: products[0],
+        //         docTitle: products[0].title,
+        //         path: `/products` 
+        //     });
+        // })
+        // .catch(err => console.log(err));
     }
 
     exports.getCart = (req, res, next) => {
