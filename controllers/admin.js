@@ -25,9 +25,7 @@
             description: description
         })
         .then(() => {
-            // console.log(result);
-            console.log('Created Product');
-            // res.redirect('/');
+            res.redirect('/');
         })
         .catch(err => {
             console.log(err);
@@ -75,18 +73,18 @@
             res.redirect('/admin/products');
         })
         .catch(err => console.log(err));
-
-        // const upProduct = new Product(prodId, upTitle, upImageUrl, upPrice, upDescription);
-        // upProduct.save();
-        // res.redirect('/admin/products');
-
-
     }
 
     exports.postDeleteProduct = (req, res, next) => {
         const productToDelete = req.body.productId;
-        Product.deleteById(productToDelete);
-        res.redirect('/admin/products');
+        Product.findByPk(productToDelete)
+        .then(product => {
+            return product.destroy();
+        })
+        .then(result => {
+            res.redirect('/admin/products');
+        })
+        .catch(err => console.log(err));
     }
 
 
