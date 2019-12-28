@@ -21,6 +21,10 @@
         // database
             const sequelize = require('./util/database');
 
+        // database models
+            const Product = require('./models/product');
+            const User = require('./models/user');
+
 // Main App Middleware
     const app = express();
     app.use(helmet());
@@ -37,14 +41,21 @@
     app.use(shopRoutes);
     app.use(errorController.get404);
 
-// Sync sequelize tables
-sequelize.sync() // sequelize.sync() syncs all the tables we define with the database
-.then(result => {
-    // console.log(result);
+// Database, sequelize middleware & start server
 
-    // Start server
-    app.listen(3000);
-})
-.catch(err => {
-    console.log(err);
-})
+    // Define relations between models
+        Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
+        // User.hasMany(Product); // This defines the opposite of the line above
+
+    // Sync sequelize tables
+        sequelize
+        .sync({ force: true}) // sequelize.sync() syncs all the tables we define with the database, force: true will drop existing and create new tables if there are any changes to our tables.
+        .then(result => {
+        // console.log(result);
+
+        // Start server
+        app.listen(3000);
+    })
+    .catch(err => {
+        console.log(err);
+    })
