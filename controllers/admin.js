@@ -17,20 +17,20 @@
         const imageUrl = req.body.imageUrl;
         const price = req.body.price;
         const description = req.body.description;
-
-        Product.create({
-            title: title,
-            imageUrl: imageUrl,
-            price: price,
-            description: description
-        })
-        .then(() => {
-            res.redirect('/');
-        })
-        .catch(err => {
-            console.log(err);
-        })
-        res.redirect('/');
+        req.user
+            .createProduct({ // Creates a new product trough sequelize. Sequelize creates the createProduct() method because we connected the Product table to the User table
+                title: title,
+                imageUrl: imageUrl,
+                price: price,
+                description: description
+            })
+            .then(result => {
+                console.log('Created Product')
+                res.redirect('/admin/products');
+            })
+            .catch(err => {
+                console.log(err);
+            }); 
     }
 
     exports.getEditProduct = (req, res, next) => {

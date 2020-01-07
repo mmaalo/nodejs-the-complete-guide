@@ -55,13 +55,13 @@
 
     // Define relations between models
         Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
-        // User.hasMany(Product); // This defines the opposite of the line above
+        User.hasMany(Product);
 
     // Sync sequelize tables
         sequelize
-        //.sync({ force: true}) // sequelize.sync() syncs all the tables we define with the database, force: true will drop existing and create new tables.
+        // .sync({ force: true}) // sequelize.sync() syncs all the tables we define with the database, force: true will drop existing and create new tables.
         .sync()
-        .then(() => {
+        .then(result => {
             return User.findByPk(1);
         })
         .then(user => {
