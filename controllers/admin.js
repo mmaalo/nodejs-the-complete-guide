@@ -42,8 +42,14 @@
         if (!prodId) {
             return res.redirect('/');
         }
-        Product.findByPk(prodId)
-        .then(product => {
+        req.user.getProducts({ where: { id: prodId } }) // Uses sequelize to get products created by the logged in user
+        // Product.findByPk(prodId)
+        // .then(product => {
+        .then(products => {
+            const product = products[0];
+            if (!product) {
+                return res.redirect('/');
+            }
             res.render('admin/edit-product', {
                 docTitle: "Edit Product",
                 path: '/admin/edit-product',
@@ -90,7 +96,8 @@
 
 
     exports.getProducts = (req, res, next) => {
-        Product.findAll()
+        req.user.getProducts()
+        // Product.findAll()
         .then(products => {
             res.render('admin/products', {
                 products: products,
