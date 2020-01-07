@@ -36,6 +36,16 @@
     // Set static folder
     app.use(express.static(path.join(rootDir, 'public')));
 
+    // Get dummy user form db and store it in the request
+    app.use((req, res, next) => {
+        User.findByPk(1)
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => console.log(err));
+    });
+
 // Routes Middleware
     app.use('/admin', adminRoutes);
     app.use(shopRoutes);
@@ -49,13 +59,22 @@
 
     // Sync sequelize tables
         sequelize
-        .sync({ force: true}) // sequelize.sync() syncs all the tables we define with the database, force: true will drop existing and create new tables if there are any changes to our tables.
-        .then(result => {
-        // console.log(result);
-
-        // Start server
-        app.listen(3000);
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        //.sync({ force: true}) // sequelize.sync() syncs all the tables we define with the database, force: true will drop existing and create new tables.
+        .sync()
+        .then(() => {
+            return User.findByPk(1);
+        })
+        .then(user => {
+            if (!user) {
+                return User.create({name: 'User', email: 'mail@mail.com'});
+            } 
+            return user;
+        })
+        .then(user => {
+            // console.log(user)
+            // Start server
+            app.listen(3000);
+        })
+        .catch(err => {
+            console.log(err);
+        })
