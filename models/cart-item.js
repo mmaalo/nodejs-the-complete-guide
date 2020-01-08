@@ -9,13 +9,14 @@
 
 // Cart model
 
-    const Cart = sequelize.define('cart', {
+    const CartItem = sequelize.define('cartitems', {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             allowNull: false,
             primaryKey: true
-        }
+        },
+        quantity: Sequelize.INTEGER
     });
 
-    module.exports = Cart;
+    module.exports = CartItem;

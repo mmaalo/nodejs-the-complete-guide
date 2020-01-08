@@ -25,6 +25,9 @@
             const Product = require('./models/product');
             const User = require('./models/user');
 
+            const Cart = require('./models/cart');
+            const CartItem = require('./models/cart-item');
+
 // Main App Middleware
     const app = express();
     app.use(helmet());
@@ -57,10 +60,15 @@
         Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
         User.hasMany(Product);
 
+        User.hasOne(Cart);
+        Cart.belongsTo(User);
+        Cart.belongsToMany(Product, { through: CartItem });
+        Product.belongsToMany(Cart, { through: CartItem });
+
     // Sync sequelize tables
         sequelize
-        // .sync({ force: true}) // sequelize.sync() syncs all the tables we define with the database, force: true will drop existing and create new tables.
-        .sync()
+        .sync({ force: true}) // sequelize.sync() syncs all the tables we define with the database, force: true will drop existing and create new tables.
+        // .sync()
         .then(result => {
             return User.findByPk(1);
         })
