@@ -5,6 +5,20 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
     <main>
-        <h1>This is the orders route!</h1>
-    </main>
+        <% if (orders.length <= 0) { %>
+            <h1>There are no orders</h1>
+        <% } else { %>
+            <ul>
+                <% orders.forEach(order => { %>
+                    <li>
+                        <h1># <%= order.id %></h1>
+                        <ul>
+                            <% order.products.forEach(product=> { %>
+                                <li><%= product.title %> (<%= product.orderItem.quantity%>)</li>
+                            <% }); %>
+                        </ul>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } %>
     <%- include('../includes/end.ejs') %>
