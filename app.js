@@ -67,8 +67,8 @@
 
     // Sync sequelize tables
         sequelize
-        .sync({ force: true}) // sequelize.sync() syncs all the tables we define with the database, force: true will drop existing and create new tables.
-        // .sync()
+        // .sync({ force: true}) // sequelize.sync() syncs all the tables we define with the database, force: true will drop existing and create new tables.
+        .sync()
         .then(result => {
             return User.findByPk(1);
         })
@@ -79,7 +79,9 @@
             return user;
         })
         .then(user => {
-            // console.log(user)
+            return user.createCart();
+        })
+        .then(cart => {
             // Start server
             app.listen(3000);
         })

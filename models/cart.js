@@ -17,5 +17,5 @@
             primaryKey: true
         }
     });
-
-    module.exports = Cart;
+  
+module.exports = Cart;
