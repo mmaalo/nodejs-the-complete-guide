@@ -12,7 +12,7 @@
     const rootDir = require('./util/rootDir');
 
         // routes
-            // const adminRoutes = require('./routes/admin');
+            const adminRoutes = require('./routes/admin');
             // const shopRoutes = require('./routes/shop');
         
         // controllers
@@ -43,7 +43,7 @@
     // });
 
 // Routes Middleware
-    // app.use('/admin', adminRoutes);
+    app.use('/admin', adminRoutes);
     // app.use(shopRoutes);
     app.use(errorController.get404);
 
