@@ -1,23 +1,14 @@
-const mysql = require('mysql2');
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
 
-// MYSQL - Workbench
-// const pool = mysql.createPool({
-//     host: 'localhost',
-//     user: 'root',
-//     database: 'node-complete',
-//     password: 'password'
-// });
+const mongoConnect = (callback) => {
+    MongoClient
+        .connect('mongodb+srv://user:user@nodejs-2k1so.mongodb.net/test?retryWrites=true&w=majority', {useUnifiedTopology: true})
+        .then(client => {
+            console.log('Connected!')
+            callback(client)
+        })
+        .catch(err => console.log(err));
+}
 
-// module.exports = pool.promise();
-
-
-// Sequelize:
-
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize('node-complete', 'root', 'password', {
-    dialect: 'mysql',
-    host: 'localhost'
-});
-
-module.exports = sequelize;
+module.exports = mongoConnect;
