@@ -19,7 +19,7 @@
             const errorController = require('./controllers/error');
 
         // database
-        const mongoConnect = require('./util/database'); 
+        const mongoConnect = require('./util/database').mongoConnect; 
 
 // Main App Middleware
     const app = express();
@@ -49,7 +49,6 @@
 
 
 // Connect to database and start server
-    mongoConnect((client) => {
-        console.log(client)
+    mongoConnect(() => {
         app.listen(3000)
     });
