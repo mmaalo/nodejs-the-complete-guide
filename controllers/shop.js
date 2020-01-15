@@ -8,7 +8,7 @@
 // export controller functions
 
     exports.getIndex = (req, res, next) => {
-        Product.findAll()
+        Product.fetchAll()
         .then(products => {
             res.render('shop/index', {
                 products: products,
@@ -20,7 +20,7 @@
     }
 
     exports.getProducts = (req, res, next) => {
-        Product.findAll()
+        Product.fetchAll()
         .then(products => {
             res.render('shop/product-list', {
                 products: products,
