@@ -17,13 +17,9 @@
         const imageUrl = req.body.imageUrl;
         const price = req.body.price;
         const description = req.body.description;
-        req.user
-            .createProduct({ // Creates a new product trough sequelize. Sequelize creates the createProduct() method because we connected the Product table to the User table
-                title: title,
-                imageUrl: imageUrl,
-                price: price,
-                description: description
-            })
+        const product = new Product(title, price, description, imageUrl);
+        product
+            .save()
             .then(result => {
                 console.log('Created Product')
                 res.redirect('/admin/products');
