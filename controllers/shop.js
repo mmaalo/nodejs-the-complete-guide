@@ -70,7 +70,9 @@
     }
 
     exports.postCartDeleteProduct = (req, res, next) => {
-        const prodId = req.body.productId;
+        const prodId = req.body.
+        p
+        roductId;
         req.user.deleteItemFromCart(prodId)
         .then(result => {
             res.redirect('/cart');
@@ -79,29 +81,14 @@
     }
 
     exports.postOrder = (req, res, next) => {
-        let fetchedCart = cart;
-        req.user.getCart()
-        .then(cart => {
-            return cart.getProducts();
-        })
-        .then(products => {
-            req.user.createOrder()
-            .then(order => {
-                return order.addProducts(products.map(product => {
-                    product.orderItem = { quantity: product.cartItem.quantity };
-                    return product
-                }));
-            })
-            .catch(err => console.log(err));
-        })
+        let fetchedCart;
+        req.user.addOrder()
         .then(result => {
-            fetchedCart.setProducts(null);
-        })
-        .then(result => {
-            res.redirect('/orders');
+            res.redirect('orders');
         })
         .catch(err => console.log(err)); 
     }
+
 
     exports.getOrders = (req, res, next) => {
         req.user.getOrders({include: ['products']})
