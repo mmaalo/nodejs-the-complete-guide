@@ -21,6 +21,9 @@
         // database
         const mongoConnect = require('./util/database').mongoConnect; 
 
+        // User
+        const User = require('./models/user');
+
 // Main App Middleware
     const app = express();
     app.use(helmet());
@@ -33,14 +36,14 @@
     app.use(express.static(path.join(rootDir, 'public')));
 
     // Get dummy user form db and store it in the request
-    // app.use((req, res, next) => {
-    //     User.findByPk(1)
-    //     .then(user => {
-    //         req.user = user;
-    //         next();
-    //     })
-    //     .catch(err => console.log(err));
-    // });
+    app.use((req, res, next) => {
+        User.findById("5e2116e9d0cc3d64da4e0b4f")
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => console.log(err));
+    });
 
 // Routes Middleware
     app.use('/admin', adminRoutes);
