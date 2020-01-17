@@ -36,7 +36,6 @@
         console.log('product id: ', productId);
         Product.findById(productId)
         .then(product => {
-            console.log('logging product: ', product)
             res.render('shop/product-detail', {
                 product: product,
                 docTitle: product.title,
@@ -59,24 +58,6 @@
             }).catch(err => console.log(err));
         })
         .catch(err => console.log(err));
-        // Cart.getCart(cart => {
-        //     Product.fetchAll(products => {
-        //         const cartProducts = [];
-        //         if (cart.length > 0) {
-        //             for (product of products) {
-        //                 const cartProductData = cart.products.find(prod => prod.id === product.id);
-        //                 if (cartProductData) {
-        //                     cartProducts.push({productData: product, qty: cartProductData.qty});
-        //                 }
-        //             }
-        //         }
-        //         res.render('shop/cart', {
-        //             docTitle: 'Cart',
-        //             path: '/cart',
-        //             products: cartProducts
-        //         });
-        //     });
-        // });
     }
 
     exports.postCart = (req, res, next) => {
@@ -144,7 +125,6 @@
                 }));
             })
             .catch(err => console.log(err));
-            console.log(products);
         })
         .then(result => {
             fetchedCart.setProducts(null);

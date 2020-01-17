@@ -38,6 +38,22 @@ class Product {
             })
             .catch(err => console.log(err));
     }
+
+    static updateById(id, updates) {
+        const db = getDb();
+        return db.collection('products').updateOne({_id: new mongodb.ObjectId(id)}, {$set: updates})
+            .then(result => {
+                console.log('product updated')
+            })
+            .catch(err => console.log(err));
+    }
+
+    static deleteById(id) {
+        const db = getDb();
+        return db.collection('products').deleteOne({_id: new mongodb.ObjectId(id)})
+            .catch(err => console.log(err));
+
+    }
 }
 
 module.exports = Product;
