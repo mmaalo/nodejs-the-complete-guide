@@ -7,6 +7,7 @@
     // NPM modulesthe
     const express = require('express');
     const helmet = require('helmet');
+    const mongoose = require('mongoose');
 
     // Local modules
     const rootDir = require('./util/rootDir');
@@ -17,9 +18,6 @@
         
         // controllers
             const errorController = require('./controllers/error');
-
-        // database
-            const mongoConnect = require('./util/database').mongoConnect; 
 
         // User
             const User = require('./models/user');
@@ -52,6 +50,12 @@
 
 
 // Connect to database and start server
-    mongoConnect(() => {
-        app.listen(3000)
-    });
+    mongoose
+    .connect(
+        'mongodb+srv://user:user@nodejs-2k1so.mongodb.net/test', 
+        { useNewUrlParser: true, useUnifiedTopology: true}
+    )
+    .then(result => {
+        app.listen(3000);
+    })
+    .catch(err => console.log(err));
