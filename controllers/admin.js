@@ -1,5 +1,8 @@
 // Imports
 
+    // NPM imports
+        const mongodb = require('mongodb');
+
     // Local imports
         const Product = require('../models/product');
 
@@ -60,15 +63,15 @@
         const upImageUrl = req.body.imageUrl;
         const upDescription = req.body.description;
 
-        Product.findById(prodId)
-        .then(product => {
-            product.title = upTitle;
-            product.price = upPrice;
-            product.imageUrl = upImageUrl;
-            product.description = upDescription;
-            delete product._id;
-            Product.updateById(prodId, product)
-        })
+        const product = new Product(
+            upTitle,
+            upPrice,
+            upDescription,
+            upImageUrl,
+            new mongodb.ObjectId(prodId)
+        )
+
+        product.save()
         .then(result => {
             res.redirect('/admin/products');
         })

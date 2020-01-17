@@ -22,10 +22,7 @@ class Product {
             dbOp = db.collection('products').insertOne(this)
         }
         return dbOp
-        .then(result => {
-            console.log(result);
-        })
-        .catch(err => console.log(err));
+            .catch(err => console.log(err));
 
 
     }
