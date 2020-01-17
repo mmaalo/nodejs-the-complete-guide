@@ -19,10 +19,10 @@
             const errorController = require('./controllers/error');
 
         // database
-        const mongoConnect = require('./util/database').mongoConnect; 
+            const mongoConnect = require('./util/database').mongoConnect; 
 
         // User
-        const User = require('./models/user');
+            const User = require('./models/user');
 
 // Main App Middleware
     const app = express();
@@ -39,7 +39,7 @@
     app.use((req, res, next) => {
         User.findById("5e2116e9d0cc3d64da4e0b4f")
         .then(user => {
-            req.user = user;
+            req.user = new User(user.username, user.email, user.cart, user._id)
             next();
         })
         .catch(err => console.log(err));
