@@ -1,8 +1,5 @@
 // Imports
 
-    // NPM imports
-        const mongodb = require('mongodb');
-
     // Local imports
         const Product = require('../models/product');
 
@@ -68,7 +65,7 @@
             upPrice,
             upDescription,
             upImageUrl,
-            new mongodb.ObjectId(prodId)
+            prodId
         )
 
         product.save()
