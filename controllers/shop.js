@@ -70,9 +70,7 @@
     }
 
     exports.postCartDeleteProduct = (req, res, next) => {
-        const prodId = req.body.
-        p
-        roductId;
+        const prodId = req.body.productId;
         req.user.deleteItemFromCart(prodId)
         .then(result => {
             res.redirect('/cart');
@@ -81,7 +79,6 @@
     }
 
     exports.postOrder = (req, res, next) => {
-        let fetchedCart;
         req.user.addOrder()
         .then(result => {
             res.redirect('orders');
@@ -91,7 +88,8 @@
 
 
     exports.getOrders = (req, res, next) => {
-        req.user.getOrders({include: ['products']})
+        req.user
+        .getOrders()
         .then(orders => {
             res.render('shop/orders', {
                 docTitle: 'Orders',
