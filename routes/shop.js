@@ -22,13 +22,11 @@
 
     router.post('/cart', urlencodedParser, shopController.postCart);
 
-    // router.post('/cart-delete-item', urlencodedParser, shopController.postCartDeleteProduct);
+    router.post('/cart-delete-item', urlencodedParser, shopController.postCartDeleteProduct);
     
     // router.post('/create-order', shopController.postOrder);
 
     // router.get('/orders', shopController.getOrders);
-
-    // router.get('/checkout', shopController.getCheckout);
 
 // exports
     module.exports = router;
