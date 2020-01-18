@@ -20,7 +20,7 @@
 
     // router.get('/cart', shopController.getCart);
 
-    // router.post('/cart', urlencodedParser, shopController.postCart);
+    router.post('/cart', urlencodedParser, shopController.postCart);
 
     // router.post('/cart-delete-item', urlencodedParser, shopController.postCartDeleteProduct);
     
