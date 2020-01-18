@@ -49,7 +49,6 @@
         .populate('cart.items.productId')
         .execPopulate() // This is needed for populate to return a promise
         .then(user => {
-            console.log(user.cart.items);
             res.render('shop/cart', {
                 path: '/cart',
                 docTitle: 'Your Cart',
@@ -73,7 +72,8 @@
 
     exports.postCartDeleteProduct = (req, res, next) => {
         const prodId = req.body.productId;
-        req.user.deleteItemFromCart(prodId)
+        req.user
+        .removeFromCart(prodId)
         .then(result => {
             res.redirect('/cart');
         })
