@@ -20,7 +20,7 @@
             const errorController = require('./controllers/error');
 
         // User
-            const User = require('./models/user');
+            // const User = require('./models/user');
 
 // Main App Middleware
     const app = express();
@@ -34,14 +34,14 @@
     app.use(express.static(path.join(rootDir, 'public')));
 
     // Get dummy user form db and store it in the request
-    app.use((req, res, next) => {
-        User.findById("5e2116e9d0cc3d64da4e0b4f")
-        .then(user => {
-            req.user = new User(user.username, user.email, user.cart, user._id)
-            next();
-        })
-        .catch(err => console.log(err));
-    });
+    // app.use((req, res, next) => {
+    //     User.findById("5e2116e9d0cc3d64da4e0b4f")
+    //     .then(user => {
+    //         req.user = new User(user.username, user.email, user.cart, user._id)
+    //         next();
+    //     })
+    //     .catch(err => console.log(err));
+    // });
 
 // Routes Middleware
     app.use('/admin', adminRoutes);
@@ -52,7 +52,7 @@
 // Connect to database and start server
     mongoose
     .connect(
-        'mongodb+srv://user:user@nodejs-2k1so.mongodb.net/test', 
+        'mongodb+srv://user:user@nodejs-2k1so.mongodb.net/shop', 
         { useNewUrlParser: true, useUnifiedTopology: true}
     )
     .then(result => {

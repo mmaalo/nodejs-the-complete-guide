@@ -17,10 +17,15 @@
         const imageUrl = req.body.imageUrl;
         const price = req.body.price;
         const description = req.body.description;
-        const product = new Product(title, price, description, imageUrl, null, req.user._id);
+        const product = new Product({
+            title: title, 
+            price: price, 
+            description: description, 
+            imageUrl: imageUrl, 
+        });
         product
-            .save()
-            .then(result => {
+            .save() // save() method is defined by mongoose
+            .then(result => { // mongoose also gives us .then and .catch blocks that work similarly to a promise
                 console.log('Created Product')
                 res.redirect('/admin/products');
             })
