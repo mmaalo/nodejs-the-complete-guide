@@ -22,6 +22,7 @@
             price: price, 
             description: description, 
             imageUrl: imageUrl, 
+            userId: req.user._id
         });
         product
             .save() // save() method is defined by mongoose
