@@ -93,7 +93,12 @@
 
     exports.getProducts = (req, res, next) => {
         Product.find()
+        // .select lets us define witch fields in the document that should be returned or not returned by mongoose
+        // .select('title price -_id')
+        // .populate automatically adds the data from a relational schema. The second input lets us define what feilds should be returned, just like .select
+        // .populate('userId', 'name')
         .then(products => {
+            console.log(products);
             res.render('admin/products', {
                 products: products,
                 docTitle: 'Admin Products',
