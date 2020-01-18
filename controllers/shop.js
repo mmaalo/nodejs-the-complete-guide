@@ -45,15 +45,18 @@
     }
 
     exports.getCart = (req, res, next) => {
-        req.user.getCart()
-        .then(products => {
-                res.render('shop/cart', {
-                    path: '/cart',
-                    docTitle: 'Your Cart',
-                    products: products
-                });
-            })
-            .catch(err => console.log(err));
+        req.user
+        .populate('cart.items.productId')
+        .execPopulate() // This is needed for populate to return a promise
+        .then(user => {
+            console.log(user.cart.items);
+            res.render('shop/cart', {
+                path: '/cart',
+                docTitle: 'Your Cart',
+                products: user.cart.items
+            });
+        })
+        .catch(err => console.log(err));
     }
 
     exports.postCart = (req, res, next) => {
