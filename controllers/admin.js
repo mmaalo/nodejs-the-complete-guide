@@ -65,15 +65,14 @@
         const upImageUrl = req.body.imageUrl;
         const upDescription = req.body.description;
 
-        const product = new Product(
-            upTitle,
-            upPrice,
-            upDescription,
-            upImageUrl,
-            prodId
-        )
-
-        product.save()
+        Product.findById(prodId)
+        .then(product => {
+            product.title = upTitle;
+            product.price = upPrice;
+            product.description = upDescription;
+            product.imageUrl = upImageUrl;
+            return product.save()
+        })
         .then(result => {
             res.redirect('/admin/products');
         })
@@ -82,7 +81,7 @@
 
     exports.postDeleteProduct = (req, res, next) => {
         const prodId = req.body.productId;
-        Product.deleteById(prodId)
+        Product.findByIdAndDelete(prodId)
         .then(result => {
             res.redirect('/admin/products');
         })
@@ -92,7 +91,7 @@
 
 
     exports.getProducts = (req, res, next) => {
-        Product.fetchAll()
+        Product.find()
         .then(products => {
             res.render('admin/products', {
                 products: products,
