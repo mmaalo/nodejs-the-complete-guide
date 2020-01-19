@@ -89,7 +89,7 @@
             const products = user.cart.items.map(i => {
                 return {
                     quantity: i.quantity, 
-                    product: i.productId
+                    product: {...i.productId._doc}
                 }
             });
             const order = new Order({
@@ -109,14 +109,14 @@
 
 
     exports.getOrders = (req, res, next) => {
-        // req.user
-        // // .getOrders()
-        // .then(orders => {
-        //     res.render('shop/orders', {
-        //         docTitle: 'Orders',
-        //         path: '/orders',
-        //         orders: orders
-        //     });
-        // })
-        // .catch(err => console.log(err));
+        req.user
+        .getOrders()
+        .then(orders => {
+            res.render('shop/orders', {
+                docTitle: 'Orders',
+                path: '/orders',
+                orders: orders
+            });
+        })
+        .catch(err => console.log(err));
     }
