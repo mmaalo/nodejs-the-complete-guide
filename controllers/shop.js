@@ -101,7 +101,10 @@
             });
             order.save();
         })
-        .then(result => {
+        .then(() => {
+            return req.user.clearCart();
+        })
+        .then(() => {
             res.redirect('orders');
         })
         .catch(err => console.log(err)); 
