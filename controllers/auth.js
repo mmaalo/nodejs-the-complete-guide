@@ -1,4 +1,4 @@
-const cookieSplitter = require('../util/cookieExtractor');
+const cookiesToObject = require('../util/cookiesToObject');
 
 // export controller functions
 
@@ -11,11 +11,10 @@ const cookieSplitter = require('../util/cookieExtractor');
             //     .spit('=')[1]
 
         // My cookie splitting imported from the util folder
-            // const cookies = cookieSplitter(req.get('Cookie')); 
+            // const cookies = cookiesToObject(req.get('Cookie'), {all: true}); 
 
         // Cookie splitting using the npm package cookie-parser in app.js
             const isLoggedIn = req.cookies.loggedIn === 'true';
-            console.log(isLoggedIn)
 
         res.render('auth/login', {
             isAuthenticated: isLoggedIn,
@@ -30,8 +29,8 @@ const cookieSplitter = require('../util/cookieExtractor');
         res.cookie('tesdft', 'true');
         res.cookie('tesfdst', 'true');
         res.cookie('loggedIn', 'true');
-        res.cookie('tefdsafsdst', 'true');
-        res.cookie('tefdsafsdalkjst', 'true');
+        res.cookie('123123123123');
+        res.cookie('tefdsafsdalkjst', '123123123132');
         res.cookie('fdsafdsafdsafdsa');
         res.redirect('/');
     }
