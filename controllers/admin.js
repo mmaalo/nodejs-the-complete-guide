@@ -7,7 +7,7 @@
     exports.getAddProduct = (req, res, next) => {
         res.render('admin/edit-product', {
             docTitle: "Add Product",
-            isAuthenticated: req.isLoggedIn,
+            isAuthenticated: req.session.isLoggedIn,
             path: '/admin/add-product',
             editing: false
         });
@@ -23,7 +23,7 @@
             price: price, 
             description: description, 
             imageUrl: imageUrl, 
-            userId: req.user._id
+            userId: req.session.user._id
         });
         product
             .save() // save() method is defined by mongoose
@@ -52,7 +52,7 @@
             }
             res.render('admin/edit-product', {
                 docTitle: "Edit Product",
-                isAuthenticated: req.isLoggedIn,
+                isAuthenticated: req.session.isLoggedIn,
                 path: '/admin/edit-product',
                 editing: editMode,
                 product: product
@@ -104,7 +104,7 @@
             res.render('admin/products', {
                 products: products,
                 docTitle: 'Admin Products',
-                isAuthenticated: req.isLoggedIn,
+                isAuthenticated: req.session.isLoggedIn,
                 path: "/admin/products"
             });
         })

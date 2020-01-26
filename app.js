@@ -35,7 +35,8 @@
     const sessionStore = new mongoDBStore({
         uri: MONGODB_URI,
         collection: 'sessions',
-        expires: ONEWEEKINMILLISECONDS
+        expires: ONEWEEKINMILLISECONDS,
+        connectionOptions: {useNewUrlParser: true, useUnifiedTopology: true}
     });
 
     app.use(helmet());
@@ -57,21 +58,11 @@
     // Set static folder
     app.use(express.static(path.join(rootDir, 'public')));
 
-    // Get dummy user form db and store it in the request
-    app.use((req, res, next) => {
-        console.log(req.session);
-        User.findById("5e232e02252a6a2e3f0b3df8")
-        .then(user => {
-            req.user = user;
-            next();
-        })
-        .catch(err => console.log(err));
-    });
 
 // Routes Middleware
+    app.use(authRoutes);
     app.use('/admin', adminRoutes);
     app.use(shopRoutes);
-    app.use(authRoutes);
     app.use(errorController.get404);
 
 

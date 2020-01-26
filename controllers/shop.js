@@ -5,6 +5,7 @@
         // models
             const Product = require('../models/product');
             const Order = require('../models/order');
+            const User = require('../models/user');
 
 // export controller functions
 
@@ -14,7 +15,7 @@
             res.render('shop/index', {
                 products: products,
                 docTitle: 'Shop',
-                isAuthenticated: req.isLoggedIn,
+                isAuthenticated: req.session.isLoggedIn,
                 path: "/"
             });
         })
@@ -27,7 +28,7 @@
             res.render('shop/product-list', {
                 products: products,
                 docTitle: 'All Products',
-                isAuthenticated: req.isLoggedIn,
+                isAuthenticated: req.session.isLoggedIn,
                 path: "/products"
             });
         })
@@ -41,7 +42,7 @@
             res.render('shop/product-detail', {
                 product: product,
                 docTitle: product.title,
-                isAuthenticated: req.isLoggedIn,
+                isAuthenticated: req.session.isLoggedIn,
                 path: `/products` 
             });
         })
@@ -49,14 +50,15 @@
     }
 
     exports.getCart = (req, res, next) => {
-        req.user
+        req.session.user = new User().init(req.session.user);
+        req.session.user
         .populate('cart.items.productId')
         .execPopulate() // This is needed for populate to return a promise
         .then(user => {
             res.render('shop/cart', {
                 path: '/cart',
                 docTitle: 'Your Cart',
-                isAuthenticated: req.isLoggedIn,
+                isAuthenticated: req.session.isLoggedIn,
                 products: user.cart.items
             });
         })
@@ -67,7 +69,7 @@
         const prodId = req.body.productId;
         Product.findById(prodId)
             .then(product => {
-                return req.user.addToCart(product);
+                return req.sessionuser.addToCart(product);
             })
             .then(result => {
                 console.log(result);
@@ -77,7 +79,8 @@
 
     exports.postCartDeleteProduct = (req, res, next) => {
         const prodId = req.body.productId;
-        req.user
+        req.session.user = new User().init(req.session.user);
+        req.session.user
         .removeFromCart(prodId)
         .then(result => {
             res.redirect('/cart');
@@ -86,7 +89,8 @@
     }
 
     exports.postOrder = (req, res, next) => { 
-        req.user
+        req.session.user = new User().init(req.session.user);
+        req.session.user
         .populate('cart.items.productId')
         .execPopulate() // This is needed for populate to return a promise
         .then(user => {
@@ -98,15 +102,15 @@
             });
             const order = new Order({
                 user: {
-                    name: req.user.name,
-                    userId: req.user
+                    name: req.session.user.name,
+                    userId: req.session.user
                 },
                 products: products
             });
             order.save();
         })
         .then(() => {
-            return req.user.clearCart();
+            return req.session.user.clearCart();
         })
         .then(() => {
             res.redirect('orders');
@@ -116,11 +120,12 @@
 
 
     exports.getOrders = (req, res, next) => {
-        Order.find({ "user.userId": req.user._id })
+        req.session.user = new User().init(req.session.user);
+        Order.find({ "user.userId": req.session.user._id })
         .then(orders => {
             res.render('shop/orders', {
                 docTitle: 'Orders',
-                isAuthenticated: req.isLoggedIn,
+                isAuthenticated: req.session.isLoggedIn,
                 path: '/orders',
                 orders: orders
             });

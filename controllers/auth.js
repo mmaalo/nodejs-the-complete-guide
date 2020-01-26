@@ -1,29 +1,21 @@
+const User = require('../models/user');
+
 // export controller functions
 
     exports.getLogin = (req, res, next) => {
-        // Max's cookie splitting
-            // const isLoggedIn = req
-            //     .get('Cookie')
-            //     .split(';')[1]
-            //     .trim()
-            //     .spit('=')[1]
-
-        // My cookie splitting imported from the util folder
-            // const cookiesToObject = require('../util/cookiesToObject');
-            // const cookies = cookiesToObject(req.get('Cookie'), {all: true}); 
-
-        // Cookie splitting using the npm package cookie-parser in app.js
-            const isLoggedIn = req.cookies.loggedIn === 'true';
-
         res.render('auth/login', {
-            isAuthenticated: isLoggedIn,
+            isAuthenticated: false,
             docTitle: 'Login',
             path: '/login'
         });
     }
 
     exports.postLogin = (req, res, next) => {
-        // res.cookie('loggedIn', 'true', {maxAge: 604800000, httpOnly: true});
-        req.session.isLoggedIn = true;
-        res.redirect('/');
+        User.findById("5e232e02252a6a2e3f0b3df8")
+        .then(user => {
+            req.session.user = user;
+            req.session.isLoggedIn = true;
+            res.redirect('/');
+        })
+        .catch(err => console.log(err));
     }
