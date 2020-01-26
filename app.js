@@ -4,10 +4,11 @@
     const http = require('http');
     const path = require('path');
 
-    // NPM modulesthe
+    // NPM modules
     const express = require('express');
     const helmet = require('helmet');
     const mongoose = require('mongoose');
+    const cookieParser = require('cookie-parser');
 
     // Local modules
     const rootDir = require('./util/rootDir');
@@ -26,6 +27,7 @@
 // Main App Middleware
     const app = express();
     app.use(helmet());
+    app.use(cookieParser());
 
     // Set Templating engine and template folder
     app.set('view engine','ejs');
