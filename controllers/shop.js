@@ -11,9 +11,11 @@
     exports.getIndex = (req, res, next) => {
         Product.find()
         .then(products => {
+            console.log(req.isLoggedIn);
             res.render('shop/index', {
                 products: products,
                 docTitle: 'Shop',
+                isAuthenticated: req.isLoggedIn,
                 path: "/"
             });
         })
@@ -26,6 +28,7 @@
             res.render('shop/product-list', {
                 products: products,
                 docTitle: 'All Products',
+                isAuthenticated: req.isLoggedIn,
                 path: "/products"
             });
         })
@@ -39,6 +42,7 @@
             res.render('shop/product-detail', {
                 product: product,
                 docTitle: product.title,
+                isAuthenticated: req.isLoggedIn,
                 path: `/products` 
             });
         })
@@ -53,6 +57,7 @@
             res.render('shop/cart', {
                 path: '/cart',
                 docTitle: 'Your Cart',
+                isAuthenticated: req.isLoggedIn,
                 products: user.cart.items
             });
         })
@@ -116,6 +121,7 @@
         .then(orders => {
             res.render('shop/orders', {
                 docTitle: 'Orders',
+                isAuthenticated: req.isLoggedIn,
                 path: '/orders',
                 orders: orders
             });

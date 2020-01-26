@@ -7,6 +7,7 @@
     exports.getAddProduct = (req, res, next) => {
         res.render('admin/edit-product', {
             docTitle: "Add Product",
+            isAuthenticated: req.isLoggedIn,
             path: '/admin/add-product',
             editing: false
         });
@@ -51,6 +52,7 @@
             }
             res.render('admin/edit-product', {
                 docTitle: "Edit Product",
+                isAuthenticated: req.isLoggedIn,
                 path: '/admin/edit-product',
                 editing: editMode,
                 product: product
@@ -102,6 +104,7 @@
             res.render('admin/products', {
                 products: products,
                 docTitle: 'Admin Products',
+                isAuthenticated: req.isLoggedIn,
                 path: "/admin/products"
             });
         })

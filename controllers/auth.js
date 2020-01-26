@@ -2,12 +2,14 @@
 
     exports.getLogin = (req, res, next) => {
         res.render('auth/login', {
+            isAuthenticated: req.isLoggedIn,
             docTitle: 'Login',
             path: '/login'
         });
     }
 
     exports.postLogin = (req, res, next) => {
-        console.log(req.body);
+        req.isLoggedIn = true;
+        console.log(req.isLoggedIn);
         res.redirect('/');
     }
