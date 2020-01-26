@@ -23,6 +23,7 @@
     }
 
     exports.postLogin = (req, res, next) => {
-        res.cookie('loggedIn', 'true', {maxAge: 604800000, httpOnly: true});
+        // res.cookie('loggedIn', 'true', {maxAge: 604800000, httpOnly: true});
+        req.session.isLoggedIn = true;
         res.redirect('/');
     }

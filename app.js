@@ -46,6 +46,7 @@
 
     // Get dummy user form db and store it in the request
     app.use((req, res, next) => {
+        console.log(req.session);
         User.findById("5e232e02252a6a2e3f0b3df8")
         .then(user => {
             req.user = user;

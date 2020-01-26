@@ -11,7 +11,6 @@
     exports.getIndex = (req, res, next) => {
         Product.find()
         .then(products => {
-            console.log(req.isLoggedIn);
             res.render('shop/index', {
                 products: products,
                 docTitle: 'Shop',
