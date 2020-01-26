@@ -10,6 +10,7 @@
     const mongoose = require('mongoose');
     const cookieParser = require('cookie-parser');
     const session = require('express-session');
+    const mongoDBStore = require('connect-mongodb-session')(session);
 
     // Local modules
     const rootDir = require('./util/rootDir');
@@ -25,15 +26,27 @@
         // User
             const User = require('./models/user');
 
+        // Constants
+            const MONGODB_URI = 'mongodb+srv://user:user@nodejs-2k1so.mongodb.net/shop';
+            const ONEWEEKINMILLISECONDS = 1000 * 60 * 60 * 24 * 7;
+
 // Main App Middleware
     const app = express();
+    const sessionStore = new mongoDBStore({
+        uri: MONGODB_URI,
+        collection: 'sessions',
+        expires: ONEWEEKINMILLISECONDS
+    });
+
     app.use(helmet());
     app.use(cookieParser());
     app.use(session(
         {
             secret: 'long secure string',
             resave: false,
-            saveUninitialized: false
+            saveUninitialized: false,
+            store: sessionStore,
+            maxAge: ONEWEEKINMILLISECONDS
         }
     ));
 
@@ -65,7 +78,7 @@
 // Connect to database and start server
     mongoose
     .connect(
-        'mongodb+srv://user:user@nodejs-2k1so.mongodb.net/shop', 
+        MONGODB_URI, 
         { useNewUrlParser: true, useUnifiedTopology: true}
     )
     .then(result => {
