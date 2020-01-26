@@ -1,5 +1,3 @@
-const cookiesToObject = require('../util/cookiesToObject');
-
 // export controller functions
 
     exports.getLogin = (req, res, next) => {
@@ -11,6 +9,7 @@ const cookiesToObject = require('../util/cookiesToObject');
             //     .spit('=')[1]
 
         // My cookie splitting imported from the util folder
+            // const cookiesToObject = require('../util/cookiesToObject');
             // const cookies = cookiesToObject(req.get('Cookie'), {all: true}); 
 
         // Cookie splitting using the npm package cookie-parser in app.js
@@ -24,13 +23,6 @@ const cookiesToObject = require('../util/cookiesToObject');
     }
 
     exports.postLogin = (req, res, next) => {
-        res.cookie('atest', 'true');
-        res.cookie('aatesdt', 'true');
-        res.cookie('tesdft', 'true');
-        res.cookie('tesfdst', 'true');
-        res.cookie('loggedIn', 'true');
-        res.cookie('123123123123');
-        res.cookie('tefdsafsdalkjst', '123123123132');
-        res.cookie('fdsafdsafdsafdsa');
+        res.cookie('loggedIn', 'true', {maxAge: 604800000, httpOnly: true});
         res.redirect('/');
     }
