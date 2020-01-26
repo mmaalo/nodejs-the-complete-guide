@@ -9,6 +9,7 @@
     const helmet = require('helmet');
     const mongoose = require('mongoose');
     const cookieParser = require('cookie-parser');
+    const session = require('express-session');
 
     // Local modules
     const rootDir = require('./util/rootDir');
@@ -28,6 +29,13 @@
     const app = express();
     app.use(helmet());
     app.use(cookieParser());
+    app.use(session(
+        {
+            secret: 'long secure string',
+            resave: false,
+            saveUninitialized: false
+        }
+    ));
 
     // Set Templating engine and template folder
     app.set('view engine','ejs');
