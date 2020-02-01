@@ -1,5 +1,8 @@
 // imports
 
+    // npm
+        const mongoose = require('mongoose');
+
     // local imports
 
         // models
@@ -50,29 +53,84 @@
     }
 
     exports.getCart = (req, res, next) => {
-        req.session.user = new User().init(req.session.user);
-        req.session.user
-        .populate('cart.items.productId')
-        .execPopulate() // This is needed for populate to return a promise
-        .then(user => {
-            res.render('shop/cart', {
-                path: '/cart',
-                docTitle: 'Your Cart',
-                isAuthenticated: req.session.isLoggedIn,
-                products: user.cart.items
-            });
-        })
-        .catch(err => console.log(err));
+        if (req.session.isLoggedIn === true) {
+            req.session.user = new User().init(req.session.user);
+            req.session.user
+            .populate('cart.items.productId')
+            .execPopulate() // This is needed for populate to return a promise
+            .then(user => {
+                console.log(user.cart.items)
+                res.render('shop/cart', {
+                    path: '/cart',
+                    docTitle: 'Your Cart',
+                    isAuthenticated: req.session.isLoggedIn,
+                    products: user.cart.items
+                });
+            })
+            .catch(err => console.log(err));
+        } else {
+            if (!req.session.tempCart) {
+                res.render('shop/cart', {
+                    path: '/cart',
+                    docTitle: 'Your Cart',
+                    isAuthenticated: false,
+                    products: []
+                })
+            } else {
+                let ids = [];
+                for (let i = 0; i < req.session.tempCart.length; i++) {
+                    ids.push(req.session.tempCart[i].productId);
+                }
+                Product.find()
+                .where('_id').in(ids)
+                .exec()
+                .then(result => {
+                    const products = []
+                    for (let i = 0; i < result.length; i++) {
+                        const push = { productId: result[i], quantity: req.session.tempCart[i].quantity }
+                        products.push(push);
+                    }
+                    return products;
+                })
+                .then(products => {
+                    res.render('shop/cart', {
+                        path: '/cart',
+                        docTitle: 'Your Cart',
+                        isAuthenticated: false,
+                        products: products
+                    })
+                })
+                .catch(err => console.log(err))
+            }
+        }
     }
 
     exports.postCart = (req, res, next) => {
         const prodId = req.body.productId;
         Product.findById(prodId)
             .then(product => {
-                return req.sessionuser.addToCart(product);
+                if (req.session.isLoggedIn) {
+                    req.session.user = new User().init(req.session.user);
+                    return req.session.user.addToCart(product);
+                } else {
+                    if (!req.session.tempCart) {
+                        req.session.tempCart = [{ productId: prodId, quantity: 1 }]
+                    } else {
+                        let match = false;
+                        for (let i = 0; i < req.session.tempCart.length; i++) {
+                            if (req.session.tempCart[i].productId === prodId) {
+                                req.session.tempCart[i].quantity += 1;
+                                match = true;
+                            }
+                        }
+                        if (match === false) {
+                            req.session.tempCart.push({ productId: prodId, quantity: 1 });
+                        }
+                    }
+                }
             })
             .then(result => {
-                console.log(result);
+                // console.log(result);
                 res.redirect('/cart');
             })
     }
@@ -89,46 +147,59 @@
     }
 
     exports.postOrder = (req, res, next) => { 
-        req.session.user = new User().init(req.session.user);
-        req.session.user
-        .populate('cart.items.productId')
-        .execPopulate() // This is needed for populate to return a promise
-        .then(user => {
-            const products = user.cart.items.map(i => {
-                return {
-                    quantity: i.quantity, 
-                    product: {...i.productId._doc}
+        if (req.session.isLoggedIn === true) {
+            req.session.user = new User().init(req.session.user);
+            req.session.user
+            .populate('cart.items.productId')
+            .execPopulate() // This is needed for populate to return a promise
+            .then(user => {
+                const products = user.cart.items.map(i => {
+                    return {
+                        quantity: i.quantity, 
+                        product: {...i.productId._doc}
+                    }
+                });
+                const order = new Order({
+                    user: {
+                        name: req.session.user.name,
+                        userId: req.session.user
+                    },
+                    products: products
+                });
+                order.save();
+            })
+            .then(() => {
+                return req.session.user.clearCart();
+            })
+            .then(() => {
+                if (req.session.user.isLoggedIn) {
+                    res.redirect('orders');
+                } else {
+                    res.redirect('auth/login');
                 }
-            });
-            const order = new Order({
-                user: {
-                    name: req.session.user.name,
-                    userId: req.session.user
-                },
-                products: products
-            });
-            order.save();
-        })
-        .then(() => {
-            return req.session.user.clearCart();
-        })
-        .then(() => {
-            res.redirect('orders');
-        })
-        .catch(err => console.log(err)); 
+            })
+            .catch(err => console.log(err)); 
+        } else {
+            res.redirect('/login');
+        }
     }
 
 
     exports.getOrders = (req, res, next) => {
-        req.session.user = new User().init(req.session.user);
-        Order.find({ "user.userId": req.session.user._id })
-        .then(orders => {
-            res.render('shop/orders', {
-                docTitle: 'Orders',
-                isAuthenticated: req.session.isLoggedIn,
-                path: '/orders',
-                orders: orders
-            });
-        })
-        .catch(err => console.log(err));
+
+        if (req.session.isLoggedIn === true) {
+            req.session.user = new User().init(req.session.user);
+            Order.find({ "user.userId": req.session.user._id })
+            .then(orders => {
+                res.render('shop/orders', {
+                    docTitle: 'Orders',
+                    isAuthenticated: req.session.isLoggedIn,
+                    path: '/orders',
+                    orders: orders
+                });
+            })
+            .catch(err => console.log(err));
+        } else {
+            res.redirect('/login');
+        }
     }

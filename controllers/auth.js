@@ -3,6 +3,9 @@ const User = require('../models/user');
 // export controller functions
 
     exports.getLogin = (req, res, next) => {
+        req.session.isLoggedIn = false;
+        req.session.user = {};
+        delete req.session.tempCart;
         res.render('auth/login', {
             isAuthenticated: false,
             docTitle: 'Login',
