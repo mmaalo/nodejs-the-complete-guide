@@ -15,4 +15,6 @@
     
     router.post('/login', urlencodedParser, authController.postLogin);
 
+    router.post('/logout', urlencodedParser, authController.postLogout);
+
 module.exports = router;
