@@ -69,7 +69,8 @@
         const prodId = req.body.productId;
         Product.findById(prodId)
             .then(product => {
-                return req.sessionuser.addToCart(product);
+                req.session.user = new User().init(req.session.user);
+                return req.session.user.addToCart(product);
             })
             .then(result => {
                 console.log(result);
