@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const bcrypt = require('bcryptjs');
 
 // export controller functions
 
@@ -47,17 +48,25 @@ const User = require('../models/user');
             if (userDoc) {
                 return res.redirect('/signup');
             }
-            const user = new User({
-                email: email,
-                password: password,
-                cart: {
-                    items: []
-                }
-            });
-            return user.save();
+            return bcrypt.hash(password, 12);
         })
-        .then(() => {
-            res.redirect('/login');
+        .then(hashedPassword => {
+            if (hashedPassword) {
+                const user = new User({
+                    email: email,
+                    password: hashedPassword,
+                    cart: {
+                        items: []
+                    }
+                });
+                return user.save();
+            }
+
+        })
+        .then(savedUser => {
+            if (savedUser) {
+                res.redirect('/login');
+            } 
         })
         .catch(err => {
             console.log(err);
