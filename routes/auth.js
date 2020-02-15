@@ -19,6 +19,6 @@
 
     router.get('/signup', authController.getSignup);
 
-    router.post('/signup', urlencodedParser, authController.postSingup);
+    router.post('/signup', urlencodedParser, authController.postSignup);
 
 module.exports = router;
