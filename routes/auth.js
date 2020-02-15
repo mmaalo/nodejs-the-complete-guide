@@ -17,4 +17,8 @@
 
     router.post('/logout', urlencodedParser, authController.postLogout);
 
+    router.get('/signup', authController.getSignup);
+
+    router.post('/signup', urlencodedParser, authController.postSingup);
+
 module.exports = router;

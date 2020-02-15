@@ -29,3 +29,15 @@ const User = require('../models/user');
             res.redirect('/');
         });
     }
+
+    exports.getSignup = (req, res, next) => {
+        res.render('auth/signup', {
+            isAuthenticated: false,
+            docTitle: 'Singup',
+            path: '/singup'
+        });
+    }
+
+    exports.postSingup = (req, res, next) => {
+
+    }
