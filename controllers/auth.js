@@ -48,25 +48,21 @@ const bcrypt = require('bcryptjs');
             if (userDoc) {
                 return res.redirect('/signup');
             }
-            return bcrypt.hash(password, 12);
-        })
-        .then(hashedPassword => {
-            if (hashedPassword) {
-                const user = new User({
-                    email: email,
-                    password: hashedPassword,
-                    cart: {
-                        items: []
-                    }
-                });
-                return user.save();
-            }
+            bcrypt.hash(password, 12)
+            .then(hashedPassword => {
+                    const user = new User({
+                        email: email,
+                        password: hashedPassword,
+                        cart: {
+                            items: []
+                        }
+                    });
+                    return user.save();
 
-        })
-        .then(savedUser => {
-            if (savedUser) {
+            })
+            .then(() => {
                 res.redirect('/login');
-            } 
+            })
         })
         .catch(err => {
             console.log(err);
