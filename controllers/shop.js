@@ -15,9 +15,8 @@
             res.render('shop/index', {
                 products: products,
                 docTitle: 'Shop',
-                isAuthenticated: req.session.isLoggedIn,
                 path: "/",
-                csrfToken: req.csrfToken()
+                isAuthenticated: req.session.isLoggedIn
             });
         })
         .catch(err => console.log(err));

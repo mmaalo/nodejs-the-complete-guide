@@ -7,6 +7,7 @@
     // NPM modules
     const express = require('express');
     const helmet = require('helmet');
+    const bodyParser = require('body-parser');
     const mongoose = require('mongoose');
     const cookieParser = require('cookie-parser');
     const session = require('express-session');
@@ -53,6 +54,9 @@
         }
     ));
 
+    // Enable body parser
+    app.use(bodyParser.urlencoded({extended:false}));
+
     // Enable csrf
     const csrfProtection = csrf();
     app.use(csrfProtection);
@@ -63,6 +67,13 @@
 
     // Set static folder
     app.use(express.static(path.join(rootDir, 'public')));
+
+    // Set variables that are passed into every view
+    app.use((req, res, next) => {
+        res.locals.isAuthenicated = req.session.isLoggedIn;
+        res.locals.csrfToken = req.csrfToken();
+        next();
+    });
 
 
 // Routes Middleware
