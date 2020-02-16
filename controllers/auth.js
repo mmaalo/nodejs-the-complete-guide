@@ -19,24 +19,24 @@ const bcrypt = require('bcryptjs');
             if (!user) {
                 return res.redirect('/login');
             } else {
-                bcrypt.compare(password, user.password)
-                .then(doMatch => {
-                    if (doMatch) {
-                        req.session.user = user;
-                        req.session.isLoggedIn = true;
-                        return req.session.save((err) => {
-                            console.log(err);
-                            res.redirect('/');
-                        });
-                    }
-                    res.redirect('/login');
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.redirect('/login');
-                })
 
+            }
+            bcrypt.compare(password, user.password)
+            .then(doMatch => {
+                if (doMatch) {
+                    req.session.user = user;
+                    req.session.isLoggedIn = true;
+                    return req.session.save((err) => {
+                        console.log(err);
+                        res.redirect('/');
+                    });
                 }
+                res.redirect('/login');
+            })
+            .catch(err => {
+                console.log(err);
+                res.redirect('/login');
+            })
         })
         .catch(err => console.log(err));
     }
