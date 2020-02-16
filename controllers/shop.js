@@ -16,7 +16,8 @@
                 products: products,
                 docTitle: 'Shop',
                 isAuthenticated: req.session.isLoggedIn,
-                path: "/"
+                path: "/",
+                csrfToken: req.csrfToken()
             });
         })
         .catch(err => console.log(err));

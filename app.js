@@ -11,6 +11,7 @@
     const cookieParser = require('cookie-parser');
     const session = require('express-session');
     const mongoDBStore = require('connect-mongodb-session')(session);
+    const csrf = require('csurf');
 
     // Local modules
     const rootDir = require('./util/rootDir');
@@ -32,15 +33,16 @@
 
 // Main App Middleware
     const app = express();
+    app.use(helmet());
+    app.use(cookieParser());
+
+    // Session
     const sessionStore = new mongoDBStore({
         uri: MONGODB_URI,
         collection: 'sessions',
         expires: ONEWEEKINMILLISECONDS,
         connectionOptions: {useNewUrlParser: true, useUnifiedTopology: true}
     });
-
-    app.use(helmet());
-    app.use(cookieParser());
     app.use(session(
         {
             secret: 'long secure string',
@@ -50,6 +52,10 @@
             maxAge: ONEWEEKINMILLISECONDS
         }
     ));
+
+    // Enable csrf
+    const csrfProtection = csrf();
+    app.use(csrfProtection);
 
     // Set Templating engine and template folder
     app.set('view engine','ejs');
