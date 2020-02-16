@@ -12,14 +12,31 @@ const bcrypt = require('bcryptjs');
     }
 
     exports.postLogin = (req, res, next) => {
-        User.findById("5e232e02252a6a2e3f0b3df8")
+        const email = req.body.email;
+        const password = req.body.password;
+        User.findOne( { email: email } )
         .then(user => {
-            req.session.user = user;
-            req.session.isLoggedIn = true;
-            req.session.save((err) => {
-                console.log(err);
-                res.redirect('/');
-            });
+            if (!user) {
+                return res.redirect('/login');
+            } else {
+                bcrypt.compare(password, user.password)
+                .then(doMatch => {
+                    if (doMatch) {
+                        req.session.user = user;
+                        req.session.isLoggedIn = true;
+                        return req.session.save((err) => {
+                            console.log(err);
+                            res.redirect('/');
+                        });
+                    }
+                    res.redirect('/login');
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.redirect('/login');
+                })
+
+                }
         })
         .catch(err => console.log(err));
     }
