@@ -13,6 +13,7 @@
     const session = require('express-session');
     const mongoDBStore = require('connect-mongodb-session')(session);
     const csrf = require('csurf');
+    const flash = require('connect-flash');
 
     // Local modules
     const rootDir = require('./util/rootDir');
@@ -60,6 +61,9 @@
     // Enable csrf
     const csrfProtection = csrf();
     app.use(csrfProtection);
+
+    // Enable connect flash
+    app.use(flash());
 
     // Set Templating engine and template folder
     app.set('view engine','ejs');

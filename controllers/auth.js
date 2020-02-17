@@ -7,7 +7,8 @@ const bcrypt = require('bcryptjs');
         res.render('auth/login', {
             isAuthenticated: req.session.isLoggedIn,
             docTitle: 'Login',
-            path: '/login'
+            path: '/login',
+            errorMessage: req.flash('errorMessage')
         });
     }
 
@@ -17,6 +18,7 @@ const bcrypt = require('bcryptjs');
         User.findOne( { email: email } )
         .then(user => {
             if (!user) {
+                req.flash('errorMessage', 'Invalid Email or Password');
                 return res.redirect('/login');
             } else {
 

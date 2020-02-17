@@ -6,6 +6,9 @@
 </body>
 <%- include('../includes/navigation.ejs') %>
 <main>
+    <% if (errorMessage) { %>
+        <div><%= errorMessage %></div>
+    <% } %>
     <form class="login-form" method="POST" action="/login">
         <div class="form-control">
             <label for="email">Email</label>
@@ -19,4 +22,5 @@
         <button class="btn" type="submit">Log in</button>
     </form>
 </main>
+
 <%- include('../includes/end.ejs') %>
