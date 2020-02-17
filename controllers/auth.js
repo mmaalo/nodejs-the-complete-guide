@@ -1,20 +1,15 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const flashMessage = require('../util/flashMessage');
 
 // export controller functions
 
     exports.getLogin = (req, res, next) => {
-        let message = req.flash('errorMessage');
-        if (message.length > 0) {
-            message = message[0];
-        } else {
-            message = null;
-        }
         res.render('auth/login', {
             isAuthenticated: req.session.isLoggedIn,
             docTitle: 'Login',
             path: '/login',
-            errorMessage: message
+            errorMessage: flashMessage(req.flash('errorMessage')) 
         });
     }
 
@@ -43,6 +38,7 @@ const bcrypt = require('bcryptjs');
             })
             .catch(err => {
                 console.log(err);
+                req.flash('errorMessage', 'Invalid Email or Password');
                 res.redirect('/login');
             })
         })
@@ -60,7 +56,8 @@ const bcrypt = require('bcryptjs');
         res.render('auth/signup', {
             isAuthenticated: false,
             docTitle: 'Singup',
-            path: '/singup'
+            path: '/singup',
+            errorMessage: flashMessage(req.flash('errorMessage')) 
         });
     }
 
@@ -71,6 +68,11 @@ const bcrypt = require('bcryptjs');
         User.findOne( { email: email } )
         .then(userDoc => {
             if (userDoc) {
+                req.flash('errorMessage', 'User already exists');
+                return res.redirect('/signup');
+            }
+            if (password != confirmPassword) {
+                req.flash('errorMessage', 'Passwords must match');
                 return res.redirect('/signup');
             }
             bcrypt.hash(password, 12)
