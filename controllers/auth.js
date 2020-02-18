@@ -1,6 +1,18 @@
-const User = require('../models/user');
-const bcrypt = require('bcryptjs');
-const flashMessage = require('../util/flashMessage');
+// imports
+
+    // npm imports
+        const bcrypt = require('bcryptjs');
+        const flashMessage = require('../util/flashMessage');
+        const nodemailer = require('nodemailer');
+        const sgTransport = require('nodemailer-sendgrid-transport');
+        const sgMail = require('@sendgrid/mail');
+
+    // local imports  
+        const User = require('../models/user');
+        const sendgrid_API_KEY = require('../sendgrid_API_KEY');
+
+// init
+    sgMail.setApiKey(sendgrid_API_KEY);
 
 // export controller functions
 
@@ -89,7 +101,14 @@ const flashMessage = require('../util/flashMessage');
             })
             .then(() => {
                 res.redirect('/login');
+                return sgMail.send({
+                        to: email,
+                        from: 'signup-nodecomplete@test123.com',
+                        subject: 'Signup Successful',
+                        html: `<h1>You Have Successfully Signed Up!</h1>`
+                });
             })
+            .catch(err => console.log(err));
         })
         .catch(err => {
             console.log(err);
