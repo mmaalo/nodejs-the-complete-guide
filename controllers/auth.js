@@ -1,6 +1,20 @@
-const User = require('../models/user');
-const bcrypt = require('bcryptjs');
-const flashMessage = require('../util/flashMessage');
+// imports
+
+    // npm imports
+        const bcrypt = require('bcryptjs');
+        const flashMessage = require('../util/flashMessage');
+        const nodemailer = require('nodemailer');
+        const sendgridTransport = require('nodemailer-sendgrid-transport');
+
+    // local imports  
+        const User = require('../models/user');
+
+// init
+    const transporter = nodemailer.createTransport(sendgridTransport({
+        auth: {
+            api_key: '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'
+        }
+    }))
 
 // export controller functions
 
@@ -89,7 +103,14 @@ const flashMessage = require('../util/flashMessage');
             })
             .then(() => {
                 res.redirect('/login');
+                return transporter.sendMail({
+                    to: email,
+                    from: 'shop@node-complete.com',
+                    subject: 'Signup Succeeded',
+                    html: `<h1>You Successfully Signed Up!</h1>`
+                });
             })
+            .catch(err => console.log(err));
         })
         .catch(err => {
             console.log(err);
