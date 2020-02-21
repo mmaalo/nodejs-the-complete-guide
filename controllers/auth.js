@@ -1,5 +1,8 @@
 // imports
 
+    // core imports
+        const crypto = require('crypto');
+
     // npm imports
         const bcrypt = require('bcryptjs');
         const flashMessage = require('../util/flashMessage');
@@ -122,4 +125,36 @@
             path: '/reset',
             errorMessage: flashMessage(req.flash('errorMessage')) 
         });
+    }
+
+    exports.postReset = (req, res, next) => {
+        crypto.randomBytes(32, (err, buffer) => {
+            if (err) {
+                console.log(err);
+                return res.redirect('/reset');
+            }
+            const token = buffer.toString('hex');
+            User.findOne({email: req.body.email})
+            .then(user => {
+                if (!user) {
+                    req.flash('error', 'No account with that user found');
+                    res.redirect('/reset');
+                }
+                user.resetToken = token;
+                user.resetTokenExpiration = Date.now() + (1000 * 60 * 60);
+                user.save();
+                return user;
+            })
+            .then(user => {
+                console.log('logging user again', user);
+                res.redirect('/login');
+                return sgMail.send({
+                    to: user.email,
+                    from: 'email@test123.com',
+                    subject: 'Reset Password',
+                    html: `<h1>your resett password link is <a href="http://www.localhost:3000/reset/${user.resetToken}">here</a> and it is valid for one hour.</h1>`
+                });
+            })
+            .catch(err => console.log(err));
+        });   
     }

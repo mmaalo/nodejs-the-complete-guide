@@ -23,4 +23,6 @@
 
     router.get('/reset', authController.getReset);
 
+    router.post('/reset', urlencodedParser, authController.postReset);
+
 module.exports = router;
