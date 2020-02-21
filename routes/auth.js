@@ -21,4 +21,6 @@
 
     router.post('/signup', urlencodedParser, authController.postSignup);
 
+    router.get('/reset', authController.getReset);
+
 module.exports = router;

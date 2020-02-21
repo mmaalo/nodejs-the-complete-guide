@@ -3,8 +3,6 @@
     // npm imports
         const bcrypt = require('bcryptjs');
         const flashMessage = require('../util/flashMessage');
-        const nodemailer = require('nodemailer');
-        const sgTransport = require('nodemailer-sendgrid-transport');
         const sgMail = require('@sendgrid/mail');
 
     // local imports  
@@ -114,4 +112,14 @@
             console.log(err);
         })
 
+    }
+
+
+    exports.getReset = (req, res, next) => {
+        res.render('auth/reset', {
+            isAuthenticated: req.session.isLoggedIn,
+            docTitle: 'Reset Password',
+            path: '/reset',
+            errorMessage: flashMessage(req.flash('errorMessage')) 
+        });
     }
