@@ -94,7 +94,7 @@
 
 
     exports.getProducts = (req, res, next) => {
-        Product.find()
+        Product.find({userId: req.session.user._id})
         // .select lets us define witch fields in the document that should be returned or not returned by mongoose
         // .select('title price -_id')
         // .populate automatically adds the data from a relational schema. The second input lets us define what feilds should be returned, just like .select
