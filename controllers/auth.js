@@ -123,7 +123,7 @@
             isAuthenticated: req.session.isLoggedIn,
             docTitle: 'Reset Password',
             path: '/reset',
-            errorMessage: flashMessage(req.flash('errorMessage')) 
+            errorMessage: flashMessage(req.flash('error')) 
         });
     }
 
