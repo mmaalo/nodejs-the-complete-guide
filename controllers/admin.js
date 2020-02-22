@@ -70,22 +70,26 @@
 
         Product.findById(prodId)
         .then(product => {
+            if(product.userId !== req.session.user._id) {
+                return res.redirect('login');
+            }
             product.title = upTitle;
             product.price = upPrice;
             product.description = upDescription;
             product.imageUrl = upImageUrl;
             return product.save()
-        })
-        .then(result => {
-            res.redirect('/admin/products');
+                .then(() => {
+                    res.redirect('/admin/products');
+                })
+                .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
     }
 
     exports.postDeleteProduct = (req, res, next) => {
         const prodId = req.body.productId;
-        Product.findByIdAndDelete(prodId)
-        .then(result => {
+        Product.deleteOne({_id: prodId, userId: req.session.user._id})
+        .then(() => {
             res.redirect('/admin/products');
         })
         .catch(err => console.log(err));
@@ -94,7 +98,8 @@
 
 
     exports.getProducts = (req, res, next) => {
-        Product.find({userId: req.session.user._id})
+        Product.find()
+        // Product.find({userId: req.session.user._id})
         // .select lets us define witch fields in the document that should be returned or not returned by mongoose
         // .select('title price -_id')
         // .populate automatically adds the data from a relational schema. The second input lets us define what feilds should be returned, just like .select
