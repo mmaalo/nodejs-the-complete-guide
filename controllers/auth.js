@@ -158,3 +158,22 @@
             .catch(err => console.log(err));
         });   
     }
+
+    exports.getNewPassword = (req, res, next) => {
+        const token = req.params.token;
+        User.findOne({resetToken: token, resetTokenExpiration: {$gt: Date.now()}})
+        .then(user => {
+            if (!user) {
+                req.flash('error', 'Reset link expired or no such user exists');
+                return res.redirect('/login');
+            }
+            res.render('auth/new-password', {
+                isAuthenticated: req.session.isLoggedIn,
+                docTitle: 'New Password',
+                path: '/new-password',
+                errorMessage: flashMessage(req.flash('error')),
+                userId: user._id.toString()
+            });
+        })
+        .catch(err => console.log(err));
+    }

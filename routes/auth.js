@@ -25,4 +25,6 @@
 
     router.post('/reset', urlencodedParser, authController.postReset);
 
+    router.get('/reset/:token', authController.getNewPassword);
+
 module.exports = router;
