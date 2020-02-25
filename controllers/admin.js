@@ -70,7 +70,7 @@
 
         Product.findById(prodId)
         .then(product => {
-            if(product.userId !== req.session.user._id) {
+            if(product.userId.toString() !== req.session.user._id.toString()) {
                 return res.redirect('login');
             }
             product.title = upTitle;
