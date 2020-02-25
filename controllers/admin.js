@@ -2,6 +2,7 @@
 
     // Local imports
         const Product = require('../models/product');
+        const flashMessage = require('../util/flashMessage');
 
 // Export controller functions
     exports.getAddProduct = (req, res, next) => {
@@ -50,6 +51,10 @@
             if (!product) {
                 return res.redirect('/');
             }
+            if(product.userId.toString() !== req.session.user._id.toString()) {
+                req.flash('errorMessage', 'Cannot edit product crated by another user');
+                return res.redirect('/admin/products');
+            }
             res.render('admin/edit-product', {
                 docTitle: "Edit Product",
                 isAuthenticated: req.session.isLoggedIn,
@@ -88,9 +93,17 @@
 
     exports.postDeleteProduct = (req, res, next) => {
         const prodId = req.body.productId;
-        Product.deleteOne({_id: prodId, userId: req.session.user._id})
-        .then(() => {
-            res.redirect('/admin/products');
+        Product.findOne({_id: prodId, userId: req.session.user._id})
+        .then(product => {
+            if(product == null) {
+                req.flash('errorMessage', 'Cannot delete product crated by another user');
+                return res.redirect('/admin/products');
+            }
+            Product.deleteOne({_id: prodId, userId: req.session.user._id})
+            .then(() => {
+                res.redirect('/admin/products');
+            })
+            .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
     }
@@ -99,18 +112,13 @@
 
     exports.getProducts = (req, res, next) => {
         Product.find()
-        // Product.find({userId: req.session.user._id})
-        // .select lets us define witch fields in the document that should be returned or not returned by mongoose
-        // .select('title price -_id')
-        // .populate automatically adds the data from a relational schema. The second input lets us define what feilds should be returned, just like .select
-        // .populate('userId', 'name')
         .then(products => {
-            console.log(products);
             res.render('admin/products', {
                 products: products,
                 docTitle: 'Admin Products',
                 isAuthenticated: req.session.isLoggedIn,
-                path: "/admin/products"
+                path: "/admin/products",
+                errorMessage: flashMessage(req.flash('errorMessage'))
             });
         })
         .catch(err => console.log(err));

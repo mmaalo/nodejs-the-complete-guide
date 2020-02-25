@@ -22,7 +22,7 @@
             isAuthenticated: req.session.isLoggedIn,
             docTitle: 'Login',
             path: '/login',
-            errorMessage: flashMessage(req.flash('errorMessage')) 
+            errorMessage: flashMessage(req.flash('errorMessage'))
         });
     }
 
