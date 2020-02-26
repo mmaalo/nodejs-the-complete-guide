@@ -20,7 +20,10 @@
 
     router.get('/signup', authController.getSignup);
 
-    router.post('/signup', urlencodedParser, check('email').isEmail(), authController.postSignup);
+    router.post('/signup', 
+        urlencodedParser, 
+        check('email').isEmail().withMessage('Please enter a valid email'), 
+        authController.postSignup);
 
     router.get('/reset', authController.getReset);
 

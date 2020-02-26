@@ -86,7 +86,7 @@
                 isAuthenticated: false,
                 docTitle: 'Singup',
                 path: '/singup',
-                errorMessage: JSON.stringify(errors.array())
+                errorMessage: errors.array()[0].msg
             });
         }
         User.findOne( { email: email } )
