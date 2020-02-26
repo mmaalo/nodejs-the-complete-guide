@@ -7,6 +7,7 @@
         const bcrypt = require('bcryptjs');
         const flashMessage = require('../util/flashMessage');
         const sgMail = require('@sendgrid/mail');
+        const { validationResult } = require('express-validator');
 
     // local imports  
         const User = require('../models/user');
@@ -78,6 +79,16 @@
         const email = req.body.email;
         const password = req.body.password;
         const confirmPassword = req.body.confirmPassword;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log('errors: ', errors.array()[0]);
+            return res.status(422).render('auth/signup', {
+                isAuthenticated: false,
+                docTitle: 'Singup',
+                path: '/singup',
+                errorMessage: JSON.stringify(errors.array())
+            });
+        }
         User.findOne( { email: email } )
         .then(userDoc => {
             if (userDoc) {

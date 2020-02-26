@@ -5,6 +5,7 @@
         const router = express.Router();
         const bodyParser = require('body-parser');
         const urlencodedParser = bodyParser.urlencoded({extended: true});
+        const { check } = require('express-validator');
 
     // local imports
         const authController = require('../controllers/auth');
@@ -19,7 +20,7 @@
 
     router.get('/signup', authController.getSignup);
 
-    router.post('/signup', urlencodedParser, authController.postSignup);
+    router.post('/signup', urlencodedParser, check('email').isEmail(), authController.postSignup);
 
     router.get('/reset', authController.getReset);
 
