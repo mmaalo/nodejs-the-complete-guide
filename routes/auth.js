@@ -22,7 +22,15 @@
 
     router.post('/signup', 
         urlencodedParser, 
-        check('email').isEmail().withMessage('Please enter a valid email'), 
+        check('email')
+            .isEmail()
+            .withMessage('Please enter a valid email')
+            .custom((value, {req}) => {
+                if (value === 'test2@test.com') {
+                    throw new Error('This email address i forbidden.');
+                }
+                return true;
+        }),
         authController.postSignup);
 
     router.get('/reset', authController.getReset);
