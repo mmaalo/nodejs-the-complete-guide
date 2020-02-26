@@ -89,43 +89,28 @@
                 errorMessage: errors.array()[0].msg
             });
         }
-        User.findOne( { email: email } )
-        .then(userDoc => {
-            if (userDoc) {
-                req.flash('errorMessage', 'User already exists');
-                return res.redirect('/signup');
-            }
-            if (password != confirmPassword) {
-                req.flash('errorMessage', 'Passwords must match');
-                return res.redirect('/signup');
-            }
-            bcrypt.hash(password, 12)
-            .then(hashedPassword => {
-                    const user = new User({
-                        email: email,
-                        password: hashedPassword,
-                        cart: {
-                            items: []
-                        }
-                    });
-                    return user.save();
-
-            })
-            .then(() => {
-                res.redirect('/login');
-                return sgMail.send({
-                        to: email,
-                        from: 'signup-nodecomplete@test123.com',
-                        subject: 'Signup Successful',
-                        html: `<h1>You Have Successfully Signed Up!</h1>`
+        bcrypt.hash(password, 12)
+        .then(hashedPassword => {
+                const user = new User({
+                    email: email,
+                    password: hashedPassword,
+                    cart: {
+                        items: []
+                    }
                 });
-            })
-            .catch(err => console.log(err));
-        })
-        .catch(err => {
-            console.log(err);
-        })
+                return user.save();
 
+        })
+        .then(() => {
+            res.redirect('/login');
+            return sgMail.send({
+                    to: email,
+                    from: 'signup-nodecomplete@test123.com',
+                    subject: 'Signup Successful',
+                    html: `<h1>You Have Successfully Signed Up!</h1>`
+            });
+        })
+        .catch(err => console.log(err));
     }
 
 

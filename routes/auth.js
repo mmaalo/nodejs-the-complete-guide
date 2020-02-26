@@ -9,6 +9,7 @@
 
     // local imports
         const authController = require('../controllers/auth');
+        const User = require('../models/user');
 
 // Routes
 
@@ -27,11 +28,17 @@
                 .isEmail()
                 .withMessage('Please enter a valid email')
                 .custom((value, {req}) => {
-                    if (value === 'test2@test.com') {
-                        throw new Error('This email address i forbidden.');
-                    }
-                    return true;
-            }),
+                    // if (value === 'test2@test.com') {
+                    //     throw new Error('This email address i forbidden.');
+                    // }
+                    // return true;
+                    return User.findOne( { email: value} )
+                        .then(userDoc => {
+                            if (userDoc) {
+                                return Promise.reject("User already exists");
+                            }
+                        });
+                }),
             body('Please enter a passord between 5 and 64 alphanumeric characters')
                 .isLength({min: 5, max: 64})
                 .isAlphanumeric(),
