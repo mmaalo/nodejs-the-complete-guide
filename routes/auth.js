@@ -32,9 +32,16 @@
                     }
                     return true;
             }),
-            body('password', 'Please enter a passord between 5 and 64 alphanumeric characters')
+            body('Please enter a passord between 5 and 64 alphanumeric characters')
                 .isLength({min: 5, max: 64})
-                .isAlphanumeric()
+                .isAlphanumeric(),
+            body('confirmPassword')
+                .custom((value, { req }) => {
+                    if (value !== req.body.password) {
+                        throw new Error('Password fields must match')
+                    } 
+                    return true;
+                })
         ],
         authController.postSignup);
 
