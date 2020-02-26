@@ -5,7 +5,7 @@
         const router = express.Router();
         const bodyParser = require('body-parser');
         const urlencodedParser = bodyParser.urlencoded({extended: true});
-        const { check } = require('express-validator');
+        const { check, body} = require('express-validator');
 
     // local imports
         const authController = require('../controllers/auth');
@@ -21,16 +21,21 @@
     router.get('/signup', authController.getSignup);
 
     router.post('/signup', 
-        urlencodedParser, 
-        check('email')
-            .isEmail()
-            .withMessage('Please enter a valid email')
-            .custom((value, {req}) => {
-                if (value === 'test2@test.com') {
-                    throw new Error('This email address i forbidden.');
-                }
-                return true;
-        }),
+        urlencodedParser,
+        [
+            body('email')
+                .isEmail()
+                .withMessage('Please enter a valid email')
+                .custom((value, {req}) => {
+                    if (value === 'test2@test.com') {
+                        throw new Error('This email address i forbidden.');
+                    }
+                    return true;
+            }),
+            body('password', 'Please enter a passord between 5 and 64 alphanumeric characters')
+                .isLength({min: 5, max: 64})
+                .isAlphanumeric()
+        ],
         authController.postSignup);
 
     router.get('/reset', authController.getReset);
