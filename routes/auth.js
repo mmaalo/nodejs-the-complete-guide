@@ -39,9 +39,10 @@
                             }
                         });
                 }),
-            body('Please enter a passord between 5 and 64 alphanumeric characters')
+            body('password')
+                .isAlphanumeric()
                 .isLength({min: 5, max: 64})
-                .isAlphanumeric(),
+                .withMessage('Please enter a passord between 5 and 64 alphanumeric characters'),
             body('confirmPassword')
                 .custom((value, { req }) => {
                     if (value !== req.body.password) {
