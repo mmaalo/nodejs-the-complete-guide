@@ -45,7 +45,7 @@
         .then(user => {
             if (!user) {
                 req.flash('errorMessage', 'Invalid Email or Password');
-                return res.redirect('/login');
+                return res.status(422).redirect('/login');
             } else {
 
             }
@@ -82,7 +82,9 @@
             isAuthenticated: false,
             docTitle: 'Singup',
             path: '/singup',
-            errorMessage: flashMessage(req.flash('errorMessage')) 
+            errorMessage: flashMessage(req.flash('errorMessage')),
+            oldInput: {email: '', password: '', confirmPassword: ''},
+            validationErrors: []
         });
     }
 
@@ -91,12 +93,14 @@
         const password = req.body.password;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log('errors: ', errors.array()[0]);
+            console.log('errors: ', errors.array());
             return res.status(422).render('auth/signup', {
                 isAuthenticated: false,
                 docTitle: 'Singup',
                 path: '/singup',
-                errorMessage: errors.array()[0].msg
+                errorMessage: errors.array()[0].msg,
+                oldInput: {email: email, password: password, confirmPassword: confirmPassword},
+                validationErrors: errors.array()
             });
         }
         bcrypt.hash(password, 12)
