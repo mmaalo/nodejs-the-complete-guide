@@ -21,8 +21,10 @@
         [
             body('email')
                 .isEmail()
+                .normalizeEmail()
                 .withMessage('Please enter a valid Email'),
             body('password', 'Please enter a passord between 4 and 64 alphanumeric characters')
+                .trim()
                 .isLength({min: 4, max: 64})
                 .isAlphanumeric(),
         ],
@@ -35,14 +37,10 @@
     router.post('/signup', 
         urlencodedParser,
         [
-            body('email')
+            body('email', 'Please enter a valid email')
                 .isEmail()
-                .withMessage('Please enter a valid email')
+                .normalizeEmail()
                 .custom((value, {req}) => {
-                    // if (value === 'test2@test.com') {
-                    //     throw new Error('This email address i forbidden.');
-                    // }
-                    // return true;
                     return User.findOne( { email: value} )
                         .then(userDoc => {
                             if (userDoc) {
@@ -50,10 +48,9 @@
                             }
                         });
                 }),
-            body('password')
+            body('password', 'Please enter a passord between 5 and 64 alphanumeric characters' )
                 .isAlphanumeric()
-                .isLength({min: 5, max: 64})
-                .withMessage('Please enter a passord between 5 and 64 alphanumeric characters'),
+                .isLength({min: 5, max: 64}),
             body('confirmPassword')
                 .custom((value, { req }) => {
                     if (value !== req.body.password) {
