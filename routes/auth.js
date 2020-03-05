@@ -6,6 +6,7 @@
         const bodyParser = require('body-parser');
         const urlencodedParser = bodyParser.urlencoded({extended: true});
         const { check, body} = require('express-validator');
+        const bcrypt = require('bcryptjs');
 
     // local imports
         const authController = require('../controllers/auth');
@@ -15,7 +16,39 @@
 
     router.get('/login', authController.getLogin);
     
-    router.post('/login', urlencodedParser, authController.postLogin);
+    router.post('/login', 
+        urlencodedParser, 
+        [
+            body('email')
+                .isEmail()
+                .withMessage('Please enter a valid Email')
+                .custom(( value, { req } ) => {
+                    return User.findOne( { email: req.body.email } )
+                        .then(userDoc => {
+                            if (!userDoc) {
+                                return Promise.reject('User does not exist or password is wrong');
+                            }
+                           return true;
+                        })
+                }),
+            body('password')
+                .isLength({min: 4, max: 64})
+                .isAlphanumeric()
+                .withMessage('Please enter a passord between 4 and 64 alphanumeric characters')
+                .custom(( value, { req } ) => {
+                    return User.findOne( { email: req.body.email } )
+                    .then(userDoc => {
+                        bcrypt.compare(req.body.password, userDoc.password)
+                        .then(doMatch => {
+                            if (!doMatch) {
+                                return Promise.reject('User does not exist or password is wrong');
+                            }
+                            return true;
+                        })
+                    })
+                })
+        ],
+        authController.postLogin);
 
     router.post('/logout', urlencodedParser, authController.postLogout);
 
