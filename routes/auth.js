@@ -21,32 +21,10 @@
         [
             body('email')
                 .isEmail()
-                .withMessage('Please enter a valid Email')
-                .custom(( value, { req } ) => {
-                    return User.findOne( { email: req.body.email } )
-                        .then(userDoc => {
-                            if (!userDoc) {
-                                return Promise.reject('User does not exist or password is wrong');
-                            }
-                           return true;
-                        })
-                }),
-            body('password')
+                .withMessage('Please enter a valid Email'),
+            body('password', 'Please enter a passord between 4 and 64 alphanumeric characters')
                 .isLength({min: 4, max: 64})
-                .isAlphanumeric()
-                .withMessage('Please enter a passord between 4 and 64 alphanumeric characters')
-                .custom(( value, { req } ) => {
-                    return User.findOne( { email: req.body.email } )
-                    .then(userDoc => {
-                        bcrypt.compare(req.body.password, userDoc.password)
-                        .then(doMatch => {
-                            if (!doMatch) {
-                                return Promise.reject('User does not exist or password is wrong');
-                            }
-                            return true;
-                        })
-                    })
-                })
+                .isAlphanumeric(),
         ],
         authController.postLogin);
 

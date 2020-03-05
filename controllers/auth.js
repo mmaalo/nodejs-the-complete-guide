@@ -19,11 +19,13 @@
 // export controller functions
 
     exports.getLogin = (req, res, next) => {
-        res.render('auth/login', {
+        return res.render('auth/login', {
             isAuthenticated: req.session.isLoggedIn,
             docTitle: 'Login',
             path: '/login',
-            errorMessage: flashMessage(req.flash('errorMessage'))
+            errorMessage: flashMessage(req.flash('errorMessage')),
+            oldInput: { email: '', password: '' },
+            validationErrors: []
         });
     }
 
@@ -31,40 +33,63 @@
         const email = req.body.email;
         const password = req.body.password;
         const errors = validationResult(req);
-        console.log(errors.isEmpty());
-        if (!errors.isEmpty()) {
-            console.log("errors: ", errors.array()[0]);
+
+        /**
+         * @description Renders the login page. You can define the errorMessage, oldInput and validationErrors that is passed to the login page as key value pairs in a object. If not defined standard values will be used.
+         * @param {{ errorMessage: string, oldInput: {}, validationErrors: [] }} input
+         */
+        const renderLogin = (input) => {
+            let errorMessage = 'Invalid Email or Password';
+            let oldInput = { email: email, password: password }
+            let validationErrors = [{param: 'email'}, {param: 'password'}]
+
+            if (typeof input !== 'undefined') {
+                if (input.errorMessage) {
+                errorMessage = input.errorMessage; 
+                }
+                if (input.oldInput) {
+                    oldInput = input.oldInput;
+                }
+                if (input.validationErrors) {
+                    validationErrors = input.validationErrors;
+                }
+            }
             return res.status(422).render('auth/login', {
                 isAuthenticated: false,
                 docTitle: 'Login',
                 path: 'login',
-                errorMessage: errors.array()[0].msg
+                errorMessage: errorMessage,
+                oldInput: oldInput,
+                validationErrors: validationErrors
+            });
+
+        }
+
+        if (!errors.isEmpty()) {
+            return renderLogin({
+                errorMessage: errors.array()[0].msg,
+                validationErrors: errors.array()
             })
         } 
         User.findOne( { email: email } )
         .then(user => {
             if (!user) {
-                req.flash('errorMessage', 'Invalid Email or Password');
-                return res.status(422).redirect('/login');
-            } else {
-
+                return renderLogin();
             }
             bcrypt.compare(password, user.password)
             .then(doMatch => {
                 if (doMatch) {
                     req.session.user = user;
                     req.session.isLoggedIn = true;
-                    return req.session.save((err) => {
-                        console.log(err);
+                    return req.session.save(() => {
                         res.redirect('/');
                     });
                 }
-                res.redirect('/login');
+                return renderLogin();
             })
             .catch(err => {
                 console.log(err);
-                req.flash('errorMessage', 'Invalid Email or Password');
-                res.redirect('/login');
+                return renderLogin();
             })
         })
         .catch(err => console.log(err));
