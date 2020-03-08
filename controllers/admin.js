@@ -1,5 +1,8 @@
 // Imports
 
+    // npm imports
+        const {validationResult} = require('express-validator');
+
     // Local imports
         const Product = require('../models/product');
         const flashMessage = require('../util/flashMessage');
@@ -10,7 +13,15 @@
             docTitle: "Add Product",
             isAuthenticated: req.session.isLoggedIn,
             path: '/admin/add-product',
-            editing: false
+            inputValue: {
+                title: '',
+                imageUrl: '',
+                price: '',
+                description: ''
+            },
+            editing: false,
+            validationErrors: [],
+            errorMessage: null
         });
     }
 
@@ -19,6 +30,24 @@
         const imageUrl = req.body.imageUrl;
         const price = req.body.price;
         const description = req.body.description;
+        const errors = validationResult(req);
+        console.log(errors.array());
+        if (!errors.isEmpty()) {
+            return res.render('admin/edit-product', {
+                isAuthenticated: req.session.isLoggedIn,
+                docTitle: "Add Product",
+                path: '/admin/add-product',
+                inputValue: { 
+                    title: title, 
+                    imageUrl: imageUrl, 
+                    price: price, 
+                    description: description 
+                },
+                editing: false,
+                validationErrors: errors.array(),
+                errorMessage: errors.array()[0].msg
+            }) 
+        }
         const product = new Product({
             title: title, 
             price: price, 
@@ -39,6 +68,7 @@
 
     exports.getEditProduct = (req, res, next) => {
         const editMode = req.query.edit;
+        console.log(editMode)
         if (!editMode) {
             return res.redirect('/');
         }
@@ -60,7 +90,9 @@
                 isAuthenticated: req.session.isLoggedIn,
                 path: '/admin/edit-product',
                 editing: editMode,
-                product: product
+                inputValue: product,
+                errorMessage: null,
+                validationErrors: []
             });
         })
         .catch(err => console.log(err));
@@ -72,6 +104,26 @@
         const upPrice = req.body.price;
         const upImageUrl = req.body.imageUrl;
         const upDescription = req.body.description;
+
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            res.render('admin/edit-product', {
+                docTitle: "Edit Product",
+                isAuthenticated: req.session.isLoggedIn,
+                path: '/admin/edit-product',
+                editing: true,
+                inputValue: {
+                    _id: prodId,
+                    title: upTitle,
+                    price: upPrice,
+                    imageUrl: upImageUrl,
+                    description: upDescription
+                },
+                errorMessage: errors.array()[0].toString(),
+                validationErrors: errors.array()
+            });
+        }
 
         Product.findById(prodId)
         .then(product => {

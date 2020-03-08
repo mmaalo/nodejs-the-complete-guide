@@ -20,8 +20,8 @@
         urlencodedParser, 
         [
             body('email')
-                .isEmail()
                 .normalizeEmail()
+                .isEmail()
                 .withMessage('Please enter a valid Email'),
             body('password', 'Please enter a passord between 4 and 64 alphanumeric characters')
                 .trim()
