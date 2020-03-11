@@ -20,6 +20,7 @@
                 description: ''
             },
             editing: false,
+            hasErrors: false,
             validationErrors: [],
             errorMessage: null
         });
@@ -30,24 +31,26 @@
         const imageUrl = req.body.imageUrl;
         const price = req.body.price;
         const description = req.body.description;
+        
         const errors = validationResult(req);
-        console.log(errors.array());
         if (!errors.isEmpty()) {
             return res.render('admin/edit-product', {
                 isAuthenticated: req.session.isLoggedIn,
                 docTitle: "Add Product",
                 path: '/admin/add-product',
-                inputValue: { 
+                product : { 
                     title: title, 
                     imageUrl: imageUrl, 
                     price: price, 
                     description: description 
                 },
                 editing: false,
+                hasErrors: true,
                 validationErrors: errors.array(),
                 errorMessage: errors.array()[0].msg
             }) 
         }
+
         const product = new Product({
             title: title, 
             price: price, 
@@ -90,8 +93,9 @@
                 isAuthenticated: req.session.isLoggedIn,
                 path: '/admin/edit-product',
                 editing: editMode,
-                inputValue: product,
+                product: product,
                 errorMessage: null,
+                hasErrors: false,
                 validationErrors: []
             });
         })
@@ -108,19 +112,20 @@
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
-            res.render('admin/edit-product', {
+            return res.status(422).render('admin/edit-product', {
                 docTitle: "Edit Product",
                 isAuthenticated: req.session.isLoggedIn,
                 path: '/admin/edit-product',
                 editing: true,
-                inputValue: {
+                hasErrors: true,
+                product: {
                     _id: prodId,
                     title: upTitle,
                     price: upPrice,
                     imageUrl: upImageUrl,
                     description: upDescription
                 },
-                errorMessage: errors.array()[0].toString(),
+                errorMessage: errors.array()[0].msg,
                 validationErrors: errors.array()
             });
         }
@@ -170,7 +175,8 @@
                 docTitle: 'Admin Products',
                 isAuthenticated: req.session.isLoggedIn,
                 path: "/admin/products",
-                errorMessage: flashMessage(req.flash('errorMessage'))
+                errorMessage: flashMessage(req.flash('errorMessage')),
+                hasErrors: false
             });
         })
         .catch(err => console.log(err));
