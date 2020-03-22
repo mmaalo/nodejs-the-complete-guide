@@ -12,6 +12,7 @@
     // local imports  
         const User = require('../models/user');
         const sendgrid_API_KEY = require('../sendgrid_API_KEY');
+        const errorfunction = require('../util/errorfunction');
 
 // init
     sgMail.setApiKey(sendgrid_API_KEY);
@@ -92,7 +93,9 @@
                 return renderLogin();
             })
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err));
+        });
     }
 
     exports.postLogout = (req, res, next) => {
@@ -150,7 +153,9 @@
                     html: `<h1>You Have Successfully Signed Up!</h1>`
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err));
+        });
     }
 
 
@@ -191,7 +196,9 @@
                     html: `<h1>your resett password link is <a href="http://www.localhost:3000/reset/${user.resetToken}">here</a> and it is valid for one hour.</h1>`
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                return next(errorfunction(500, err));
+            });
         });   
     }
 
@@ -212,7 +219,9 @@
                 passwordToken: token
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err));
+        });
     }
 
     exports.postNewPassword = (req, res, next) => {
@@ -239,5 +248,7 @@
         .then(() => {
             res.redirect('/login');
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err));
+        });
     }

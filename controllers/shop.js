@@ -7,6 +7,9 @@
             const Order = require('../models/order');
             const User = require('../models/user');
 
+        // local imports
+            const errorfunction = require('../util/errorfunction');
+
 // export controller functions
 
     exports.getIndex = (req, res, next) => {
@@ -19,7 +22,9 @@
                 isAuthenticated: req.session.isLoggedIn
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err))
+        })
     }
 
     exports.getProducts = (req, res, next) => {
@@ -32,7 +37,9 @@
                 path: "/products"
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err))
+        })
     }
 
     exports.getProduct = (req, res, next) => {
@@ -46,7 +53,9 @@
                 path: `/products` 
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err))
+        })
     }
 
     exports.getCart = (req, res, next) => {
@@ -62,7 +71,9 @@
                 products: user.cart.items
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err))
+        })
     }
 
     exports.postCart = (req, res, next) => {
@@ -86,7 +97,9 @@
         .then(result => {
             res.redirect('/cart');
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err))
+        })
     }
 
     exports.postOrder = (req, res, next) => { 
@@ -116,7 +129,9 @@
         .then(() => {
             res.redirect('orders');
         })
-        .catch(err => console.log(err)); 
+        .catch(err => {
+            return next(errorfunction(500, err))
+        })
     }
 
 
@@ -131,5 +146,7 @@
                 orders: orders
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err))
+        })
     }

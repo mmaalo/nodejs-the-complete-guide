@@ -7,14 +7,7 @@
     // Local imports
         const Product = require('../models/product');
         const flashMessage = require('../util/flashMessage');
-
-// Error functions
-
-    const errorfunction = (statuscode, err) => {
-        const error = new Error(err);
-        error.httpStatusCode = statuscode;
-        return error;
-    }
+        const errorfunction = require('../util/errorfunction');
 
 // Export controller functions
     exports.getAddProduct = (req, res, next) => {
@@ -93,9 +86,11 @@
 
                 // return res.status(500).redirect('/500');
 
-                const error = new Error(err);
-                error.httpStatusCode = 500;
-                return next(error);
+                // const error = new Error(err);
+                // error.httpStatusCode = 500;
+                // return next(error);
+
+                return next(errorfunction(500, err));
             }); 
     }
 
@@ -111,7 +106,7 @@
         }
         Product.findById(prodId)
         .then(product => {
-            throw new Error('dummy error');
+            // throw new Error('dummy error');
             if (!product) {
                 return res.redirect('/');
             }
@@ -131,7 +126,7 @@
             });
         })
         .catch(err => {
-            return next(errorfunction(500, err))
+            return next(errorfunction(500, err));
         }); 
     }
 
@@ -176,9 +171,13 @@
                 .then(() => {
                     res.redirect('/admin/products');
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    return next(errorfunction(500, err));
+                });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err));
+        });
     }
 
     exports.postDeleteProduct = (req, res, next) => {
@@ -193,9 +192,13 @@
             .then(() => {
                 res.redirect('/admin/products');
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                return next(errorfunction(500, err));
+            });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err));
+        });
     }
 
 
@@ -212,5 +215,7 @@
                 hasErrors: false
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err));
+        });
     }
