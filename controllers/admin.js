@@ -8,6 +8,14 @@
         const Product = require('../models/product');
         const flashMessage = require('../util/flashMessage');
 
+// Error functions
+
+    const errorfunction = (statuscode, err) => {
+        const error = new Error(err);
+        error.httpStatusCode = statuscode;
+        return error;
+    }
+
 // Export controller functions
     exports.getAddProduct = (req, res, next) => {
         res.render('admin/edit-product', {
@@ -83,7 +91,11 @@
                 //     errorMessage: 'database operation failed, try again later'
                 // }) 
 
-                return res.status(500).redirect('/500');
+                // return res.status(500).redirect('/500');
+
+                const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error);
             }); 
     }
 
@@ -99,6 +111,7 @@
         }
         Product.findById(prodId)
         .then(product => {
+            throw new Error('dummy error');
             if (!product) {
                 return res.redirect('/');
             }
@@ -117,7 +130,9 @@
                 validationErrors: []
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            return next(errorfunction(500, err))
+        }); 
     }
 
     exports.postEditProduct = (req, res, next) => {
