@@ -96,4 +96,6 @@
     .then(() => {
         app.listen(3000);
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+        throw new Error(`Can't connect to database through mongoose`, console.log(err));
+    })
