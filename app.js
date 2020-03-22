@@ -17,6 +17,7 @@
 
     // Local modules
     const rootDir = require('./util/rootDir');
+    const errorfunction = require('./util/errorfunction');
 
         // routes
             const adminRoutes = require('./routes/admin');
@@ -79,6 +80,20 @@
         next();
     });
 
+// // Error Handeling section
+//     app.use((req, res, next) => {
+//         // throw new Error('sync dummy');
+
+//         User.findById('123456789012')
+//         .then(() => {
+//             throw new Error('async dummy')
+//             next();
+//         })
+//         .catch(err => {
+//             // next(new Error(err));
+//             next(errorfunction(500, err))
+//         })
+//     });
 
 // Routes Middleware
     app.use(authRoutes);
@@ -90,7 +105,12 @@
 
     app.use((error, req, res, next) => {
         // res.status(error.httpStatusCode).render();
-        res.redirect('/500');
+        // return res.redirect('/500');
+        return res.status(500).render('500', {
+            docTitle: 'Error',
+            isAuthenticated: req.session.isLoggedIn,
+            path: '/500'
+        });
     });
 
 
