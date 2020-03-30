@@ -134,7 +134,7 @@
         const prodId = req.body.productId;
         const upTitle = req.body.title;
         const upPrice = req.body.price;
-        const upImageUrl = req.body.imageUrl;
+        const upImage = req.body.image;
         const upDescription = req.body.description;
 
         const errors = validationResult(req);
@@ -150,7 +150,7 @@
                     _id: prodId,
                     title: upTitle,
                     price: upPrice,
-                    imageUrl: upImageUrl,
+                    image: upImage,
                     description: upDescription
                 },
                 errorMessage: errors.array()[0].msg,
@@ -166,7 +166,7 @@
             product.title = upTitle;
             product.price = upPrice;
             product.description = upDescription;
-            product.imageUrl = upImageUrl;
+            product.image = upImage;
             return product.save()
                 .then(() => {
                     res.redirect('/admin/products');
