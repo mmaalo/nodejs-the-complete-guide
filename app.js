@@ -14,6 +14,7 @@
     const mongoDBStore = require('connect-mongodb-session')(session);
     const csrf = require('csurf');
     const flash = require('connect-flash');
+    const multer = require('multer');
 
     // Local modules
     const rootDir = require('./util/rootDir');
@@ -58,6 +59,9 @@
 
     // Enable body parser
     app.use(bodyParser.urlencoded({extended:false}));
+
+    // Enable multer
+    app.use(multer({dest: 'images'}).single('image'));
 
     // Enable csrf
     const csrfProtection = csrf();

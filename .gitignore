@@ -1,5 +1,6 @@
 **/node_modules/
 .vscode/
+/images/
 nodejs-the-complete-guide.code-workspace
 hello.txt
 message.txt
