@@ -77,10 +77,30 @@
             .isLength({min: 5, max: 80})
             .trim()
             .escape(),
-            body('imageUrl', 'Please enter a valid URL')
-            .isURL()
-            .trim()
-            .escape(),
+            body('imageUrl', 'file must be of type .jpeg or .png')
+            .custom((value, {req}) => {
+                let extension = req.file.originalname.split('.').slice(-1)[0];
+                let mimetype = req.file.mimetype; 
+
+                if (mimetype.match(/image/g)) {
+                    mimetype = true;
+                } else {
+                    mimetype = false;
+                }
+
+                if (extension === 'jpeg' || extension === 'png' || extension === 'jpg' || extension === 'gif') {
+                    extension = true;
+                } else {
+                    extension = false;
+                }
+                
+                if (mimetype === true && extension === true) {
+                    return true; 
+                } else {
+                    throw new Error('file must be of type .jpeg, .png, .jpg or .gif');
+                }
+
+            }),
             body('price', 'Enter a number with up to two decimal points')
             .isNumeric()
             .isDecimal({decimal_digits: '2', force_decimal: false})

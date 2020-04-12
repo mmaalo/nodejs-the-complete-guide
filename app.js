@@ -15,6 +15,7 @@
     const csrf = require('csurf');
     const flash = require('connect-flash');
     const multer = require('multer');
+    const uniqid = require('uniqid');
 
     // Local modules
     const rootDir = require('./util/rootDir');
@@ -34,6 +35,14 @@
         // Constants
             const MONGODB_URI = 'mongodb+srv://user:user@nodejs-2k1so.mongodb.net/shop';
             const ONEWEEKINMILLISECONDS = 1000 * 60 * 60 * 24 * 7;
+            const fileStorage = multer.diskStorage({
+                destination: (req, file, cb) => {
+                    cb(null, 'images');
+                },
+                filename: (req, file, cb) => {
+                    cb(null, new Date().toISOString() + '-' + uniqid() + '-' + file.originalname);
+                }
+            });
 
 // Main App Middleware
     const app = express();
@@ -61,7 +70,7 @@
     app.use(bodyParser.urlencoded({extended:false}));
 
     // Enable multer
-    app.use(multer({dest: 'images'}).single('image'));
+    app.use(multer({storage: fileStorage}).single('image'));
 
     // Enable csrf
     const csrfProtection = csrf();
