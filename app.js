@@ -43,6 +43,19 @@
                     cb(null, new Date().toISOString() + '-' + uniqid() + '-' + file.originalname);
                 }
             });
+            const fileFilter = (req, file, cb) => {
+                const allowedFileTypes = ['png', 'jpg', 'jpeg', 'gif'];
+                let boolean = false;
+
+                for (let i = 0; i< allowedFileTypes.length; i++) {
+                    if (file.mimetype === `image/${allowedFileTypes[i]}`) {
+                        boolean = true;
+                    }
+                }
+
+                cb(null, boolean);
+         
+            }
 
 // Main App Middleware
     const app = express();
@@ -70,7 +83,7 @@
     app.use(bodyParser.urlencoded({extended:false}));
 
     // Enable multer
-    app.use(multer({storage: fileStorage}).single('image'));
+    app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'));
 
     // Enable csrf
     const csrfProtection = csrf();
