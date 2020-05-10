@@ -14,7 +14,7 @@
                             </header>
                             <div class="card__image">
                                 <% if (typeof product.imageUrl != 'undefined' && product.imageUrl != '') { %>
-                                    <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+                                    <img src="/<%= product.imageUrl %>" alt="<%= product.title %>">
                                 <% } else { %>
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" alt="No Image Avalable">
                                 <% } %>

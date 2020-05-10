@@ -98,6 +98,7 @@
 
     // Set static folder
     app.use(express.static(path.join(rootDir, 'public')));
+    app.use('/images', express.static(path.join(rootDir, 'images')));
 
     // Set variables that are passed into every view
     app.use((req, res, next) => {
