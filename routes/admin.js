@@ -35,6 +35,11 @@
             .escape(),
             body('imageUrl', 'file must be of type .jpeg or .png')
             .custom((value, {req}) => {
+                console.log(req.file);
+                if (req.file == undefined) {
+                    return true;
+                }
+
                 let extension = req.file.originalname.split('.').slice(-1)[0];
                 let mimetype = req.file.mimetype; 
 
@@ -77,8 +82,13 @@
             .isLength({min: 5, max: 80})
             .trim()
             .escape(),
-            body('imageUrl', 'file must be of type .jpeg or .png')
+            body('image', 'file must be of type .jpeg or .png')
             .custom((value, {req}) => {
+                console.log(req.file);
+                if (req.file == undefined) {
+                    return true;
+                }
+
                 let extension = req.file.originalname.split('.').slice(-1)[0];
                 let mimetype = req.file.mimetype; 
 

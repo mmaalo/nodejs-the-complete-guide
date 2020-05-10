@@ -17,7 +17,7 @@
             path: '/admin/add-product',
             inputValue: {
                 title: '',
-                imageUrl: '',
+                image: '',
                 price: '',
                 description: ''
             },
@@ -30,12 +30,29 @@
 
     exports.postAddProduct = (req, res, next) => {
         const title = req.body.title;
-        const imageUrl = req.file;
+        const image = req.file;
         const price = req.body.price;
         const description = req.body.description;
-        console.log(imageUrl);
         
         const errors = validationResult(req);
+
+        if (!image) {
+            return res.status(422).render('admin/edit-product', {
+                isAuthenticated: req.session.isLoggedIn,
+                docTitle: "Add Product",
+                path: '/admin/add-product',
+                product : { 
+                    title: title, 
+                    price: price, 
+                    description: description 
+                },
+                editing: false,
+                hasErrors: true,
+                validationErrors: 'file must be a valid image file',
+                errorMessage: []
+            }) 
+        }
+
         if (!errors.isEmpty()) {
             return res.status(422).render('admin/edit-product', {
                 isAuthenticated: req.session.isLoggedIn,
@@ -43,7 +60,6 @@
                 path: '/admin/add-product',
                 product : { 
                     title: title, 
-                    imageUrl: imageUrl, 
                     price: price, 
                     description: description 
                 },
@@ -51,11 +67,12 @@
                 hasErrors: true,
                 validationErrors: errors.array(),
                 errorMessage: errors.array()[0].msg
-            }) 
+            });
         }
 
+        const imageUrl = image.path;
+
         const product = new Product({
-            // _id: new mongoose.Types.ObjectId('5e64cfd6b6ee031934879a2a'),
             title: title, 
             price: price, 
             description: description, 
@@ -69,28 +86,6 @@
                 res.redirect('/admin/products');
             })
             .catch(err => {
-                // return res.status(500).render('admin/edit-product', {
-                //     isAuthenticated: req.session.isLoggedIn,
-                //     docTitle: "Add Product",
-                //     path: '/admin/add-product',
-                //     product : { 
-                //         title: title, 
-                //         imageUrl: imageUrl, 
-                //         price: price, 
-                //         description: description 
-                //     },
-                //     editing: false,
-                //     hasErrors: true,
-                //     validationErrors: [],
-                //     errorMessage: 'database operation failed, try again later'
-                // }) 
-
-                // return res.status(500).redirect('/500');
-
-                // const error = new Error(err);
-                // error.httpStatusCode = 500;
-                // return next(error);
-
                 return next(errorfunction(500, err));
             }); 
     }
@@ -135,11 +130,13 @@
         const prodId = req.body.productId;
         const upTitle = req.body.title;
         const upPrice = req.body.price;
-        const upImage = req.body.image;
+        const image = req.file;
         const upDescription = req.body.description;
 
         const errors = validationResult(req);
 
+        console.log(errors);
+        console.log(image);
         if (!errors.isEmpty()) {
             return res.status(422).render('admin/edit-product', {
                 docTitle: "Edit Product",
@@ -151,7 +148,6 @@
                     _id: prodId,
                     title: upTitle,
                     price: upPrice,
-                    image: upImage,
                     description: upDescription
                 },
                 errorMessage: errors.array()[0].msg,
@@ -161,13 +157,16 @@
 
         Product.findById(prodId)
         .then(product => {
+            console.log(product);
             if(product.userId.toString() !== req.session.user._id.toString()) {
                 return res.redirect('login');
             }
             product.title = upTitle;
             product.price = upPrice;
             product.description = upDescription;
-            product.image = upImage;
+            if (image) {
+                product.imageUrl = image.path;
+            }
             return product.save()
                 .then(() => {
                     res.redirect('/admin/products');
