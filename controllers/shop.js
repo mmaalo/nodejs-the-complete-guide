@@ -88,6 +88,8 @@
             if (err) {
                 return next(err);
             }
+            res.set('Content-Type', 'application/pdf');
+            res.set('Content-Disposition',  'attachment; filename="' + invoiceName +'"');
             res.send(data);
         });
     }
