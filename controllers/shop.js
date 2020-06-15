@@ -1,4 +1,8 @@
 // imports
+    // node imports
+        const fs = require('fs');
+        const path = require('path');
+        const rootDir = require('../util/rootDir');
 
     // local imports
 
@@ -74,6 +78,18 @@
         .catch(err => {
             return next(errorfunction(500, err))
         })
+    }
+
+    exports.getInvoice = (req, res, next) => {
+        const orderId = req.params.orderId;
+        const invoiceName = `invoice-${orderId}.pdf`;
+        const invoicePath = path.join(rootDir, 'data', 'invoices', invoiceName);
+        fs.readFile(invoicePath, (err, data) => {
+            if (err) {
+                return next(err);
+            }
+            res.send(data);
+        });
     }
 
     exports.postCart = (req, res, next) => {
